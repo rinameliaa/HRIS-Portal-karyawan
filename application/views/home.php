@@ -69,23 +69,27 @@
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
-           <li class="nav-item">
-            <a class="nav-link" href="<?=base_url('Home/sakit'); ?>">
-              <i class=" "></i>
-              <span class="menu-title">Sakit</span>
-            </a>
-          </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?=base_url('Home/izin'); ?>">
-              <i class=" "></i>
-              <span class="menu-title">Izin</span>
+            <a class="nav-link" data-toggle="collapse" href="#pengajuan" aria-expanded="false" aria-controls="tables">
+              <i class="icon-grid menu-icon"></i>
+              <span class="menu-title">Tables</span>
+              <i class="menu-arrow"></i>
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="<?=base_url('Home/cuti'); ?>">
-              <i class=" "></i>
-              <span class="menu-title">Cuti</span>
-            </a>
+            <div class="collapse" id="pengajuan">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="<?=base_url('Home/sakit'); ?>">Sakit</a></li>
+              </ul>
+            </div>
+            <div class="collapse" id="pengajuan">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="<?=base_url('Home/izin'); ?>">Izin</a></li>
+              </ul>
+            </div>
+            <div class="collapse" id="pengajuan">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="<?=base_url('Home/cuti'); ?>">Cuti</a></li>
+              </ul>
+            </div>
           </li>
         </ul>
     </nav>

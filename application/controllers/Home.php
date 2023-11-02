@@ -47,7 +47,6 @@ class Home extends CI_Controller {
         $z["iduser"] = $this->userid;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
-        $z["nama"] = $this->fullname ;
         $this->load->view("izin", $z, true);
         $this->load->view("home", $xyz);
     }
@@ -56,7 +55,6 @@ class Home extends CI_Controller {
         $z["iduser"] = $this->userid;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
-        $z["nama"] = $this->fullname ;
         $this->load->view("sakit", $z, true);
         $this->load->view("home", $xyz);
     }
@@ -65,7 +63,6 @@ class Home extends CI_Controller {
         $z["iduser"] = $this->userid;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
-        $z["nama"] = $this->fullname ;
         $this->load->view("cuti", $z, true);
         $this->load->view("home", $xyz);
     }
@@ -105,11 +102,10 @@ class Home extends CI_Controller {
         } else {
             $karyawan_id_approval2 = NULL;
         }
-        $status = trim(str_replace("'", "''", $this->input->post("status")));
         $approval1_date = NULL;
         $approval2_date = NULL;
         $create = date('Y-m-d H:i:s');
-    
+        $status = trim(str_replace("'", "''", $this->input->post("status")));
         $hasil = $this->Mizin->tambah($id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $create);
     
         if ($hasil == "1") {    
