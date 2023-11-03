@@ -17,7 +17,7 @@
                 <div class="form-group col-md-4">
                     <label>Jenis Pengajuan</label>
                     <select class="form-control" id="cbojenis">
-                        <option value="Cuti">Cuti</option>
+                        <option value="Cuti Khusus">Cuti Khusus</option>
                     </select> 
                 </div>
                 <div class="form-group col-md-6">
@@ -86,6 +86,8 @@
                         }
 
                         if (jumlah_hari > 0) {
+                            jumlah_hari -= 1;
+                            // jumlah_hari = jumlah_hari -1;
                             var startDate = new Date(mulai);
                             startDate.setDate(startDate.getDate() + jumlah_hari);
                             $("#txtselesai").val(formatDate(startDate));

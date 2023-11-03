@@ -21,14 +21,6 @@
                     </select> 
                 </div>
                 <div class="form-group col-md-6">
-                    <label>Tanggal Mulai</label>
-                    <input type="date" class="form-control ftambah" id="txtmulai">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Tanggal Selesai</label>
-                    <input type="date" class="form-control ftambah" id="txtselesai">
-                </div>
-                <div class="form-group col-md-6">
                     <label>Jenis Izin</label>
                     <select class="form-control ftambah" id="cboizin">
                         <option value="">Pilih Jenis Izin</option>
@@ -37,6 +29,14 @@
                 <div class="form-group col-md-6">
                     <label>Keterangan</label>
                     <textarea class="form-control ftambah" id="txtket"></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Tanggal Mulai</label>
+                    <input type="date" class="form-control ftambah" id="txtmulai">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Tanggal Selesai</label>
+                    <input type="date" class="form-control ftambah" id="txtselesai">
                 </div>
             </div>
         </div>

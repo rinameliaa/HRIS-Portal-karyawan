@@ -10,7 +10,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label>ID Karyawan</label>
-                    <select class="form-control">
+                    <select class="form-control" id="iduser">
                         <option ><?= $iduser; ?></option>
                     </select> 
                 </div>
@@ -27,8 +27,8 @@
                     </select>  
                 </div>
                 <div class="form-group col-md-6">
-                    <label>Keterangan</label>
-                    <textarea class="form-control ftambah" id="txtket"></textarea>
+                    <label>Sisa Cuti</label>
+                    <input type="text" class="form-control" id="cbosisa" readonly> 
                 </div>
                 <div class="form-group col-md-6">
                     <label>Tanggal Mulai</label>
@@ -36,7 +36,11 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>Tanggal Selesai</label>
-                    <input type="text" class="form-control ftambah" id="txtselesai" readonly>
+                    <input type="date" class="form-control ftambah" id="txtselesai">
+                </div>
+                <div class="form-group col-md-12">
+                    <label>Keterangan</label>
+                    <textarea class="form-control ftambah" id="txtket"></textarea>
                 </div>
             </div>
         </div>
@@ -57,6 +61,7 @@
     );
 
     $(document).ready(function () {
+        sisa_cuti()
         cutioption();
         $("#txtmulai").change(updateEndDate);
 
@@ -125,6 +130,20 @@
         });
     }
 
+    function sisa_cuti(){
+        let id = '<?= $iduser; ?>';
+        $.ajax({
+            url: "http://103.215.177.169/hris_dev/API/Employee/checkSisaCutiTahunan?id=" + id,
+            method: "GET",
+            success: function (data) {
+                let cbosisa = $("#cbosisa").val(data);
+                console.log(data);
+            },
+            error: function () {
+                console.error("Gagal ambil data dari API");
+            }
+        });
+    }
 
     function reset() {
         $("#txtmulai").val("");
@@ -134,41 +153,66 @@
     }
 
     function tambah(){
-    $("#btn_tambah").attr("disabled", true);
-    $("#btn_reset").attr("disabled", true);
-    let jenis_pengajuan = $("#cbojenis").val(); 
-    let tanggal_start = $("#txtmulai").val();
-    let tanggal_end = $("#txtselesai").val();
-    let jenis_cuti_id = $("#cbocuti").val();
-    let keterangan = $("#txtket").val();  
-    let status = "proses";
-    
-    if( tanggal_start == "" || tanggal_end == "" || jenis_cuti_id == "" || keterangan == ""){
-        swal({title:"Gagal", text:"Ada Isian Yang Kosong", icon: "error"});
-        $("#btn_tambah").attr("disabled", false);
-        $("#btn_reset").attr("disabled", false);
-        return;
-    }
-    
-    $.ajax({
-        url: "<?= base_url(); ?>" + "Home/pengajuan_tambah", 
-        method: "POST",
-        data: {jenis_pengajuan: jenis_pengajuan, tanggal_start: tanggal_start, tanggal_end: tanggal_end, jenis_cuti_id: jenis_cuti_id, keterangan: keterangan, status: status},
-        cache: false,
-        success: function(x){
-            let hasil = atob(x);
-            let param = hasil.split("|");
-            if(param[0] == "1"){
-                swal({title:"Berhasil", text: param[1], icon: "success"});
-                $(".ftambah").val("");
-            }else{
-                swal({title:"Gagal", text: param[1], icon: "error"});
-            }
-        },
-        error: function(){
-            swal({title:"Gagal", text:"Tidak Terhubung dengan Server", icon: "error"});
+        $("#btn_tambah").attr("disabled", true);
+        $("#btn_reset").attr("disabled", true);
+        let jenis_pengajuan = $("#cbojenis").val(); 
+        let tanggal_start = $("#txtmulai").val();
+        let tanggal_end = $("#txtselesai").val();
+        let jenis_cuti_id = $("#cbocuti").val();
+        let sisacuti = $("#cbosisa").val();
+        let keterangan = $("#txtket").val();  
+        let status = "proses";
+
+        if (sisacuti === "0") {
+            swal({ title: "Gagal", text: "Tidak bisa mengajukan cuti karena sisa cuti Anda 0", icon: "error" });
+            return; 
         }
-    })
-}
+        
+        if( tanggal_start == "" || tanggal_end == "" || jenis_cuti_id == "" || keterangan == ""){
+            swal({title:"Gagal", text:"Ada Isian Yang Kosong", icon: "error"});
+            $("#btn_tambah").attr("disabled", false);
+            $("#btn_reset").attr("disabled", false);
+            return;
+        }
+        
+        let startDate = new Date(tanggal_start);
+        let endDate = new Date(tanggal_end);
+        
+        if (startDate > endDate) {
+            swal({ title: "Gagal", text: "Tanggal mulai tidak boleh lebih besar dari tanggal selesai", icon: "error" });
+        } else if (startDate <= endDate && endDate > startDate) {
+            let timeDiff = endDate.getTime() - startDate.getTime();
+            let dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+            if (dayDiff > sisacuti) {
+                swal({ title: "Gagal", text: "Jumlah cuti yang diajukan melebihi sisa cuti Anda", icon: "error" });
+            } else if (tanggal_start === "" || tanggal_end === "" || jenis_cuti_id === "" || keterangan === "") {
+                swal({ title: "Gagal", text: "Ada Isian Yang Kosong", icon: "error" });
+                $("#btn_tambah").attr("disabled", false);
+                $("#btn_reset").attr("disabled", false);
+                return;
+            } else {
+                $.ajax({
+                    url: "<?= base_url(); ?>" + "Home/pengajuan_tambah", 
+                    method: "POST",
+                    data: {jenis_pengajuan: jenis_pengajuan, tanggal_start: tanggal_start, tanggal_end: tanggal_end, jenis_cuti_id: jenis_cuti_id, keterangan: keterangan, status: status},
+                    cache: false,
+                    success: function(x){
+                        let hasil = atob(x);
+                        let param = hasil.split("|");
+                        if(param[0] == "1"){
+                            swal({title:"Berhasil", text: param[1], icon: "success"});
+                            $(".ftambah").val("");
+                        }else{
+                            swal({title:"Gagal", text: param[1], icon: "error"});
+                        }
+                    },
+                    error: function(){
+                        swal({title:"Gagal", text:"Tidak Terhubung dengan Server", icon: "error"});
+                    }
+                })
+            }
+        }
+    }
 
 </script>

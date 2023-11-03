@@ -83,7 +83,6 @@
             });
         }
 
-
         function kosong(){
             $("#txtid").val("");
             $("#txtpassword").val("");
