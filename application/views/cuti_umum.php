@@ -21,14 +21,6 @@
                     </select> 
                 </div>
                 <div class="form-group col-md-6">
-                    <label>Tanggal Mulai</label>
-                    <input type="date" class="form-control ftambah" id="txtmulai">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Tanggal Selesai</label>
-                    <input type="date" class="form-control ftambah" id="txtselesai">
-                </div>
-                <div class="form-group col-md-6">
                     <label>Jenis Cuti</label>
                     <select class="form-control ftambah" id="cbocuti">
                         <option value="">Pilih Jenis Cuti</option>
@@ -37,6 +29,14 @@
                 <div class="form-group col-md-6">
                     <label>Keterangan</label>
                     <textarea class="form-control ftambah" id="txtket"></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Tanggal Mulai</label>
+                    <input type="date" class="form-control ftambah" id="txtmulai">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Tanggal Selesai</label>
+                    <input type="text" class="form-control ftambah" id="txtselesai" readonly>
                 </div>
             </div>
         </div>
@@ -58,6 +58,49 @@
 
     $(document).ready(function () {
         cutioption();
+        $("#txtmulai").change(updateEndDate);
+
+        function formatDate(date) {
+            var dd = date.getDate();
+            var mm = date.getMonth() + 1;
+            var yyyy = date.getFullYear();
+            return dd + '/' + mm + '/' + yyyy;
+        }
+
+        function updateEndDate() {
+            var mulai = $("#txtmulai").val();
+            var izin = $("#cbocuti").val();
+
+            if (mulai) {
+                $.ajax({
+                    url: "http://103.215.177.169/hris_dev/API/Pengajuan/tipe_cuti",
+                    method: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        var jumlah_hari = 0; 
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].id === izin) {
+                                jumlah_hari = parseInt(data[i].jumlah_hari);
+                                break;
+                            }
+                        }
+
+                        if (jumlah_hari > 0) {
+                            var startDate = new Date(mulai);
+                            startDate.setDate(startDate.getDate() + jumlah_hari);
+                            $("#txtselesai").val(formatDate(startDate));
+                        } else {
+                            $("#txtselesai").val("Tidak ada jumlah hari yang sesuai.");
+                        }
+                    },
+                    error: function () {
+                        console.log('Ada masalah dalam permintaan GET');
+                    }
+                });
+            } else {
+                $("#txtselesai").val("");
+            }
+        }
     });
 
     function cutioption() {
@@ -66,14 +109,13 @@
             method: "GET",
             dataType: "json",
             success: function (data) {
-                const cboizin = $("#cbocuti");
+                let cboizin = $("#cbocuti");
 
                 if (Array.isArray(data)) {
                     data.forEach(function(v) {
                         if (v.tipe == "Cuti Tahunan") {
-                            cboizin.append(`<option value="${v.id}">${v.tipe}</option>`);
+                            cboizin.append(`<option value="${v.id}">${v.tipe} (${v.jumlah_hari} Hari )</option>`);
                         }
-                        
                     });
                 }
             },
@@ -82,6 +124,7 @@
             }
         });
     }
+
 
     function reset() {
         $("#txtmulai").val("");

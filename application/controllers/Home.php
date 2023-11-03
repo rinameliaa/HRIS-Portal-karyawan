@@ -105,7 +105,7 @@ class Home extends CI_Controller {
         $nama = trim(str_replace("'", "''", $this->fullname));
         $jenis_pengajuan = trim(str_replace("'", "''", $this->input->post("jenis_pengajuan")));
         $tanggal_start = trim(str_replace("'", "''", $this->input->post("tanggal_start")));
-        $tanggal_end = trim(str_replace("'", "''", $this->input->post("tanggal_end")));
+        $tanggal_end = date("Y/m/d", strtotime(str_replace('/', '-', $this->input->post("tanggal_end"))));
         $jenis_izin_id = trim(str_replace("'", "''", $this->input->post("jenis_izin_id")));
         $jenis_cuti_id = trim(str_replace("'", "''", $this->input->post("jenis_cuti_id")));
         $jenis_sakit_id = trim(str_replace("'", "''", $this->input->post("jenis_sakit_id")));
