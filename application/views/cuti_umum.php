@@ -184,7 +184,7 @@
             let timeDiff = endDate.getTime() - startDate.getTime();
             let dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-            if (dayDiff > sisacuti) {
+            if (dayDiff >= sisacuti) {
                 swal({ title: "Gagal", text: "Jumlah cuti yang diajukan melebihi sisa cuti Anda", icon: "error" });
             } else if (tanggal_start === "" || tanggal_end === "" || jenis_cuti_id === "" || keterangan === "") {
                 swal({ title: "Gagal", text: "Ada Isian Yang Kosong", icon: "error" });
