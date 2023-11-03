@@ -70,7 +70,10 @@
 
                 if (Array.isArray(data)) {
                     data.forEach(function(v) {
-                        cboizin.append(`<option value="${v.id}">${v.tipe}</option>`);
+                        if (v.tipe !== "Cuti Tahunan") {
+                            cboizin.append(`<option value="${v.id}">${v.tipe}</option>`);
+                        }
+                        
                     });
                 }
             },

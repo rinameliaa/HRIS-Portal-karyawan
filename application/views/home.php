@@ -88,7 +88,12 @@
             </div>
             <div class="collapse" id="pengajuan">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?=base_url('Home/cuti'); ?>">Cuti</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?=base_url('Home/cuti_umum'); ?>">Cuti</a></li>
+              </ul>
+            </div>
+            <div class="collapse" id="pengajuan">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"><a class="nav-link" href="<?=base_url('Home/cuti_khusus'); ?>">Cuti Khusus</a></li>
               </ul>
             </div>
           </li>

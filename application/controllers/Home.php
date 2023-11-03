@@ -60,13 +60,22 @@ class Home extends CI_Controller {
         $this->load->view("sakit", $z, true);
         $this->load->view("home", $xyz);
     }
-    public function cuti(){
-        $xyz["konten"] = "cuti";
+    public function cuti_umum(){
+        $xyz["konten"] = "cuti_umum";
         $z["nama"] = $this->fullname ;
         $z["iduser"] = $this->userid;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
-        $this->load->view("cuti", $z, true);
+        $this->load->view("cuti_umum", $z, true);
+        $this->load->view("home", $xyz);
+    }
+    public function cuti_khusus(){
+        $xyz["konten"] = "cuti_khusus";
+        $z["nama"] = $this->fullname ;
+        $z["iduser"] = $this->userid;
+        $z["atasan"] = $this->atasan;
+        $z["senior"] = $this->senior;
+        $this->load->view("cuti_khusus", $z, true);
         $this->load->view("home", $xyz);
     }
     public function pengajuan_tampil(){
