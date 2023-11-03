@@ -12,8 +12,8 @@ class Mizin extends CI_Model {
         }
     }
 
-    public function tambah($id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2,$approval1_date, $approval2_date, $status, $create){
-        $sql = "INSERT INTO pengajuan_karyawan VALUE('$id', '$karyawan_id', '$nama', '$jenis_pengajuan', '$tanggal_start', '$tanggal_end', '$keterangan', '$karyawan_id_approval1', '$karyawan_id_approval2','$approval1_date', '$approval2_date', '$status', '$create')";
+    public function tambah($id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2,$approval1_date, $approval2_date, $status, $create){
+        $sql = "INSERT INTO pengajuan_karyawan VALUE('$id', '$karyawan_id', '$nama', '$jenis_pengajuan', '$tanggal_start', '$tanggal_end', '$jenis_izin_id', '$jenis_cuti_id', '$jenis_sakit_id', '$keterangan', '$karyawan_id_approval1', '$karyawan_id_approval2','$approval1_date', '$approval2_date', '$status', '$create')";
         $data = $this->db->query($sql);
         if($data){
                 return "1";

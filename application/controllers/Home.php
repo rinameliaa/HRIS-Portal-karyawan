@@ -44,6 +44,7 @@ class Home extends CI_Controller {
 
     public function izin(){
         $xyz["konten"] = "izin";
+        $z["nama"] = $this->fullname ;
         $z["iduser"] = $this->userid;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
@@ -52,6 +53,7 @@ class Home extends CI_Controller {
     }
     public function sakit(){
         $xyz["konten"] = "sakit";
+        $z["nama"] = $this->fullname ;
         $z["iduser"] = $this->userid;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
@@ -60,6 +62,7 @@ class Home extends CI_Controller {
     }
     public function cuti(){
         $xyz["konten"] = "cuti";
+        $z["nama"] = $this->fullname ;
         $z["iduser"] = $this->userid;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
@@ -94,6 +97,9 @@ class Home extends CI_Controller {
         $jenis_pengajuan = trim(str_replace("'", "''", $this->input->post("jenis_pengajuan")));
         $tanggal_start = trim(str_replace("'", "''", $this->input->post("tanggal_start")));
         $tanggal_end = trim(str_replace("'", "''", $this->input->post("tanggal_end")));
+        $jenis_izin_id = trim(str_replace("'", "''", $this->input->post("jenis_izin_id")));
+        $jenis_cuti_id = trim(str_replace("'", "''", $this->input->post("jenis_cuti_id")));
+        $jenis_sakit_id = trim(str_replace("'", "''", $this->input->post("jenis_sakit_id")));
         $keterangan = trim(str_replace("'", "''", $this->input->post("keterangan")));
         $karyawan_id_approval1 = trim(str_replace("'", "''", $this->atasan));
         // Periksa jika userdata hanya memiliki approval1
@@ -106,7 +112,7 @@ class Home extends CI_Controller {
         $approval2_date = NULL;
         $create = date('Y-m-d H:i:s');
         $status = trim(str_replace("'", "''", $this->input->post("status")));
-        $hasil = $this->Mizin->tambah($id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $create);
+        $hasil = $this->Mizin->tambah($id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $create);
     
         if ($hasil == "1") {    
             echo base64_encode("1|Tambah Permohonan Berhasil,");

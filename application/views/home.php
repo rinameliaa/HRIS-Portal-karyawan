@@ -13,6 +13,7 @@
   <link rel="shortcut icon" href="<?= base_url(); ?>assets/images/favicon.png" />
   <script src="<?= base_url(); ?>assets/jquery.3.2.1.min.js"></script>
    <script src="<?= base_url(); ?>assets/vendors/sweetalert/sweetalert.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
 </head>
