@@ -1,52 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Login</title>
-    <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/feather/feather.css">
-    <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/vertical-layout-light/style.css">
-    <link rel="shortcut icon" href="<?= base_url(); ?>assets/images/favicon.png" />
-    <script src="<?= base_url(); ?>assets/jquery.3.2.1.min.js"></script>
-    <script src="<?= base_url(); ?>assets/vendors/sweetalert/sweetalert.min.js"></script>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     <title>Login</title>
+     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+     <link rel="icon" href="assets/img/icon.ico" type="image/x-icon"/>
+     <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+     <script>
+          WebFont.load({
+               google: {"families":["Lato:300,400,700,900"]},
+               custom: {"families":[
+                    "Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands", "simple-line-icons"],
+                    urls: ['assets/css/fonts.min.css']
+               },
+               active: function() {sessionStorage.fonts = true;}
+          });
+     </script>
+     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+     <link rel="stylesheet" href="assets/css/atlantis.min.css">
+     <script src="assets/js/core/jquery.3.2.1.min.js"></script>
+     <script src="assets/js/core/popper.min.js"></script>
+     <script src="assets/js/core/bootstrap.min.js"></script>
+     <script src="assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+     <script src="assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+     <script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+     <script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+     <script src="assets/js/atlantis.min.js"></script>
+     <script src="assets/js/plugin/datatables/datatables.min.js"></script>
+     <script src="assets/js/highcharts.js"></script>
+     <script src="assets/js/html2pdf.bundle.min.js"></script>
+     <script src="assets/js/xlsx.full.min.js"></script>
+     <style>
+            .fullscreen {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                z-index: 1;
+            }
+            .blok-info {
+                z-index: 2;
+                top : 100px;
+                right : 0;
+                margin-right: 15px;
+                margin-left: 15px;
+                position : fixed;
+                border-radius : 15px;
+            }
+        </style>
 </head>
 <body>
-    <div class="container-scroller">
-        <div class="container-fluid page-body-wrapper full-page-wrapper">
-            <div class="content-wrapper d-flex align-items-center auth px-0">
-                <div class="row w-100 mx-0">
-                    <div class="col-lg-4 mx-auto">
-                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                            <div class="brand-logo">
-                                <img src="<?= base_url(); ?>assets/images/logo.svg" alt="logo">
-                            </div>
-                            <h4 class="font-weight-light">Sign in to continue.</h4>
-                            <form class="pt-3">
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-lg" id="txtus" placeholder="Isikan Username Anda">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg" id="txtpassword" placeholder="Isikan Password Anda">
-                                </div>
-                                <div class="mt-3">
-                                    <button type="button" class="btn btn-primary" onclick="login()">Login</button>&nbsp
-                                    <button type="button" class="btn btn-danger" onclick="kosong()">Reset</button>&nbsp
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+    <div class="backround">
+        <img src="<?= base_url(); ?>assets/img/logo2.jpg" class="fullscreen">
+    </div>
+    <div class="card blok-info" style="width: 10cm; right: 0;">
+        <div class="card-body">
+            <form>
+                <img src="<?= base_url(); ?>assets/img/logo1.png" style="display: block;margin: 0 auto; text-align: center;">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control" id="txtus" placeholder="Masukkan Username">
                 </div>
-            </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="txtpassword" placeholder="Masukkan Password">
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" style="margin-top: 3px;" onclick="login()">Login</button>
+            </form>
         </div>
     </div>
-    <script src="<?= base_url(); ?>assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="<?= base_url(); ?>assets/js/off-canvas.js"></script>
-    <script src="<?= base_url(); ?>assets/js/hoverable-collapse.js"></script>
-    <script src="<?= base_url(); ?>assets/js/template.js"></script>
-    <script src="<?= base_url(); ?>assets/js/settings.js"></script>
-    <script src="<?= base_url(); ?>assets/js/todolist.js"></script>
+    <script src="<?= base_url(); ?>assets/js/core/jquery.3.2.1.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/core/popper.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/core/bootstrap.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/chart.js/chart.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/chart-circle/circles.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/datatables/datatables.min.js"></script>
+	<!-- <script src="<?= base_url(); ?>assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script> -->
+	<script src="<?= base_url(); ?>assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/atlantis.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/setting-demo.js"></script>
+	<script src="<?= base_url(); ?>assets/js/demo.js"></script>
     <script>
         function login() {
             let username = $("#txtus").val();
@@ -81,12 +123,6 @@
                     swal({ title: "Gagal", text: "Tidak Terhubung dengan Server", icon: "error" });
                 }
             });
-        }
-
-        function kosong(){
-            $("#txtid").val("");
-            $("#txtpassword").val("");
-            
         }
     </script>
 </body>

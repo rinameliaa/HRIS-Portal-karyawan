@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="col-md-12" style="margin-top: 15px">
     <div class="card">
         <div class="card-body" id="pengajuan">
             <div class="row">
@@ -49,7 +49,10 @@
     </div>
 </div>
 
-<script>  
+<script> 
+    $("#mnpengajuan").addClass("active"); 
+    $("#pengajuan").addClass("show");
+    $("#mnizin").addClass("active");
     let tblx = $('#tblx').DataTable(
         {
             "ajax": "<?=base_url('Home/izin_tampil');?>"

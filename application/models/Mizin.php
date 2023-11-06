@@ -19,7 +19,52 @@ class Mizin extends CI_Model {
                 return "1";
         }else{
                 return "0";
-        }}       
+        }
+    }     
+    
+    public function jmlIzin($z) {
+        $sql = "SELECT karyawan_id, COUNT(*) AS jumlah_izin FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Izin' AND karyawan_id = ? GROUP BY karyawan_id";
+        $data = $this->db->query($sql, array($z));
+        if ($data) {
+            return $data->row()->jumlah_izin;
+        } else {
+            return 0;
+        }
+    }
+
+    public function jmlSakit($z) {
+        $sql = "SELECT karyawan_id, COUNT(*) AS jumlah_sakit FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Sakit' AND karyawan_id = ? GROUP BY karyawan_id";
+        $data = $this->db->query($sql, array($z));
+        if ($data) {
+            return $data->row()->jumlah_sakit;
+        } else {
+            return 0;
+        }
+    }
+
+    public function jmlCutiTahunan($z) {
+        $sql = "SELECT karyawan_id, COUNT(*) AS jumlah_cuti_tahunan FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Cuti Tahunan' AND karyawan_id = ? GROUP BY karyawan_id";
+        $data = $this->db->query($sql, array($z));
+        if ($data) {
+            return $data->row()->jumlah_cuti_tahunan;
+        } else {
+            return 0;
+        }
+    }
+
+    public function jmlCutiKhusus($z) {
+        $sql = "SELECT karyawan_id, COUNT(*) AS jumlah_cuti_khusus FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Cuti Khusus' AND karyawan_id = ? GROUP BY karyawan_id";
+        $data = $this->db->query($sql, array($z));
+        if ($data) {
+            return $data->row()->jumlah_cuti_khusus;
+        } else {
+            return 0;
+        }
+    }
+    
+    
+
+    
 
 //     public function tambah($karyawan_id, $jenis_pengajuan, $tanggal_start, $tanggal_end, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $status){
 //         $data = array(

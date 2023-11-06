@@ -1,126 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Skydash</title>
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/feather/feather.css">
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/css/vendor.bundle.base.css">
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/vertical-layout-light/style.css">
-  <link rel="shortcut icon" href="<?= base_url(); ?>assets/images/favicon.png" />
-  <script src="<?= base_url(); ?>assets/jquery.3.2.1.min.js"></script>
-   <script src="<?= base_url(); ?>assets/vendors/sweetalert/sweetalert.min.js"></script>
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Akui Bird Nest</title>
+	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+	<link rel="icon" href="<?= base_url(); ?>assets/img/icon.ico" type="image/x-icon"/>
+	<script src="<?= base_url(); ?>assets/js/plugin/webfont/webfont.min.js"></script>
+	<script>
+		WebFont.load({
+			google: {"families":["Lato:300,400,700,900"]},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['../assets/css/fonts.min.css']},
+			active: function() {
+				sessionStorage.fonts = true;
+			}
+		});
+	</script>
+	<link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<?= base_url(); ?>assets/css/atlantis.min.css">
+	<link rel="stylesheet" href="<?= base_url(); ?>assets/css/demo.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
 </head>
 <body>
-<div class="container-scroller">
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="<?= base_url(); ?>assets/images/logo.svg" class="mr-2" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="<?= base_url(); ?>assets/images/logo-mini.svg" alt="logo"/></a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item nav-profile dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-              <img src="<?= base_url(); ?>assets/images/faces/face28.jpg" alt="profile"/>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-              <a href="javascript:void(0)" class="dropdown-item" onclick="logout()"><i class="ti-power-off text-primary"></i>Logout</a>
-            </div>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
-      </div>
-    </nav>
-    <div class="container-fluid page-body-wrapper">
-      <div class="theme-setting-wrapper">
-        <div id="settings-trigger"><i class="ti-settings"></i></div>
-        <div id="theme-settings" class="settings-panel">
-          <i class="settings-close ti-close"></i>
-          <p class="settings-heading">SIDEBAR SKINS</p>
-          <div class="sidebar-bg-options selected" id="sidebar-light-theme"><div class="img-ss rounded-circle bg-light border mr-3"></div>Light</div>
-          <div class="sidebar-bg-options" id="sidebar-dark-theme"><div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark</div>
-          <p class="settings-heading mt-2">HEADER SKINS</p>
-          <div class="color-tiles mx-0 px-4">
-            <div class="tiles success"></div>
-            <div class="tiles warning"></div>
-            <div class="tiles danger"></div>
-            <div class="tiles info"></div>
-            <div class="tiles dark"></div>
-            <div class="tiles default"></div>
-          </div>
-        </div>
-    </div>
-    <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="<?=base_url('Home/index'); ?>">
-              <i class="icon-grid menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#pengajuan" aria-expanded="false" aria-controls="tables">
-              <i class="icon-grid menu-icon"></i>
-              <span class="menu-title">Tables</span>
-              <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="pengajuan">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?=base_url('Home/sakit'); ?>">Sakit</a></li>
-              </ul>
-            </div>
-            <div class="collapse" id="pengajuan">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?=base_url('Home/izin'); ?>">Izin</a></li>
-              </ul>
-            </div>
-            <div class="collapse" id="pengajuan">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="<?=base_url('Home/cuti_umum'); ?>">Cuti Tahunan</a></li>
-              </ul>
-            </div>
-            <div class="collapse" id="pengajuan">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="<?=base_url('Home/cuti_khusus'); ?>">Cuti Khusus</a></li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-    </nav>
-    <div class="main-panel">
-        <div class="content-wrapper">
-            <?php
-                include $konten.".php"; 
-            ?>
-        </div>
-    </div>   
-</div>
-  <script src="<?= base_url(); ?>assets/vendors/js/vendor.bundle.base.js"></script>
-  <script src="<?= base_url(); ?>assets/vendors/chart.js/Chart.min.js"></script>
-  <script src="<?= base_url(); ?>assets/vendors/datatables.net/jquery.dataTables.js"></script>
-  <script src="<?= base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
-  <script src="<?= base_url(); ?>assets/js/dataTables.select.min.js"></script>
-  <script src="<?= base_url(); ?>assets/js/off-canvas.js"></script>
-  <script src="<?= base_url(); ?>assets/js/hoverable-collapse.js"></script>
-  <script src="<?= base_url(); ?>assets/js/template.js"></script>
-  <script src="<?= base_url(); ?>assets/js/settings.js"></script>
-  <script src="<?= base_url(); ?>assets/js/todolist.js"></script>
-  <script src="<?= base_url(); ?>assets/js/dashboard.js"></script>
-  <script src="<?= base_url(); ?>assets/js/Chart.roundedBarCharts.js"></script>
-  <script>
-    function logout(){
+	<div class="wrapper">
+		<div class="main-header">
+			<div class="logo-header" data-background-color="blue">
+				<a href="#" class="logo">
+					<img src="<?= base_url(); ?>assets/img/logo1.png" alt="navbar brand" style="width: 3cm;" class="navbar-brand">
+				</a>
+				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon">
+						<i class="icon-menu"></i>
+					</span>
+				</button>
+				<button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
+				<div class="nav-toggle">
+					<button class="btn btn-toggle toggle-sidebar">
+						<i class="icon-menu"></i>
+					</button>
+				</div>
+			</div>
+			<nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">	
+				<div class="container-fluid">
+					<div class="collapse" id="search-nav">
+						<form class="navbar-left navbar-form nav-search mr-md-3">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<button type="submit" class="btn btn-search pr-1">
+										<i class="fa fa-search search-icon"></i>
+									</button>
+								</div>
+								<input type="text" placeholder="Search ..." class="form-control">
+							</div>
+						</form>
+					</div>
+					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+						<li class="nav-item toggle-nav-search hidden-caret">
+							<a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
+								<i class="fa fa-search"></i>
+							</a>
+						</li>
+						<li class="nav-item dropdown hidden-caret">
+							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+								<div class="avatar-sm">
+									<img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+								</div>
+							</a>
+							<ul class="dropdown-menu dropdown-user animated fadeIn">
+								<div class="dropdown-user-scroll scrollbar-outer">
+									<li>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" onclick="logout()" style="font-family: Arial; font-size: 14px;">
+										<i class="fas fa-power-off" style="margin-right: 10px;"></i> Logout
+										</a>
+									</li>
+								</div>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<div class="sidebar sidebar-style-2">			
+			<div class="sidebar-wrapper scrollbar scrollbar-inner">
+				<div class="sidebar-content">
+					<ul class="nav nav-primary">
+						<li class="nav-item" id="mnhome">
+							<a href="<?=base_url('Home/index'); ?>">
+								<i class="fas fa-home"></i>
+								<p>Dashboard</p>
+							</a>
+						</li>
+						<li class="nav-item" id="mnpengajuan">
+							<a data-toggle="collapse" href="#pengajuan">
+								<i class="fas fa-file-signature"></i>
+								<p>Pengajuan</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="pengajuan">
+								<ul class="nav nav-collapse">
+									<li id="mnizin">
+										<a href="<?=base_url('Home/izin'); ?>" id="izin">
+											<span class="sub-item">Izin</span>
+										</a>
+									</li>
+									<li id="mnsakit">
+										<a href="<?=base_url('Home/sakit'); ?>">
+											<span class="sub-item">Sakit</span>
+										</a>
+									</li>
+									<li id="mncutit">
+										<a href="<?=base_url('Home/cuti_tahunan'); ?>">
+											<span class="sub-item">Cuti Tahunan</span>
+										</a>
+									</li>
+									<li id="mncutik">
+										<a href="<?=base_url('Home/cuti_khusus'); ?>">
+											<span class="sub-item">Cuti Khusus</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="main-panel" style="margin-top: px;">
+				<div class="content">
+					<?php
+						include $konten.".php"; 
+					?>
+				</div>
+ 
+			<div class="custom-template">
+				<div class="title">Settings</div>
+				<div class="custom-content">
+				<div class="switcher">
+					<div class="switch-block">
+					<h4>Logo Header</h4>
+					<div class="btnSwitch">
+						<button type="button" class="changeLogoHeaderColor" data-color="dark"></button>
+						<button type="button" class="selected changeLogoHeaderColor" data-color="blue"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="purple"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="light-blue"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="green"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="orange"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="red"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="white"></button>
+						<br/>
+						<button type="button" class="changeLogoHeaderColor" data-color="dark2"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="blue2"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="purple2"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="light-blue2"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="green2"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="orange2"></button>
+						<button type="button" class="changeLogoHeaderColor" data-color="red2"></button>
+					</div>
+					</div>
+					<div class="switch-block">
+					<h4>Navbar Header</h4>
+					<div class="btnSwitch">
+						<button type="button" class="changeTopBarColor" data-color="dark"></button>
+						<button type="button" class="changeTopBarColor" data-color="blue"></button>
+						<button type="button" class="changeTopBarColor" data-color="purple"></button>
+						<button type="button" class="changeTopBarColor" data-color="light-blue"></button>
+						<button type="button" class="changeTopBarColor" data-color="green"></button>
+						<button type="button" class="changeTopBarColor" data-color="orange"></button>
+						<button type="button" class="changeTopBarColor" data-color="red"></button>
+						<button type="button" class="changeTopBarColor" data-color="white"></button>
+						<br/>
+						<button type="button" class="changeTopBarColor" data-color="dark2"></button>
+						<button type="button" class="selected changeTopBarColor" data-color="blue2"></button>
+						<button type="button" class="changeTopBarColor" data-color="purple2"></button>
+						<button type="button" class="changeTopBarColor" data-color="light-blue2"></button>
+						<button type="button" class="changeTopBarColor" data-color="green2"></button>
+						<button type="button" class="changeTopBarColor" data-color="orange2"></button>
+						<button type="button" class="changeTopBarColor" data-color="red2"></button>
+					</div>
+					</div>
+					<div class="switch-block">
+					<h4>Sidebar</h4>
+					<div class="btnSwitch">
+						<button type="button" class="selected changeSideBarColor" data-color="white"></button>
+						<button type="button" class="changeSideBarColor" data-color="dark"></button>
+						<button type="button" class="changeSideBarColor" data-color="dark2"></button>
+					</div>
+					</div>
+					<div class="switch-block">
+					<h4>Background</h4>
+					<div class="btnSwitch">
+						<button type="button" class="changeBackgroundColor" data-color="bg2"></button>
+						<button type="button" class="changeBackgroundColor selected" data-color="bg1"></button>
+						<button type="button" class="changeBackgroundColor" data-color="bg3"></button>
+						<button type="button" class="changeBackgroundColor" data-color="dark"></button>
+					</div>
+					</div>
+				</div>
+				</div>
+				<div class="custom-toggle">
+				<i class="flaticon-settings"></i>
+				</div>
+			</div>
+		</div>
+  </div>
+	<script src="<?= base_url(); ?>assets/js/core/jquery.3.2.1.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/core/popper.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/core/bootstrap.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/chart.js/chart.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/chart-circle/circles.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/datatables/datatables.min.js"></script>
+	<!-- <script src="<?= base_url(); ?>assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script> -->
+	<script src="<?= base_url(); ?>assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
+	<script src="<?= base_url(); ?>assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/atlantis.min.js"></script>
+	<script src="<?= base_url(); ?>assets/js/setting-demo.js"></script>
+	<script src="<?= base_url(); ?>assets/js/demo.js"></script>
+</body>
+<script>
+
+  function logout(){
         swal({
             title: 'Konfirmasi',
             text: "Anda Yakin Ingin Logout?",
@@ -136,7 +241,7 @@
                     method: "POST",
                     cache: "false",
                     success: function(y){
-                          window.location = "<?= base_url(); ?>" + "Login/";
+                          window.location = "<?= base_url(); ?>" + "Home/login";
                     },
                     error: function(){
                         swal({title: "Gagal", text: "Koneksi API Gagal", icon: "error"});
@@ -145,6 +250,5 @@
             }
         })
     }
-    </script>
-</body>
+</script>
 </html>

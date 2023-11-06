@@ -42,6 +42,11 @@ class Home extends CI_Controller {
         $this->load->view("home", $xyz);
 	}
 
+    public function login(){
+        $xyz["konten"] = "masuk";
+        $this->load->view("masuk", $xyz);
+	}
+
     public function izin(){
         $xyz["konten"] = "izin";
         $z["nama"] = $this->fullname ;
@@ -60,13 +65,13 @@ class Home extends CI_Controller {
         $this->load->view("sakit", $z, true);
         $this->load->view("home", $xyz);
     }
-    public function cuti_umum(){
-        $xyz["konten"] = "cuti_umum";
+    public function cuti_tahunan(){
+        $xyz["konten"] = "cuti_tahunan";
         $z["nama"] = $this->fullname ;
         $z["iduser"] = $this->userid;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
-        $this->load->view("cuti_umum", $z, true);
+        $this->load->view("cuti_tahunan", $z, true);
         $this->load->view("home", $xyz);
     }
     public function cuti_khusus(){
@@ -78,6 +83,31 @@ class Home extends CI_Controller {
         $this->load->view("cuti_khusus", $z, true);
         $this->load->view("home", $xyz);
     }
+
+    public function jumlahIzin(){
+        $z = $this->userid;
+        $jumlah_izin = $this->Mizin->jmlIzin($z);
+        echo $jumlah_izin;
+    }
+
+    public function jumlahSakit(){
+        $z = $this->userid;
+        $jumlah_sakit = $this->Mizin->jmlSakit($z);
+        echo $jumlah_sakit;
+    }
+    
+    public function jumlahCutiTahunan(){
+        $z = $this->userid;
+        $jumlah_cuti_tahunan = $this->Mizin->jmlCutiTahunan($z);
+        echo $jumlah_cuti_tahunan;
+    }
+
+    public function jumlahCutiKhusus(){
+        $z = $this->userid;
+        $jumlah_cuti_khusus = $this->Mizin->jmlCutiKhusus($z);
+        echo $jumlah_cuti_khusus;
+    }
+
     public function pengajuan_tampil(){
         $dtJSON = '{"data": [xxx]}'; 
         $dtisi = "";
@@ -130,6 +160,7 @@ class Home extends CI_Controller {
         }
     }
     
+
     
     
     // public function karyawan(){
