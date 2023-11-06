@@ -61,24 +61,72 @@ class Mizin extends CI_Model {
             return 0;
         }
     }
-    
-    
 
-    
+    public function jmlApproval1($z) {
+        $sql = "SELECT COUNT(*) AS jumlah_approval1 FROM pengajuan_karyawan WHERE karyawan_id_approval1 = ?  ";
+        $data = $this->db->query($sql, array($z));
+        if ($data) {
+            return $data->row()->jumlah_approval1;
+        } else {
+            return 0;
+        }
+    }       
 
-//     public function tambah($karyawan_id, $jenis_pengajuan, $tanggal_start, $tanggal_end, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $status){
-//         $data = array(
-//             'karyawan_id' => $karyawan_id,
-//             'jenis_pengajuan' => $jenis_pengajuan,
-//             'tanggal_start' => $tanggal_start,
-//             'tanggal_end' => $tanggal_end,
-//             'keterangan' => $keterangan,
-//             'karyawan_id_approval1' => $karyawan_id_approval1,
-//             'karyawan_id_approval2' => $karyawan_id_approval2,
-//             'status' => $status,
-//             'create' => date('Y-m-d H:i:s')
-//         );
-//         $this->db->insert('pengajuan_karyawan', $data);
-//         return $this->db->affected_rows() == 1 ? "1" : "0";
-//     }
+    public function jmlApproval2($z) {
+        $sql = "SELECT COUNT(*) AS jumlah_approval2 FROM pengajuan_karyawan WHERE karyawan_id_approval2 = ? ";
+        $data = $this->db->query($sql, array($z));
+        if ($data) {
+            return $data->row()->jumlah_approval2;
+        } else {
+            return 0;
+        }
+    } 
+    
+    public function tampilapproval1($z){
+        $sql = "SELECT * FROM pengajuan_karyawan WHERE karyawan_id_approval1 = ? ";
+        $data = $this->db->query($sql, array($z));
+        if ($data) {
+            return $data->result();
+        } else {
+            return 0;
+        }
+    }
+
+    public function tampilapproval2($z){
+        $sql = "SELECT * FROM pengajuan_karyawan WHERE karyawan_id_approval2 = ?";
+        $data = $this->db->query($sql, array($z));
+        if ($data) {
+            return $data->result();
+        } else {
+            return 0;
+        }
+    }
+
+    public function update_approval1($id){
+        $data = array(
+            'approval1_date' => date('Y-m-d H:i:s')
+        );
+        $this->db->where('id', $id);
+        $sql = $this->db->update('pengajuan_karyawan', $data);
+
+        if($sql){
+                return "1";
+        }else{
+                return "0";
+        }
+    }
+
+    public function update_approval2($id){
+        $data = array(
+            'approval2_date' => date('Y-m-d H:i:s')
+        );
+        $this->db->where('id', $id);
+        $sql = $this->db->update('pengajuan_karyawan', $data);
+
+        if($sql){
+                return "1";
+        }else{
+                return "0";
+        }
+    }
 }

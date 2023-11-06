@@ -123,6 +123,14 @@
 								</ul>
 							</div>
 						</li>
+						<?php if ($this->approval == 1): ?>
+							<li class="nav-item" id="mnapprov">
+								<a href="<?=base_url('Home/approval'); ?>">
+									<i class="fas fa-home"></i>
+									<p>Approval</p>
+								</a>
+							</li>
+						<?php endif; ?>
 					</ul>
 				</div>
 			</div>

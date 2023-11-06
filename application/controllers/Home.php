@@ -38,15 +38,20 @@ class Home extends CI_Controller {
 	public function index(){
         $xyz["konten"] = "beranda";
         $z["nama"] = $this->fullname ;
+        $z["approval"] = $this->approval ;
         $this->load->view("beranda", $z, true);
         $this->load->view("home", $xyz);
 	}
-
+    public function approval(){
+        $xyz["konten"] = "approval";
+        $z["nama"] = $this->fullname ;
+        $this->load->view("approval", $z, true);
+        $this->load->view("home", $xyz);
+    }    
     public function login(){
         $xyz["konten"] = "masuk";
         $this->load->view("masuk", $xyz);
 	}
-
     public function izin(){
         $xyz["konten"] = "izin";
         $z["nama"] = $this->fullname ;
@@ -83,29 +88,101 @@ class Home extends CI_Controller {
         $this->load->view("cuti_khusus", $z, true);
         $this->load->view("home", $xyz);
     }
-
     public function jumlahIzin(){
         $z = $this->userid;
         $jumlah_izin = $this->Mizin->jmlIzin($z);
         echo $jumlah_izin;
     }
-
     public function jumlahSakit(){
         $z = $this->userid;
         $jumlah_sakit = $this->Mizin->jmlSakit($z);
         echo $jumlah_sakit;
     }
-    
     public function jumlahCutiTahunan(){
         $z = $this->userid;
         $jumlah_cuti_tahunan = $this->Mizin->jmlCutiTahunan($z);
         echo $jumlah_cuti_tahunan;
     }
-
     public function jumlahCutiKhusus(){
         $z = $this->userid;
         $jumlah_cuti_khusus = $this->Mizin->jmlCutiKhusus($z);
         echo $jumlah_cuti_khusus;
+    }
+    public function jumlahApproval1(){
+        $z = $this->userid;
+        $jumlah_approval1 = $this->Mizin->jmlApproval1($z);
+        echo $jumlah_approval1;
+    }
+
+    public function jumlahApproval2(){
+        $z = $this->userid;
+        $jumlah_approval2 = $this->Mizin->jmlApproval2($z);
+        echo $jumlah_approval2;
+    }
+
+    public function approval1_tampil(){
+        $dtJSON = '{"data": [xxx]}'; 
+        $dtisi = "";
+        $z = $this->userid;
+        $dt = $this->Mizin->tampilapproval1($z);
+        foreach ($dt as $k){
+            $id = $k->id;
+            $karyawan_id = $k->karyawan_id;
+            $nama = $k->nama;
+            $jenis_pengajuan = $k->jenis_pengajuan;
+            $tanggal_start = $k->tanggal_start;
+            $tanggal_end = $k->tanggal_end;
+            $keterangan = $k->keterangan;
+            $status = $k->status;
+            $action = "<button type='button' class='btn btn-danger' onclick='approval1($id)'>Approval 1</button>";
+            $ttl = $tanggal_start . " s/d " . $tanggal_end;
+            $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
+        }
+        $dtisifix = rtrim($dtisi, ",");
+        $data = str_replace("xxx", $dtisifix, $dtJSON);
+        echo $data;
+    }
+    public function approval2_tampil(){
+        $dtJSON = '{"data": [xxx]}'; 
+        $dtisi = "";
+        $z = $this->userid;
+        $dt = $this->Mizin->tampilapproval2($z);
+        foreach ($dt as $k){
+            $id = $k->id;
+            $karyawan_id = $k->karyawan_id;
+            $nama = $k->nama;
+            $jenis_pengajuan = $k->jenis_pengajuan;
+            $tanggal_start = $k->tanggal_start;
+            $tanggal_end = $k->tanggal_end;
+            $keterangan = $k->keterangan;
+            $status = $k->status;
+            $action = "<button type='button' class='btn btn-danger' onclick='approval2($id)'>Approval 2</button>";
+            $ttl = $tanggal_start . " s/d " . $tanggal_end;
+            $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
+        }
+        $dtisifix = rtrim($dtisi, ",");
+        $data = str_replace("xxx", $dtisifix, $dtJSON);
+        echo $data;
+    }
+    public function pengajuan_approval1(){
+        $id = $this->input->post('id');
+        $hasil = $this->Mizin->update_approval1($id);
+    
+        if ($hasil == "1") {    
+            echo base64_encode("1|Tambah Approval Date Berhasil,");
+        } else {
+            echo base64_encode("0|Tambah Approval Date Gagal, Silahkan Cek Datanya");
+        }
+    }
+    public function pengajuan_approval2(){
+        $id = $this->input->post('id');
+        $hasil = $this->Mizin->update_approval2($id);
+    
+        if ($hasil == "1") {    
+            echo base64_encode("1|Tambah Approval Date Berhasil,");
+        } else {
+            echo base64_encode("0|Tambah Approval Date Gagal, Silahkan Cek Datanya");
+        }
     }
 
     public function pengajuan_tampil(){
@@ -128,7 +205,6 @@ class Home extends CI_Controller {
         $data = str_replace("xxx", $dtisifix, $dtJSON);
         echo $data;
     }
-
     public function pengajuan_tambah(){
         $id = strtotime(date("Y-m-d H:i:s"));
         $karyawan_id = trim(str_replace("'", "''", $this->userid));
@@ -159,7 +235,6 @@ class Home extends CI_Controller {
             echo base64_encode("0|Tambah Permohonan Gagal, Silahkan Cek Datanya");
         }
     }
-    
 
     
     
