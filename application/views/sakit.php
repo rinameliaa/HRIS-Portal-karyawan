@@ -11,7 +11,7 @@
                 <div class="form-group col-md-4">
                     <label>ID Karyawan</label>
                     <select class="form-control">
-                        <option ><?= $iduser; ?></option>
+                        <option ><?= $karyawan_id; ?></option>
                     </select> 
                 </div>
                 <div class="form-group col-md-4">

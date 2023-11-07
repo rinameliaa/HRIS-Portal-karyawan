@@ -12,9 +12,10 @@ class Mizin extends CI_Model {
         }
     }
 
-    public function tambah($id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $create) {
+    public function tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $create) {
         $data = array(
             'id' => $id,
+            'user_id' => $user_id,
             'karyawan_id' => $karyawan_id,
             'nama' => $nama,
             'jenis_pengajuan' => $jenis_pengajuan,
@@ -43,7 +44,7 @@ class Mizin extends CI_Model {
     }       
     
     public function jmlIzin($z) {
-        $sql = "SELECT karyawan_id, COUNT(*) AS jumlah_izin FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Izin' AND karyawan_id = ? GROUP BY karyawan_id";
+        $sql = "SELECT COUNT(*) AS jumlah_izin FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Izin' AND karyawan_id = ?";
         $data = $this->db->query($sql, array($z));
         if ($data) {
             return $data->row()->jumlah_izin;
@@ -53,7 +54,7 @@ class Mizin extends CI_Model {
     }
 
     public function jmlSakit($z) {
-        $sql = "SELECT karyawan_id, COUNT(*) AS jumlah_sakit FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Sakit' AND karyawan_id = ? GROUP BY karyawan_id";
+        $sql = "SELECT COUNT(*) AS jumlah_sakit FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Sakit' AND karyawan_id = ?";
         $data = $this->db->query($sql, array($z));
         if ($data) {
             return $data->row()->jumlah_sakit;
@@ -63,7 +64,7 @@ class Mizin extends CI_Model {
     }
 
     public function jmlCutiTahunan($z) {
-        $sql = "SELECT karyawan_id, COUNT(*) AS jumlah_cuti_tahunan FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Cuti Tahunan' AND karyawan_id = ? GROUP BY karyawan_id";
+        $sql = "SELECT COUNT(*) AS jumlah_cuti_tahunan FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Cuti Tahunan' AND karyawan_id = ?";
         $data = $this->db->query($sql, array($z));
         if ($data) {
             return $data->row()->jumlah_cuti_tahunan;
@@ -73,7 +74,7 @@ class Mizin extends CI_Model {
     }
 
     public function jmlCutiKhusus($z) {
-        $sql = "SELECT karyawan_id, COUNT(*) AS jumlah_cuti_khusus FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Cuti Khusus' AND karyawan_id = ? GROUP BY karyawan_id";
+        $sql = "SELECT COUNT(*) AS jumlah_cuti_khusus FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Cuti Khusus' AND karyawan_id = ?";
         $data = $this->db->query($sql, array($z));
         if ($data) {
             return $data->row()->jumlah_cuti_khusus;
