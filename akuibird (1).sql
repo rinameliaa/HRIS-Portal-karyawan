@@ -9,7 +9,7 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+7:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `pengajuan_karyawan` (
   `id` int NOT NULL,
+  `user_id` int NOT NULL,
   `karyawan_id` varchar(25) NOT NULL,
   `nama` varchar(100) NOT NULL,
   `jenis_pengajuan` varchar(25) NOT NULL,
