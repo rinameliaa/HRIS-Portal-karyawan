@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Home extends CI_Controller {
-    public $userid;
+    public $karyawan_id;
     public $firstname;
     public $lastname;
     public $fullname;
@@ -16,7 +16,8 @@ class Home extends CI_Controller {
             if ($userData) {
                 $userData = json_decode($userData);
                 if ($userData) {
-                    $this->userid = $userData->employee_id;
+                    $this->user_id = $userData->user_id;
+                    $this->karyawan_id = $userData->employee_id;
                     $this->firstname = $userData->first_name;
                     $this->lastname = $userData->last_name;
                     $this->fullname = $userData->first_name . ' ' . $userData->last_name;
@@ -41,13 +42,7 @@ class Home extends CI_Controller {
         $z["approval"] = $this->approval ;
         $this->load->view("beranda", $z, true);
         $this->load->view("home", $xyz);
-	}
-    public function approval(){
-        $xyz["konten"] = "approval";
-        $z["nama"] = $this->fullname ;
-        $this->load->view("approval", $z, true);
-        $this->load->view("home", $xyz);
-    }    
+	}    
     public function login(){
         $xyz["konten"] = "masuk";
         $this->load->view("masuk", $xyz);
@@ -55,7 +50,7 @@ class Home extends CI_Controller {
     public function izin(){
         $xyz["konten"] = "izin";
         $z["nama"] = $this->fullname ;
-        $z["iduser"] = $this->userid;
+        $z["karyawan_id"] = $this->karyawan_id;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
         $this->load->view("izin", $z, true);
@@ -64,7 +59,7 @@ class Home extends CI_Controller {
     public function sakit(){
         $xyz["konten"] = "sakit";
         $z["nama"] = $this->fullname ;
-        $z["iduser"] = $this->userid;
+        $z["karyawan_id"] = $this->karyawan_id;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
         $this->load->view("sakit", $z, true);
@@ -73,7 +68,7 @@ class Home extends CI_Controller {
     public function cuti_tahunan(){
         $xyz["konten"] = "cuti_tahunan";
         $z["nama"] = $this->fullname ;
-        $z["iduser"] = $this->userid;
+        $z["karyawan_id"] = $this->karyawan_id;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
         $this->load->view("cuti_tahunan", $z, true);
@@ -82,40 +77,46 @@ class Home extends CI_Controller {
     public function cuti_khusus(){
         $xyz["konten"] = "cuti_khusus";
         $z["nama"] = $this->fullname ;
-        $z["iduser"] = $this->userid;
+        $z["karyawan_id"] = $this->karyawan_id;
         $z["atasan"] = $this->atasan;
         $z["senior"] = $this->senior;
         $this->load->view("cuti_khusus", $z, true);
         $this->load->view("home", $xyz);
     }
     public function jumlahIzin(){
-        $z = $this->userid;
+        $z = $this->karyawan_id;
         $jumlah_izin = $this->Mizin->jmlIzin($z);
         echo $jumlah_izin;
     }
     public function jumlahSakit(){
-        $z = $this->userid;
+        $z = $this->karyawan_id;
         $jumlah_sakit = $this->Mizin->jmlSakit($z);
         echo $jumlah_sakit;
     }
     public function jumlahCutiTahunan(){
-        $z = $this->userid;
+        $z = $this->karyawan_id;
         $jumlah_cuti_tahunan = $this->Mizin->jmlCutiTahunan($z);
         echo $jumlah_cuti_tahunan;
     }
     public function jumlahCutiKhusus(){
-        $z = $this->userid;
+        $z = $this->karyawan_id;
         $jumlah_cuti_khusus = $this->Mizin->jmlCutiKhusus($z);
         echo $jumlah_cuti_khusus;
     }
+    public function approval(){
+        $xyz["konten"] = "approval";
+        $z["nama"] = $this->fullname ;
+        $this->load->view("approval", $z, true);
+        $this->load->view("home", $xyz);
+    }
     public function jumlahApproval1(){
-        $z = $this->userid;
+        $z = $this->user_id;
         $jumlah_approval1 = $this->Mizin->jmlApproval1($z);
         echo $jumlah_approval1;
     }
 
     public function jumlahApproval2(){
-        $z = $this->userid;
+        $z = $this->user_id;
         $jumlah_approval2 = $this->Mizin->jmlApproval2($z);
         echo $jumlah_approval2;
     }
@@ -123,7 +124,7 @@ class Home extends CI_Controller {
     public function approval1_tampil(){
         $dtJSON = '{"data": [xxx]}'; 
         $dtisi = "";
-        $z = $this->userid;
+        $z = $this->user_id;
         $dt = $this->Mizin->tampilapproval1($z);
         foreach ($dt as $k){
             $id = $k->id;
@@ -145,7 +146,7 @@ class Home extends CI_Controller {
     public function approval2_tampil(){
         $dtJSON = '{"data": [xxx]}'; 
         $dtisi = "";
-        $z = $this->userid;
+        $z = $this->user_id;
         $dt = $this->Mizin->tampilapproval2($z);
         foreach ($dt as $k){
             $id = $k->id;
@@ -188,7 +189,7 @@ class Home extends CI_Controller {
     public function pengajuan_tampil(){
         $dtJSON = '{"data": [xxx]}'; 
         $dtisi = "";
-        $z = $this->userid;
+        $z = $this->karyawan_id;
         $dt = $this->Mizin->data($z);
         foreach ($dt as $k) {
             $karyawan_id = $k->karyawan_id;
@@ -197,7 +198,7 @@ class Home extends CI_Controller {
             $tanggal_start = $k->tanggal_start;
             $tanggal_end = $k->tanggal_end;
             $keterangan = $k->keterangan;
-            $status = $k->status;  // Assign the status based on the data
+            $status = $k->status; 
         
             $ttl = $tanggal_start . " s/d " . $tanggal_end;
             $dtisi .= '["' . $karyawan_id . '","' . $nama . '","' . $jenis_pengajuan . '","' . $ttl . '","' . $keterangan . '",';
@@ -216,7 +217,8 @@ class Home extends CI_Controller {
     }
     public function pengajuan_tambah(){
         $id = strtotime(date("Y-m-d H:i:s"));
-        $karyawan_id = trim(str_replace("'", "''", $this->userid));
+        $user_id = trim(str_replace("'", "''", $this->user_id));
+        $karyawan_id = trim(str_replace("'", "''", $this->karyawan_id));
         $nama = trim(str_replace("'", "''", $this->fullname));
         $jenis_pengajuan = trim(str_replace("'", "''", $this->input->post("jenis_pengajuan")));
         $tanggal_start = trim(str_replace("'", "''", $this->input->post("tanggal_start")));
@@ -236,7 +238,7 @@ class Home extends CI_Controller {
         $approval2_date = NULL;
         $create = date('Y-m-d H:i:s');
         $status = trim(str_replace("'", "''", $this->input->post("status")));
-        $hasil = $this->Mizin->tambah($id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $create);
+        $hasil = $this->Mizin->tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $create);
     
         if ($hasil == "1") {    
             echo base64_encode("1|Tambah Permohonan Berhasil,");
