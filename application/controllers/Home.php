@@ -190,16 +190,25 @@ class Home extends CI_Controller {
         $dtisi = "";
         $z = $this->userid;
         $dt = $this->Mizin->data($z);
-        foreach ($dt as $k){
+        foreach ($dt as $k) {
             $karyawan_id = $k->karyawan_id;
             $nama = $k->nama;
             $jenis_pengajuan = $k->jenis_pengajuan;
             $tanggal_start = $k->tanggal_start;
             $tanggal_end = $k->tanggal_end;
             $keterangan = $k->keterangan;
-            $status = $k->status;
+            $status = $k->status;  // Assign the status based on the data
+        
             $ttl = $tanggal_start . " s/d " . $tanggal_end;
-            $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$ttl.'","'.$keterangan.'","'.$status.'"],';
+            $dtisi .= '["' . $karyawan_id . '","' . $nama . '","' . $jenis_pengajuan . '","' . $ttl . '","' . $keterangan . '",';
+        
+            if ($status === "Proses") {
+                $dtisi .= '"<button type=\"button\" class=\"btn btn-danger\">Proses</button>"],';
+            } elseif ($status === "Disetujui") {
+                $dtisi .= '"<button type=\"button\" class=\"btn btn-success\">Disetujui</button>"],';
+            } else {
+                $dtisi .= '"Status tidak valid"],';
+            }
         }
         $dtisifix = rtrim($dtisi, ",");
         $data = str_replace("xxx", $dtisifix, $dtJSON);

@@ -146,7 +146,7 @@
     let tanggal_end = $("#txtselesai").val();
     let jenis_cuti_id = $("#cbocuti").val();
     let keterangan = $("#txtket").val();  
-    let status = "proses";
+    let status = "Proses";
     
     if( tanggal_start == "" || tanggal_end == "" || jenis_cuti_id == "" || keterangan == ""){
         swal({title:"Gagal", text:"Ada Isian Yang Kosong", icon: "error"});

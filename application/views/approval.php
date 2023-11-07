@@ -143,6 +143,8 @@
             data: { id: id },
             success: function (result) {
                 swal({title:"Berhasil", text: "Berhasil Approved", icon: "success"});
+                tblx.ajax.reload();
+                tblx1.ajax.reload();
                 console.log('Pengajuan berhasil di-set sebagai "Approved".');
             },
             error: function () {
@@ -158,6 +160,8 @@
             data: { id: id },
             success: function (result) {
                 swal({title:"Berhasil", text: "Berhasil Approved", icon: "success"});
+                tblx.ajax.reload();
+                tblx2.ajax.reload();
                 console.log('Pengajuan berhasil di-set sebagai "Approved".');
             },
             error: function () {

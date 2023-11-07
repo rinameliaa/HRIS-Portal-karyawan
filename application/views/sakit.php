@@ -97,7 +97,7 @@
     let tanggal_end = $("#txtselesai").val();
     let jenis_sakit_id = $("#cbosakit").val();
     let keterangan = $("#txtket").val();  
-    let status = "proses";
+    let status = "Proses";
     
     if( tanggal_start == "" || tanggal_end == "" || jenis_sakit_id == "" || keterangan == ""){
         swal({title:"Gagal", text:"Ada Isian Yang Kosong", icon: "error"});

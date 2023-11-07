@@ -164,7 +164,7 @@
         let jenis_cuti_id = $("#cbocuti").val();
         let sisacuti = $("#cbosisa").val();
         let keterangan = $("#txtket").val();  
-        let status = "proses";
+        let status = "Proses";
 
         if (sisacuti === "0") {
             swal({ title: "Gagal", text: "Tidak bisa mengajukan cuti karena sisa cuti Anda 0", icon: "error" });
