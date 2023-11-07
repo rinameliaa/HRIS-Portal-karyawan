@@ -185,6 +185,12 @@ class Home extends CI_Controller {
             echo base64_encode("0|Tambah Approval Date Gagal, Silahkan Cek Datanya");
         }
     }
+    public function kehadiran(){
+        $xyz["konten"] = "kehadiran";
+        $z["nama"] = $this->fullname ;
+        $this->load->view("kehadiran", $z, true);
+        $this->load->view("home", $xyz);
+    }
 
     public function pengajuan_tampil(){
         $dtJSON = '{"data": [xxx]}'; 

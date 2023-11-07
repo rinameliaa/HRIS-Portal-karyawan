@@ -1,4 +1,4 @@
-<div class="panel-header bg-primary-gradient" style="margin: -7px">
+<div class="panel-header bg-primary-gradient" style="margin-top: -30px">
     <div class="page-inner py-5">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
             <div>

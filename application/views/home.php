@@ -126,11 +126,17 @@
 						<?php if ($this->approval !== 0): ?>
 							<li class="nav-item" id="mnapprov">
 								<a href="<?=base_url('Home/approval'); ?>">
-									<i class="fas fa-home"></i>
+									<i class="fas fa-check-circle"></i>
 									<p>Approval</p>
 								</a>
 							</li>
 						<?php endif; ?>
+						<li class="nav-item" id="mnkehadiran">
+							<a href="<?=base_url('Home/kehadiran'); ?>">
+								<i class="fas fa-user-check"></i>
+								<p>Kehadiran Karyawan</p>
+							</a>
+						</li>
 					</ul>
 				</div>
 			</div>
