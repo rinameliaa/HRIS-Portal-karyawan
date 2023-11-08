@@ -76,7 +76,7 @@
 
             if (mulai) {
                 $.ajax({
-                    url: "http://103.215.177.169/hris_dev/API/Pengajuan/tipe_cuti",
+                    url: "http://103.215.177.169/hris/API/Pengajuan/tipe_cuti",
                     method: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -110,7 +110,7 @@
 
     function cutioption() {
         $.ajax({
-            url: "http://103.215.177.169/hris_dev/API/Pengajuan/tipe_cuti",
+            url: "http://103.215.177.169/hris/API/Pengajuan/tipe_cuti",
             method: "GET",
             dataType: "json",
             success: function (data) {

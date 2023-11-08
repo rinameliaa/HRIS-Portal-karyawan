@@ -81,7 +81,7 @@
 
             if (mulai) {
                 $.ajax({
-                    url: "http://103.215.177.169/hris_dev/API/Pengajuan/tipe_cuti",
+                    url: "http://103.215.177.169/hris/API/Pengajuan/tipe_cuti",
                     method: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -113,7 +113,7 @@
 
     function cutioption() {
         $.ajax({
-            url: "http://103.215.177.169/hris_dev/API/Pengajuan/tipe_cuti",
+            url: "http://103.215.177.169/hris/API/Pengajuan/tipe_cuti",
             method: "GET",
             dataType: "json",
             success: function (data) {
@@ -136,7 +136,7 @@
     function sisa_cuti(){
         let id = '<?= $iduser; ?>';
         $.ajax({
-            url: "http://103.215.177.169/hris_dev/API/Employee/checkSisaCutiTahunan?id=" + id,
+            url: "http://103.215.177.169/hris/API/Employee/checkSisaCutiTahunan?id=" + id,
             method: "GET",
             success: function (data) {
                 let cbosisa = $("#cbosisa").val(data);

@@ -11,6 +11,7 @@ class Home extends CI_Controller {
     
     public function __construct() {
         parent::__construct();
+        $this->load->library('curl');
         if ($this->session->userdata("username")) {
             $userData = $this->session->userdata("userData");
             if ($userData) {
@@ -178,6 +179,8 @@ class Home extends CI_Controller {
     public function pengajuan_approval2(){
         $id = $this->input->post('id');
         $hasil = $this->Mizin->update_approval2($id);
+        $post = $this->postPengajuanKaryawanKeHR($id);
+        // var_dump($post);return;
     
         if ($hasil == "1") {    
             echo base64_encode("1|Tambah Approval Date Berhasil,");
@@ -375,4 +378,29 @@ class Home extends CI_Controller {
     //         echo base64_encode("0|Anda Tidak Memiliki Hak Untuk Hapus Data");
     //     }
     // }
+
+    function postPengajuanKaryawanKeHR($id_pengajuan){
+        $pengajuan = $this->Mizin->getDataById($id_pengajuan);
+        $url = '';
+        $data = [
+            'employee_id' => $pengajuan->karyawan_id,
+            'from_date' => $pengajuan->karyawan_id,
+            'to_date' => $pengajuan->karyawan_id,
+            'sick_type_id' => $pengajuan->jenis_sakit_id,
+            'leave_type_id' => $pengajuan->jenis_cuti_id,
+            'izin_type_id' => $pengajuan->jenis_izin_id,
+            'reason' => $pengajuan->keterangan,
+        ];
+        if ($pengajuan->jenis_pengajuan == 'Izin') {
+           $url = "http://103.215.177.169/hris_dev/API/Pengajuan/savePengajuanIzin";
+        }else if ($pengajuan->jenis_pengajuan == 'Sakit') {
+            $url = "http://103.215.177.169/hris_dev/API/Pengajuan/savePengajuanSakit";
+        }else{
+            $url = "http://103.215.177.169/hris_dev/API/Pengajuan/savePengajuanCuti";
+
+        }
+        $insert =  $this->curl->simple_post($url, $data, array(CURLOPT_BUFFERSIZE => 10)); 
+
+        return $insert;
+    }
 }

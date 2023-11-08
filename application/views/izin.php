@@ -65,7 +65,7 @@
 
     function izinoption() {
         $.ajax({
-            url: "http://103.215.177.169/hris_dev/API/Pengajuan/tipe_izin",
+            url: "http://103.215.177.169/hris/API/Pengajuan/tipe_izin",
             method: "GET",
             dataType: "json",
             success: function (data) {

@@ -65,7 +65,7 @@
 
     function sakitoption() {
         $.ajax({
-            url: "http://103.215.177.169/hris_dev/API/Pengajuan/tipe_sakit",
+            url: "http://103.215.177.169/hris/API/Pengajuan/tipe_sakit",
             method: "GET",
             dataType: "json",
             success: function (data) {
