@@ -5,6 +5,7 @@ class Home extends CI_Controller {
     public $firstname;
     public $lastname;
     public $fullname;
+    public $jenis_gaji;
     public $approval;
     public $atasan;
     public $senior;
@@ -22,6 +23,7 @@ class Home extends CI_Controller {
                     $this->firstname = $userData->first_name;
                     $this->lastname = $userData->last_name;
                     $this->fullname = $userData->first_name . ' ' . $userData->last_name;
+                    $this->jenis_gaji = $userData->jenis_gaji;
                     $this->approval = $userData->approval_access;
                     $this->atasan = $userData->atasan_langsung_id;
                     $this->senior = $userData->superior_atasan_langsung_id;
@@ -192,6 +194,14 @@ class Home extends CI_Controller {
         $z["nama"] = $this->fullname ;
         $z["karyawan_id"] = $this->karyawan_id;
         $this->load->view("kehadiran", $z, true);
+        $this->load->view("home", $xyz);
+    }
+    public function Penggajian(){
+        $xyz["konten"] = "penggajian";
+        $z["nama"] = $this->fullname ;
+        $z["jenis_gaji"] = $this->jenis_gaji ;
+        $z["karyawan_id"] = $this->karyawan_id;
+        $this->load->view("penggajian", $z, true);
         $this->load->view("home", $xyz);
     }
 

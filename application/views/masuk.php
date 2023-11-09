@@ -98,7 +98,7 @@
                 return;
             }
             $.ajax({
-                url: "http://103.215.177.169/hris_dev/API/Employee/CheckEmployeeExist?id=" + username,
+                url: "http://103.215.177.169/hris/API/Employee/CheckEmployeeExist?id=" + username,
                 method: "GET",
                 cache: false,
                 success: function (data) {
