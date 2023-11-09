@@ -180,7 +180,6 @@ class Home extends CI_Controller {
         $id = $this->input->post('id');
         $hasil = $this->Mizin->update_approval2($id);
         $post = $this->postPengajuanKaryawanKeHR($id);
-        // var_dump($post);return;
     
         if ($hasil == "1") {    
             echo base64_encode("1|Tambah Approval Date Berhasil,");
@@ -191,6 +190,7 @@ class Home extends CI_Controller {
     public function kehadiran(){
         $xyz["konten"] = "kehadiran";
         $z["nama"] = $this->fullname ;
+        $z["karyawan_id"] = $this->karyawan_id;
         $this->load->view("kehadiran", $z, true);
         $this->load->view("home", $xyz);
     }

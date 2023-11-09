@@ -105,7 +105,13 @@
         $("#btn_reset").attr("disabled", false);
         return;
     }
-    
+    let startDate = new Date(tanggal_start);
+    let endDate = new Date(tanggal_end);
+     
+    if (startDate > endDate) {
+        swal({ title: "Gagal", text: "Tanggal mulai tidak boleh lebih besar dari tanggal selesai", icon: "error" });
+        return;
+    }
     $.ajax({
         url: "<?= base_url(); ?>" + "Home/pengajuan_tambah", 
         method: "POST",

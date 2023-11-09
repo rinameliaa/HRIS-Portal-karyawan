@@ -134,7 +134,7 @@
     }
 
     function sisa_cuti(){
-        let id = '<?= $iduser; ?>';
+        let id = '<?=$karyawan_id;?>';
         $.ajax({
             url: "http://103.215.177.169/hris/API/Employee/checkSisaCutiTahunan?id=" + id,
             method: "GET",
