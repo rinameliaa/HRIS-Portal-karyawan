@@ -1,45 +1,24 @@
-<style>
-.status-masuk {
-    background-color: white;
-    color: black;
-}
-.status-libur {
-    background-color: red;
-    color: black;
-}
-
-.status-absen {
-    background-color: yellow;
-    color: black;
-}
-
-.status-sakit {
-    background-color: orange;
-    color: black;
-}
-
-.status-izin {
-    background-color: navy;
-    color: black;
-}
-
-.status-cuti {
-    background-color: lightblue;
-    color: black;
-}
-
-.status-lembur {
-    background-color: purple;
-    color: black;
-}
-
-</style>
 <div class="panel-header bg-primary-gradient" style="margin-top: -30px">
     <div class="page-inner py-5">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
             <div>
-            <h3 class="font-weight-bold text-white">PRESENSI KEHADIRAN, <?= $nama; ?></h3>
-            <h4 class="font-weight-bold text-white">Bulan <?= date('F Y'); ?></h4>
+                <h3 class="font-weight-bold text-white">PENGGAJIAN, <?= $nama; ?></h3>
+                <h4 class="font-weight-bold text-white">Bulan <?= date('F Y'); ?></h4>
+                <div class="form-group col-md-12">
+                    <select class="form-control ftambah" id="cbotanggal">
+                    <option value="">Pilih tanggal</option>
+                        <?php
+                        $today = date('Y-m-d');
+                        $first_day = date('1/m/Y', strtotime($today));
+                        $mid_month1 = date('15/m/Y', strtotime($today));
+                        $mid_month2 = date('16/m/Y', strtotime($today));
+                        $last_day = date('t/m/Y', strtotime($today));
+                    
+                        echo "<option value='$first_day|$mid_month'>$first_day - $mid_month1</option>";
+                        echo "<option value='$mid_month|$last_day'>$mid_month2 - $last_day</option>";
+                        ?>
+                    </select>  
+                </div>
             </div>
         </div>
     </div>
