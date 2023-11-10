@@ -23,180 +23,202 @@
         </div>
     </div>
 </div>
-<div class="page-inner mt--5">
-    <div class="row mt--2">
-        <div class="col-md-2" >
-            <div class="card card-success">
-                <div class="card-body">
-                    <h4 class="text-center">Jumlah Hadir</h4>
-                    <div class="text-center" id="jmlhadir">???</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="card card-warning">
-                <div class="card-body">
-                    <h4 class="text-center">Jumlah Sakit</h4>
-                    <div class="card-category text-center" id="jmlsakit">???</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="card card-primary" >
-                <div class="card-body">
-                    <h4 class="text-center">Jumlah Izin</h4>
-                    <div class="card-category text-center" id="jmlizin">???</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="card card-info">
-                <div class="card-body">
-                    <h4 class="text-center">Jumlah Cuti</h4>
-                    <div class="card-category text-center" id="jmlcuti">???</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="card card-secondary">
-                <div class="card-body">
-                    <h4 class="text-center">Jumlah Lembur</h4>
-                    <div class="card-category text-center" id="jmllembur">???</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="card card-danger" >
-                <div class="card-body">
-                    <h4 class="text-center">Jumlah Alpha</h4>
-                    <div class="card-category text-center" id="jmlabsen">???</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="row mt--4" style="margin: 10px">
     <div class="col-md-12">
-        <div id="loader" style="display: flex; align-items: center; justify-content: center; height: 70vh;">
-            <div class="loader loader-lg"></div>
+        <div class="card" id="card_harian">
+            <div class="card-head" style="display: flex; justify-content: flex-end;">
+                <button type="button" class="btn btn-primary" style="margin: 15px; margin-bottom: -5px;" onclick="generatePDF1()"><i class="fas fa-file-pdf" style="margin-right: 5px;"></i>Cetak PDF</button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tbl-harian" border="1" style="width: 24.3cm; ">
+                        <thead>
+                            <tr>
+                                <th style="border: none; text-align: left;" >
+                                <p>Nama</p> 
+                                <p>Divisi</p> 
+                                <p>Periode</p>
+                                <p>No. Rekening</p> 
+                                <p>No.Urut</p> 
+                                </th>
+                                <th style="border:none; text-align: left;">
+                                <p>: Kalkulus</p>
+                                <p>: SPV</p>   
+                                <p>: 01-01-2023 s/d 12-12-2023</p>  
+                                <p>: 012828337 (Bank BNI)</p> 
+                                <p>: 3</p> 
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="2"><b>Gaji Pokok</b> </td>
+                                <td>110.000</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><b>Kehadiran</b> </td>
+                                <td>11,0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                <b> Lembur</b> 
+                                </td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" ><b>Revisi</b> </td> 
+                                <td><b>tambahan</b> </td>
+                                <td>0</td>
+                            </tr>
+                            <td><b>potongan</b> </td>
+                            <td>0</td>
+                            <tr>
+                                <td colspan="2"><b>BPJS Kes</b> </td>
+                                <td>0</td>
+                            </tr>
+                            <tr> 
+                                <td colspan="2"><b>BPJS TK</b> </td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                
+                                <td colspan="2" style="text-align: right;"><b>Jumlah Yang  diterima</b></td>
+                                <td>5.200.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="card" id="card">
-        <div class="card-body">
-            <div class="table-responsive">
-            <table id="tblx" class="display table table-hover" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                    <th style="width: 3">No</th>
-                    <th style="width: 10%">Tanggal</th>
-                    <th style="width: 5%">Hari</th>
-                    <th style="width: 10%">Jam Kerja</th>
-                    <th style="width: 10%">Jam Masuk</th>
-                    <th style="width: 10%">Jam Pulang</th>
-                    <!-- jika keterangan 
-                    libur merah
-                    absen kuning
-                    sakit  orange
-                    izin biru tua
-                    cuti biru muda
-                    lembur ungu
-                    disahi jumlah nya di card hadir,sakit,izin,cuti,lembur,libur,alpha = Absen -->
-                    <th style="width: 5%">Status</th>
-                    <th style="width: 5%">Terlambat (menit)</th>
-                    <th style="width: 5%">Pulang Cepat (menit)</th>
-                    <th style="width: 5%">Lembur (menit)</th>
-                    <th style="width: 5%">Total Jam Kerja (menit)</th>
-                    <th style="width: 15%">Keterangan</th>
-                    </tr>
-                </thead>
-            </table>
+        <div class="card" id="card_borongan">
+            <div class="card-head" style="display: flex; justify-content: flex-end;">
+                <button type="button" class="btn btn-primary" style="margin: 15px; margin-bottom: -5px;" onclick="generatePDF2()"><i class="fas fa-file-pdf" style="margin-right: 5px;"></i>Cetak PDF</button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tbl-borongan" border="1" style="width: 24.3cm;">
+                        <thead>
+                            <tr>
+                                <th style="border: none; text-align: left;">
+                                    <p>Nama </p>
+                                    <p>Divisi </p>
+                                    <p>Periode</p>
+                                    <p>No.Rekening </p>
+                                </th>
+                                <th style="border: none; text-align: left;">
+                                    <p>: NIA NUR FARIDA</p>
+                                    <p>: Cabut & DRY</p>
+                                    <p>: 01-10-2023 s/d 15-10-2023</p>
+                                    <p>: 1117992701 (Bank BNI)</p>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Tanggal</th>
+                                <th>Jumlah gram</th>
+                                <th>Jumlah</th>
+                                <th>Intensif</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="2">Minggu 01-10-2023</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Senin 02-10-2023</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Selasa 03-10-2023</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Rabu 04-10-2023</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td rowspan="2">
+                                    <b>Revisi</b>
+                                </td>
+                                <td>
+                                    <b>Tambahan</b>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Potongan</b>
+                                </td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <b>BPJS Kes</b>
+                                </td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <b>BPJS TK</b>
+                                </td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="text-align: right;"><b>Jumlah yang Diterima</b></td>
+                                <td>0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>  
     $("#mnpenggajian").addClass("active");
-    tampil_presensi();
-    function tampil_presensi(){
-        $("#loader").show();
-        $("#card").hide();
-        $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=" + '<?= $karyawan_id; ?>', 
-            method: "GET",
-            success: function (data) {
-                // "Hadir" 
-                var hadirData = data.filter(item => item.status == "Hadir");
-                var jumlahHadir = hadirData.length;
-                $('#jmlhadir').text(jumlahHadir);
-                // "Sakit" 
-                var sakitData = data.filter(item => item.status === "Sakit");
-                var jumlahSakit = sakitData.length;
-                $('#jmlsakit').text(jumlahSakit);
-
-                // "Izin" 
-                var izinData = data.filter(item => item.status === "Izin");
-                var jumlahIzin = izinData.length;
-                $('#jmlizin').text(jumlahIzin);
-
-                // "Cuti" 
-                var cutiData = data.filter(item => item.status === "Cuti");
-                var jumlahCuti = cutiData.length;
-                $('#jmlcuti').text(jumlahCuti);
-
-                // "Lembur" 
-                var lemburData = data.filter(item => item.status === "Lembur");
-                var jumlahLembur = lemburData.length;
-                $('#jmllembur').text(jumlahLembur);
-
-                // "Absen" 
-                var absenData = data.filter(item => item.status === "Absen");
-                var jumlahAbsen = absenData.length;
-                $('#jmlabsen').text(jumlahAbsen);
-            
-                let dataTable = $("#tblx").DataTable({
-                    data: data,
-                    columns: [
-                        { data: "no" },
-                        { data: "tanggal" },
-                        { data: "hari" },
-                        { data: "jam_kerja" },
-                        { data: "jam_masuk" },
-                        { data: "jam_pulang" },
-                        { data: "status" },
-                        { data: "terlambat" },
-                        { data: "pulang_cepat" },
-                        { data: "lembur" },
-                        { data: "total_jam_kerja" },
-                        { data: "keterangan" },
-                    ],
-                    rowCallback: function (row, data) {
-                        let status = data.status;
-                        if (status == "Hadir") {
-                            $(row).addClass("status-masuk");
-                        } else if (status == "Libur") {
-                            $(row).addClass("status-libur");
-                        } else if (status == "Absen") {
-                            $(row).addClass("status-absen");
-                        } else if (status == "Sakit") {
-                            $(row).addClass("status-sakit");
-                        } else if (status == "Izin") {
-                            $(row).addClass("status-izin");
-                        } else if (status == "Cuti") {
-                            $(row).addClass("status-cuti");
-                        } else if (status == "Lembur") {
-                            $(row).addClass("status-lembur");
-                        }
-                    },
-                });
-                $("#loader").hide();
-                $("#card").show();
-            },
-            error: function () {
-                console.error("Gagal mengambil data dari API");
-                $("#loader").hide();
-                $("#card").show();
-            }
-        }); 
+    jenis_gaji();
+    function jenis_gaji(){
+        // var jenis_gaji = "Harian";
+        var jenis_gaji = '<?= $jenis_gaji; ?>';
+        if (jenis_gaji === "Borongan") {
+            $("#card_borongan").show();
+            $("#card_harian").hide();
+        } else if (jenis_gaji === "Harian") {
+            $("#card_borongan").hide();
+            $("#card_harian").show();
+        } else {
+            console.log("Jenis gaji tidak valid");
+        }
+    }
+    
+    function generatePDF1() {
+        printJS({
+            printable: 'tbl-harian',  
+            type: 'html',
+            documentTitle: 'Penggajian Bulan <?= date('F'); ?>.pdf' 
+        });
+    }
+    function generatePDF2() {
+        printJS({
+            printable: 'tbl-borongan',  
+            type: 'html',
+            documentTitle: 'Penggajian Bulan <?= date('F'); ?>.pdf' 
+        });
     }
 
 </script>

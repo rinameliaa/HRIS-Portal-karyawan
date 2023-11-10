@@ -5,6 +5,7 @@
 	<title>Akui Bird Nest</title>
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<link rel="icon" href="<?= base_url(); ?>assets/img/icon.ico" type="image/x-icon"/>
+	<link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css">
 	<script src="<?= base_url(); ?>assets/js/plugin/webfont/webfont.min.js"></script>
 	<script>
 		WebFont.load({
@@ -21,6 +22,8 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+
 </head>
 <body>
 	<div class="wrapper">
