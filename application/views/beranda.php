@@ -57,6 +57,7 @@
                     <th style="width: 15%">Jenis Pengajuan</th>
                     <th style="width: 30%">Tanggal Mulai-Selesai</th>
                     <th style="width: 15%">Keterangan</th>
+                    <th style="width: 15%">Keterangan Ditolak</th>
                     <th style="width: 5%">Status</th>
                     </tr>
                 </thead>

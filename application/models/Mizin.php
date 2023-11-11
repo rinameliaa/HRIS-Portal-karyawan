@@ -21,7 +21,7 @@ class Mizin extends CI_Model {
         }
     }
 
-    public function tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $create) {
+    public function tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $ket_cancel, $create) {
         $data = array(
             'id' => $id,
             'user_id' => $user_id,
@@ -39,6 +39,7 @@ class Mizin extends CI_Model {
             'approval1_date' => $approval1_date,
             'approval2_date' => $approval2_date,
             'status' => $status,
+            'ket_cancel' => $ket_cancel,
             'create' => $create
         );
     
@@ -93,7 +94,7 @@ class Mizin extends CI_Model {
     }
 
     public function jmlApproval1($z) {
-        $sql = "SELECT COUNT(*) AS jumlah_approval1 FROM pengajuan_karyawan WHERE karyawan_id_approval1 = ? AND approval1_date IS NULL";
+        $sql = "SELECT COUNT(*) AS jumlah_approval1 FROM pengajuan_karyawan WHERE karyawan_id_approval1 = ? AND approval1_date IS NULL AND status != 'Cancel'";
         $data = $this->db->query($sql, array($z));
         if ($data) {
             return $data->row()->jumlah_approval1;
@@ -113,7 +114,7 @@ class Mizin extends CI_Model {
     } 
     
     public function tampilapproval1($z){
-        $sql = "SELECT * FROM pengajuan_karyawan WHERE karyawan_id_approval1 = ? AND approval1_date IS NULL";
+        $sql = "SELECT * FROM pengajuan_karyawan WHERE karyawan_id_approval1 = ? AND approval1_date IS NULL AND status != 'Cancel'";
         $data = $this->db->query($sql, array($z));
         if ($data) {
             return $data->result();
@@ -134,7 +135,8 @@ class Mizin extends CI_Model {
 
     public function update_approval1($id){
         $data = array(
-            'approval1_date' => date('Y-m-d H:i:s')
+            'approval1_date' => date('Y-m-d H:i:s'),
+            'status' => "Approved 1",
         );
         $this->db->where('id', $id);
         $sql = $this->db->update('pengajuan_karyawan', $data);
@@ -150,6 +152,20 @@ class Mizin extends CI_Model {
         $data = array(
             'approval2_date' => date('Y-m-d H:i:s'),
             'status' => "Disetujui"
+        );
+        $this->db->where('id', $id);
+        $sql = $this->db->update('pengajuan_karyawan', $data);
+
+        if($sql){
+                return "1";
+        }else{
+                return "0";
+        }
+    }
+    public function update_cancel($id,$ket_cancel){
+        $data = array(
+            'status' => "Cancel",
+            'ket_cancel' => $ket_cancel,
         );
         $this->db->where('id', $id);
         $sql = $this->db->update('pengajuan_karyawan', $data);
