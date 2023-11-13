@@ -176,25 +176,26 @@
         });
     }
 
-    function tampil_harian(){
+    function tampil_harian() {
         $("#loader").show();
         let tanggal = $("#cbotanggal").val();
         var range = tanggal.split("|");
         let start = range[0];
         let end = range[1];
-        if(tanggal === 0){
-            swal({ title: "Gagal", text: "Pilih tanggal terleboih dahulu", icon: "error" });
-                return;
+
+        if (!tanggal) {
+            swal({ title: "Gagal", text: "Pilih tanggal terlebih dahulu", icon: "error" });
+            return;
         }
         $("#card_harian").hide();
         $("#tbl-harian").empty();
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/payslip_harian?employee_id=JBG-2019-129&start_date=2023-10-01&end_date=2023-10-15",
-            // url: "http://103.215.177.169/hris/API/Employee/payslip_harian?employee_id=<?= $karyawan_id ?>&start_date=" + start + "&end_date=" + end ,
+            url: "http://103.215.177.169/hris/API/Employee/payslip_harian?employee_id=<?= $karyawan_id ?>&start_date=2023-10-01&end_date=2023-10-15",
             method: "GET",
             success: function (data) {
-                var ambildata = data;
-                ambildata.forEach(function (item) {
+                if (data.length > 0) {
+                    var item = data[0]; 
+
                     var newRow = $("<tr>");
                     newRow.append(
                         "<th style='border:none; text-align: left;'>" +
@@ -208,11 +209,11 @@
                             "<p>: " + item.fullname + "</p>" +
                             "<p>: SPV</p>" +
                             "<p>: " + start + " s/d " + end + "</p>" +
-                            "<p>: " + item.rekening + " (Bank BNI)</p>" +
+                            "<p>: " + item.rekening + "</p>" +
                             "<p>: 3 </p>" +
                         "</th>"
                     );
-                    $("#tbl-harian").append(newRow);
+                    $("#tbl-harian").empty().append(newRow);
                     $("#tbl-harian").append(
                         "<tr>" +
                         "<td colspan='2'><b>Gaji Pokok</b></td>" +
@@ -248,14 +249,21 @@
                         "<td>" + item.total_gaji + "</td>" +
                         "</tr>"
                     );
-                });
-                $("#loader").hide();
-                $("#card_harian").show();
+                    $("#loader").hide();
+                    $("#card_harian").show();
+                } else {
+                    swal({ title: "Gagal", text: "Data tidak ditemukan", icon: "error" });
+                    $("#loader").hide();
+                }
             },
             error: function (error) {
                 console.log("Error fetching data: " + JSON.stringify(error));
+                $("#loader").hide();
             }
         });
     }
 
+    // url: "http://103.215.177.169/hris/API/Employee/payslip_harian?employee_id=<?= $karyawan_id ?>&start_date=" + start + "&end_date=" + end ,
 </script>
+
+    
