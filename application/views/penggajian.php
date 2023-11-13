@@ -145,19 +145,96 @@
     $("#card_borongan").hide();
     $("#loader").hide();
     
-    // jenis_gaji();
-    // function jenis_gaji(){
-    //     var jenis_gaji = '<?= $jenis_gaji; ?>';
-    //     if (jenis_gaji === "Borongan") {
-    //         $("#card_borongan").show();
-    //         $("#card_harian").hide();
-    //     } else if (jenis_gaji === "Harian") {
-    //         $("#card_borongan").hide();
-    //         $("#card_harian").show();
-    //     } else {
-    //         console.log("Jenis gaji tidak valid");
-    //     }
-    // }
+    jenis_gaji();
+    function jenis_gaji(){
+        var jenis_gaji = '<?= $jenis_gaji; ?>';
+        if (jenis_gaji === "Borongan") {
+            $("#card_borongan").hide();
+            $("#card_harian").hide();
+        } else if (jenis_gaji === "Harian") {      
+            function tampil(){
+                $("#loader").show();
+                let tanggal = $("#cbotanggal").val();
+                var range = tanggal.split("|");
+                let start = range[0];
+                let end = range[1];
+                if(tanggal === 0){
+                    swal({ title: "Gagal", text: "Pilih tanggal terleboih dahulu", icon: "error" });
+                        return;
+                }
+                $.ajax({
+                    url: "http://103.215.177.169/hris/API/Employee/payslip_harian?employee_id=JBG-2019-129&start_date=2023-10-01&end_date=2023-10-15",
+                    // url: "http://103.215.177.169/hris/API/Employee/payslip_harian?employee_id=<?= $karyawan_id ?>&start_date=" + start + "&end_date=" + end ,
+                    method: "GET",
+                    success: function (data) {
+                        var ambildata = data;
+                        ambildata.forEach(function (item) {
+                            var newRow = $("<tr>");
+                            newRow.append(
+                                "<th style='border:none; text-align: left;'>" +
+                                    "<p>Nama</p>" +
+                                    "<p>Divisi</p>" +
+                                    "<p>Periode</p>" +
+                                    "<p>No. Rekening</p>" +
+                                    "<p>No.Urut</p>" +
+                                "</th>" +
+                                "<th style='border:none; text-align: left;'>" +
+                                    "<p>: " + item.fullname + "</p>" +
+                                    "<p>: SPV</p>" +
+                                    "<p>: " + start + " s/d " + end + "</p>" +
+                                    "<p>: " + item.rekening + " (Bank BNI)</p>" +
+                                    "<p>: 3 </p>" +
+                                "</th>"
+                            );
+                            $("#tbl-harian").append(newRow);
+                            $("#tbl-harian").append(
+                                "<tr>" +
+                                "<td colspan='2'><b>Gaji Pokok</b></td>" +
+                                "<td>" + item.gaji_pokok + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td colspan='2'><b>Kehadiran</b></td>" +
+                                "<td>" + item.kehadiran + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td colspan='2'><b>Lembur</b></td>" +
+                                "<td>" + item.lembur + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td rowspan='2'><b>Revisi</b></td>" +
+                                "<td><b>Tambahan</b></td>" +
+                                "<td>" + item.tambahan + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td><b>Potongan</b></td>" +
+                                "<td>" + item.potongan + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td colspan='2'><b>BPJS Kes</b></td>" +
+                                "<td>" + item.bpjs_kes + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td colspan='2'><b>BPJS TK</b></td>" +
+                                "<td>" + item.bpjs_tk + "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td colspan='2' style='text-align: right;'><b>Jumlah Yang  diterima</b></td>" +
+                                "<td>" + item.total_gaji + "</td>" +
+                                "</tr>"
+                            );
+                        });
+                        $("#loader").hide();
+                        $("#card_harian").show();
+                    },
+                    error: function (error) {
+                        console.log("Error fetching data: " + JSON.stringify(error));
+                    }
+                });
+            }
+        } else {
+            console.log("Jenis gaji tidak valid");
+        }
+    }
     
     function generatePDF1() {
         printJS({

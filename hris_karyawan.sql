@@ -3,13 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 07, 2023 at 01:56 AM
+-- Generation Time: Nov 13, 2023 at 01:19 AM
 -- Server version: 8.0.30
 -- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+7:00";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,7 +18,7 @@ SET time_zone = "+7:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `akuibird`
+-- Database: `hris_karyawan`
 --
 
 -- --------------------------------------------------------
@@ -44,6 +44,7 @@ CREATE TABLE `pengajuan_karyawan` (
   `approval1_date` datetime DEFAULT NULL,
   `approval2_date` datetime DEFAULT NULL,
   `status` varchar(25) NOT NULL,
+  `ket_cancel` varchar(250) NOT NULL,
   `create` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -51,11 +52,11 @@ CREATE TABLE `pengajuan_karyawan` (
 -- Dumping data for table `pengajuan_karyawan`
 --
 
-INSERT INTO `pengajuan_karyawan` (`id`, `karyawan_id`, `nama`, `jenis_pengajuan`, `tanggal_start`, `tanggal_end`, `jenis_izin_id`, `jenis_cuti_id`, `jenis_sakit_id`, `keterangan`, `karyawan_id_approval1`, `karyawan_id_approval2`, `approval1_date`, `approval2_date`, `status`, `create`) VALUES
-(1699317698, 'JBG-2019-095', 'ANANG SISWANTO', 'Izin', '2023-11-09', '2023-11-13', 9, 0, 0, 'liburan', 'JBG-2021-824', 'JBG-2021-824', '2023-11-07 00:54:06', '2023-11-07 00:55:18', 'Disetujui', '2023-11-07 00:41:38'),
-(1699319444, 'JBG-2019-095', 'ANANG SISWANTO', 'Cuti Khusus', '2023-11-08', '2023-11-10', 0, 4, 0, 'menikah', '630', NULL, NULL, NULL, 'Proses', '2023-11-07 01:10:44'),
-(1699320056, 'JBG-2019-095', 'ANANG SISWANTO', 'Cuti Khusus', '2023-11-08', '2023-11-10', 0, 4, 0, 'aaaa', '630', NULL, NULL, NULL, 'Proses', '2023-11-07 01:20:56'),
-(1699320214, 'JBG-2019-095', 'ANANG SISWANTO', 'Sakit', '2023-11-08', '2023-11-09', 0, 0, 11, 'tiba tiba flu', '630', NULL, NULL, NULL, 'Proses', '2023-11-07 01:23:34');
+INSERT INTO `pengajuan_karyawan` (`id`, `user_id`, `karyawan_id`, `nama`, `jenis_pengajuan`, `tanggal_start`, `tanggal_end`, `jenis_izin_id`, `jenis_cuti_id`, `jenis_sakit_id`, `keterangan`, `karyawan_id_approval1`, `karyawan_id_approval2`, `approval1_date`, `approval2_date`, `status`, `ket_cancel`, `create`) VALUES
+(1699491015, 1, 'JBG-2019-095', 'ANANG SISWANTO', 'Izin', '2023-11-11', '2023-11-13', 9, 0, 0, 'liburan', '630', NULL, NULL, NULL, 'Proses', '', '2023-11-09 07:50:15'),
+(1699492005, 1, 'JBG-2019-095', 'ANANG SISWANTO', 'Sakit', '2023-11-18', '2023-11-19', 0, 0, 11, 'banyak minum es', '630', NULL, NULL, NULL, 'Proses', '', '2023-11-09 08:06:45'),
+(1699666820, 119, 'JBG-2019-129', 'LULUK MUNZIDAH', 'Izin', '2023-11-16', '2023-11-17', 9, 0, 0, 'izin keperluan mendadak', '46', '26', NULL, NULL, 'Proses', '', '2023-11-11 08:40:20'),
+(1699666848, 119, 'JBG-2019-129', 'LULUK MUNZIDAH', 'Sakit', '2023-11-12', '2023-11-12', 0, 0, 9, 'sakit', '1', '1', NULL, NULL, 'Cancel', 'sudah banyak', '2023-11-11 08:40:48');
 
 --
 -- Indexes for dumped tables
@@ -75,7 +76,7 @@ ALTER TABLE `pengajuan_karyawan`
 -- AUTO_INCREMENT for table `pengajuan_karyawan`
 --
 ALTER TABLE `pengajuan_karyawan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1699320215;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1699666849;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
