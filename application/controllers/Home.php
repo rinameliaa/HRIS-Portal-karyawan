@@ -295,11 +295,11 @@ class Home extends CI_Controller {
             'reason' => $pengajuan->keterangan,
         ];
         if ($pengajuan->jenis_pengajuan == 'Izin') {
-           $url = "http://103.215.177.169/hris_dev/API/Pengajuan/savePengajuanIzin";
+           $url = "http://103.215.177.169/hris/API/Pengajuan/savePengajuanIzin";
         }else if ($pengajuan->jenis_pengajuan == 'Sakit') {
-            $url = "http://103.215.177.169/hris_dev/API/Pengajuan/savePengajuanSakit";
+            $url = "http://103.215.177.169/hris/API/Pengajuan/savePengajuanSakit";
         }else{
-            $url = "http://103.215.177.169/hris_dev/API/Pengajuan/savePengajuanCuti";
+            $url = "http://103.215.177.169/hris/API/Pengajuan/savePengajuanCuti";
 
         }
         $insert =  $this->curl->simple_post($url, $data, array(CURLOPT_BUFFERSIZE => 10)); 
