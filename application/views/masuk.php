@@ -43,10 +43,9 @@
             }
             .blok-info {
                 z-index: 2;
-                top : 100px;
-                right : 0;
-                margin-right: 15px;
-                margin-left: 15px;
+                top: 50%;
+                left: 50%; 
+                transform: translate(-50%, -50%);
                 position : fixed;
                 border-radius : 15px;
             }
