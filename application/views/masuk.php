@@ -55,10 +55,10 @@
     <div class="backround">
         <img src="<?= base_url(); ?>assets/img/logo2.jpg" class="fullscreen">
     </div>
-    <div class="card blok-info" style="width: 10cm; right: 0;">
+    <div class="card blok-info" style="width: 7cm; right: 0;">
         <div class="card-body">
             <form>
-                <img src="<?= base_url(); ?>assets/img/logo1.png" style="display: block;margin: 0 auto; text-align: center;">
+                <img src="<?= base_url(); ?>assets/img/logo1.png" style="width: 5cm; display: block;margin: 0 auto; text-align: center;">
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" class="form-control" id="txtus" placeholder="Masukkan Username">
