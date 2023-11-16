@@ -183,7 +183,7 @@
         
         if (startDate > endDate) {
             swal({ title: "Gagal", text: "Tanggal mulai tidak boleh lebih besar dari tanggal selesai", icon: "error" });
-        } else if (startDate <= endDate && endDate > startDate) {
+        } else if (startDate <= endDate && endDate >= startDate) {
             let timeDiff = endDate.getTime() - startDate.getTime();
             let dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
 

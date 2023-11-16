@@ -98,11 +98,12 @@
                 return;
             }
             $.ajax({
-                url: "http://103.215.177.169/hris/API/Employee/CheckEmployeeExist?id=" + username,
+                url: "http://103.215.177.169/hris/API/Employee/CheckEmployeeExist?id=" + username + '&password='+pass,
                 method: "GET",
                 cache: false,
                 success: function (data) {
-                    if (data && data.length > 0 && data[0].employee_id === username && pass === "admin123") {
+                    // if (data && data.length > 0 && data[0].employee_id === username && pass === "admin123") {
+                    if (data && data.length > 0 && data[0].employee_id === username) {
                         let userData = JSON.stringify(data[0]);
                         $.ajax({
                             url: "<?= base_url(); ?>" + "Login/saveUserData",
