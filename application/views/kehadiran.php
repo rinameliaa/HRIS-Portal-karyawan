@@ -38,7 +38,7 @@
     <div class="page-inner py-5">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
             <div>
-            <h3 class="font-weight-bold text-white">PRESENSI KEHADIRAN, <?= $nama; ?></h3>
+            <h3 class="font-weight-bold text-white">SELAMAT DATANG, <?= $nama; ?> (<?= $karyawan_id; ?>)</h3>
             <h4 class="font-weight-bold text-white">Bulan <?= date('F Y'); ?></h4>
             </div>
         </div>

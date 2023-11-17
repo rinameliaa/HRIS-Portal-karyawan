@@ -21,7 +21,7 @@ class Mizin extends CI_Model {
         }
     }
 
-    public function tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $ket_cancel, $create) {
+    public function tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $approval_cancel_date, $status, $ket_cancel, $create) {
         $data = array(
             'id' => $id,
             'user_id' => $user_id,
@@ -38,6 +38,7 @@ class Mizin extends CI_Model {
             'karyawan_id_approval2' => $karyawan_id_approval2,
             'approval1_date' => $approval1_date,
             'approval2_date' => $approval2_date,
+            'approval_cancel_date' => $approval_cancel_date,
             'status' => $status,
             'ket_cancel' => $ket_cancel,
             'create' => $create
@@ -53,6 +54,17 @@ class Mizin extends CI_Model {
         }
     }       
     
+    public function hapus_pengajuan($id){
+        $this->db->where('id', $id);
+        $sql = $this->db->delete('pengajuan_karyawan');
+    
+        if($sql){
+            return "1";
+        } else {
+            return "0";
+        }
+    }
+
     public function jmlIzin($z) {
         $sql = "SELECT COUNT(*) AS jumlah_izin FROM pengajuan_karyawan WHERE jenis_pengajuan = 'Izin' AND karyawan_id = ?";
         $data = $this->db->query($sql, array($z));
@@ -164,6 +176,7 @@ class Mizin extends CI_Model {
     }
     public function update_cancel($id,$ket_cancel){
         $data = array(
+            'approval_cancel_date' => date('Y-m-d H:i:s'),
             'status' => "Cancel",
             'ket_cancel' => $ket_cancel,
         );

@@ -42,6 +42,7 @@ class Home extends CI_Controller {
 	public function index(){
         $xyz["konten"] = "beranda";
         $z["nama"] = $this->fullname ;
+        $z["karyawan_id"] = $this->karyawan_id;
         $z["approval"] = $this->approval ;
         $this->load->view("beranda", $z, true);
         $this->load->view("home", $xyz);
@@ -109,6 +110,7 @@ class Home extends CI_Controller {
     public function approval(){
         $xyz["konten"] = "approval";
         $z["nama"] = $this->fullname ;
+        $z["karyawan_id"] = $this->karyawan_id;
         $this->load->view("approval", $z, true);
         $this->load->view("home", $xyz);
     }
@@ -117,13 +119,11 @@ class Home extends CI_Controller {
         $jumlah_approval1 = $this->Mizin->jmlApproval1($z);
         echo $jumlah_approval1;
     }
-
     public function jumlahApproval2(){
         $z = $this->user_id;
         $jumlah_approval2 = $this->Mizin->jmlApproval2($z);
         echo $jumlah_approval2;
     }
-
     public function approval1_tampil(){
         $dtJSON = '{"data": [xxx]}'; 
         $dtisi = "";
@@ -200,6 +200,16 @@ class Home extends CI_Controller {
             echo base64_encode("0|Cancel Pengajuan Gagal, Silahkan Cek Datanya");
         }
     }
+    public function pengajuan_hapus(){
+        $id = $this->input->post('id');
+        $hasil = $this->Mizin->hapus_pengajuan($id);
+    
+        if ($hasil == "1") {    
+            echo base64_encode("1|Hapus Pengajuan Berhasil,");
+        } else {
+            echo base64_encode("0|Hapus Pengajuan, Silahkan Cek Datanya");
+        }
+    }
     public function kehadiran(){
         $xyz["konten"] = "kehadiran";
         $z["nama"] = $this->fullname ;
@@ -222,29 +232,24 @@ class Home extends CI_Controller {
         $z = $this->karyawan_id;
         $dt = $this->Mizin->data($z);
         foreach ($dt as $k) {
+            $id = $k->id;
             $karyawan_id = $k->karyawan_id;
             $nama = $k->nama;
             $jenis_pengajuan = $k->jenis_pengajuan;
+            $create = $k->create;
             $tanggal_start = $k->tanggal_start;
             $tanggal_end = $k->tanggal_end;
             $keterangan = $k->keterangan;
+            $approval1_date = empty($k->approval1_date) ? (empty($k->approval_cancel_date) ? '-' : $k->approval_cancel_date) : $k->approval1_date;
+            $approval2_date = empty($k->approval2_date) ? (empty($k->approval_cancel_date) ? '-' : $k->approval_cancel_date) : $k->approval2_date;
             $status = $k->status;
-            $ket_cancel = $k->ket_cancel; 
-        
-            $ttl = $tanggal_start . " s/d " . $tanggal_end;
-            $dtisi .= '["' . $karyawan_id . '","' . $nama . '","' . $jenis_pengajuan . '","' . $ttl . '","' . $keterangan . '","' . $ket_cancel . '",';
-        
-            if ($status === "Proses") {
-                $dtisi .= '"<button type=\"button\" class=\"btn btn-primary\">Proses</button>"],';
-            } elseif ($status === "Approved 1") {
-                $dtisi .= '"<button type=\"button\" class=\"btn btn-warning\">Approved 1</button>"],';
-            } elseif ($status === "Disetujui") {
-                $dtisi .= '"<button type=\"button\" class=\"btn btn-success\">Disetujui</button>"],';
-            } elseif ($status === "Cancel") {
-                $dtisi .= '"<button type=\"button\" class=\"btn btn-danger\">Ditolak</button>"],';
-            } else {
-                $dtisi .= '"Status tidak valid"],';
+            $ket_cancel = $k->ket_cancel;
+            if (empty($ket_cancel)) {
+                $ket_cancel = '-';
             }
+            $action = "<button type='button' class='btn btn-danger' onclick='hapus($id)' style='margin:5px;'>Hapus</button>";
+            $ttl = $tanggal_start . " s/d " . $tanggal_end;
+            $dtisi .= '["' . $karyawan_id . '","' . $nama . '","' . $jenis_pengajuan . '","' . $create . '","' . $ttl . '","' . $keterangan . '","' . $approval1_date . '","' . $approval2_date . '","' . $status . '","' . $ket_cancel . '","' . $action . '"],';
         }
         $dtisifix = rtrim($dtisi, ",");
         $data = str_replace("xxx", $dtisifix, $dtJSON);
@@ -270,10 +275,11 @@ class Home extends CI_Controller {
         }
         $approval1_date = NULL;
         $approval2_date = NULL;
-        $create = date('Y-m-d H:i:s');
-        $status = trim(str_replace("'", "''", $this->input->post("status")));
+        $approval_cancel_date = NULL;
         $ket_cancel = NULL;
-        $hasil = $this->Mizin->tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $status, $ket_cancel, $create);
+        $status = trim(str_replace("'", "''", $this->input->post("status")));
+        $create = date('Y-m-d H:i:s');
+        $hasil = $this->Mizin->tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date,$approval_cancel_date, $status, $ket_cancel, $create);
     
         if ($hasil == "1") {    
             echo base64_encode("1|Tambah Permohonan Berhasil,");

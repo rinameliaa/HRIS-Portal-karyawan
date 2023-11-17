@@ -2,7 +2,7 @@
     <div class="page-inner py-5">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
             <div>
-            <h3 class="font-weight-bold text-white">SELAMAT DATANG, <?= $nama; ?></h3>
+            <h3 class="font-weight-bold text-white">SELAMAT DATANG, <?= $nama; ?> (<?= $karyawan_id; ?>)</h3>
                 <h4 class="text-white op-7 mb-2">Data Pengajuan Karyawan</h4>
             </div>
         </div>
@@ -180,7 +180,9 @@
                                 },
                             }
                         }).then(() => {
+                            tblx.ajax.reload();
                             tblx1.ajax.reload();
+                            tblx2.ajax.reload();
                         });
                     },
                     error: function () {
@@ -232,6 +234,7 @@
                         }).then(() => {
                             tblx.ajax.reload();
                             tblx1.ajax.reload();
+                            tblx2.ajax.reload();
                         });
                     },
                     error: function () {
@@ -248,59 +251,34 @@
         });
     }
     function cancel(id) {
-        swal({
-            title: 'Keterangan Cancel',
-            html: '',
-            content: {
-                element: "input",
-                attributes: {
-                    placeholder: "Input Something",
-                    type: "text",
-                    id: "input-field",
-                    className: "form-control"
+        swal({title: 'Keterangan Cancel', html: '',content: { element: "input", attributes: { placeholder: "Input Something",type: "text", id: "input-field",className: "form-control"},},
+            buttons: {confirm: { text: 'Ya', className: 'btn btn-success'
                 },
-            },
-            buttons: {
-                confirm: {
-                    text: 'Ya',
-                    className: 'btn btn-success'
-                },
-                cancel: {
-                    text: 'Batal',
-                    className: 'btn btn-danger',
-                    visible: true,
+                cancel: { text: 'Batal', className: 'btn btn-danger', visible: true,
                 }
             }
-        }).then(() => {
-            let ket_cancel = $("#input-field").val();
-            $.ajax({
-                url: "<?= base_url(); ?>" + "Home/pengajuan_cancel",
-                method: 'POST',
-                data: { id: id, ket_cancel: ket_cancel },
-                success: function (result) {
-                    swal({
-                        title: "Berhasil",
-                        text: "Berhasil Cancel",
-                        icon: "success",
-                        buttons: {
-                            confirm: {
-                                text: 'OK',
-                                className: 'btn btn-success'
-                            },
-                        }
-                    }).then(() => {
-                        tblx.ajax.reload();
-                        tblx1.ajax.reload();
-                    });
-                },
-                error: function () {
-                    swal({
-                        title: "Gagal",
-                        text: "Gagal Cancel",
-                        icon: "error"
-                    });
-                }
-            });
+        }).then((confirmed) => {
+            if (confirmed) {
+                let ket_cancel = $("#input-field").val();
+                $.ajax({
+                    url: "<?= base_url(); ?>" + "Home/pengajuan_cancel",
+                    method: 'POST',
+                    data: { id: id, ket_cancel: ket_cancel },
+                    success: function (result) {
+                        swal({title: "Berhasil", text: "Berhasil Cancel",icon: "success", 
+                            buttons: {confirm: {text: 'OK', className: 'btn btn-success'},
+                            }
+                        }).then(() => {
+                            tblx.ajax.reload();
+                            tblx1.ajax.reload();
+                            tblx2.ajax.reload();
+                        });
+                    },
+                    error: function () {
+                        swal({title: "Gagal", text: "Gagal Cancel", icon: "error"});
+                    }
+                });
+            }
         });
     }
 
