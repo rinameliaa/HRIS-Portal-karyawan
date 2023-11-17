@@ -37,13 +37,14 @@
                     <table id="tblx" class="display table table-striped table-hover">
                         <thead>
                             <tr>
-                            <th style="width: 15">Id Karyawan</th>
-                            <th style="width: 15%">Nama Karyawan</th>
-                            <th style="width: 15%">Jenis Pengajuan</th>
-                            <th style="width: 30%">Tanggal Mulai-Selesai</th>
-                            <th style="width: 15%">Keterangan</th>
-                            <th style="width: 5%">Status</th>
-                            <th style="width: 5%">Action</th>
+                            <th style="text-align: center">Id Karyawan</th>
+                            <th style="text-align: center">Nama Karyawan</th>
+                            <th style="text-align: center">Jenis Pengajuan</th>
+                            <th style="text-align: center">Tanggal Pengajuan</th>
+                            <th style="text-align: center">Tanggal Mulai-Selesai</th>
+                            <th style="text-align: center">Keterangan</th>
+                            <th style="text-align: center">Status</th>
+                            <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -52,13 +53,14 @@
                     <table id="tblx1" class="display table table-striped table-hover">
                         <thead>
                             <tr>
-                            <th style="width: 15">Id Karyawan</th>
-                            <th style="width: 15%">Nama Karyawan</th>
-                            <th style="width: 15%">Jenis Pengajuan</th>
-                            <th style="width: 30%">Tanggal Mulai-Selesai</th>
-                            <th style="width: 15%">Keterangan</th>
-                            <th style="width: 5%">Status</th>
-                            <th style="width: 5%">Action</th>
+                            <th style="text-align: center">Id Karyawan</th>
+                            <th style="text-align: center">Nama Karyawan</th>
+                            <th style="text-align: center">Jenis Pengajuan</th>
+                            <th style="text-align: center">Tanggal Pengajuan</th>
+                            <th style="text-align: center">Tanggal Mulai-Selesai</th>
+                            <th style="text-align: center">Keterangan</th>
+                            <th style="text-align: center">Status</th>
+                            <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -67,13 +69,14 @@
                     <table id="tblx2" class="display table table-striped table-hover">
                         <thead>
                             <tr>
-                            <th style="width: 15">Id Karyawan</th>
-                            <th style="width: 15%">Nama Karyawan</th>
-                            <th style="width: 15%">Jenis Pengajuan</th>
-                            <th style="width: 30%">Tanggal Mulai-Selesai</th>
-                            <th style="width: 15%">Keterangan</th>
-                            <th style="width: 5%">Status</th>
-                            <th style="width: 5%">Action</th>
+                            <th style="text-align: center">Id Karyawan</th>
+                            <th style="text-align: center">Nama Karyawan</th>
+                            <th style="text-align: center">Jenis Pengajuan</th>
+                            <th style="text-align: center">Tanggal Pengajuan</th>
+                            <th style="text-align: center">Tanggal Mulai-Selesai</th>
+                            <th style="text-align: center">Keterangan</th>
+                            <th style="text-align: center">Status</th>
+                            <th style="text-align: center">Action</th>
                             </tr>
                         </thead>
                     </table>

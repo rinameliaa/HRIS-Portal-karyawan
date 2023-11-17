@@ -46,11 +46,10 @@
 			</div>
 			<nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
 				<div class="container-fluid">
+					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 					<a class="navbar-brand" style="left: 0">
 						<h6 class="text-white"><?= date('d-F-Y'); ?></h6>
 					</a>
-					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-					
 					<a class="navbar-brand" style="left: 0">
 						<h6 class="text-white"><?= $nama; ?></h6>
 					</a>

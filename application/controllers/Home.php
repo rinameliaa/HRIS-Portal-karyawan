@@ -136,11 +136,12 @@ class Home extends CI_Controller {
             $jenis_pengajuan = $k->jenis_pengajuan;
             $tanggal_start = $k->tanggal_start;
             $tanggal_end = $k->tanggal_end;
+            $create = $k->create;
             $keterangan = $k->keterangan;
             $status = $k->status;
             $action = "<button type='button' class='btn btn-warning' onclick='approval1($id)' style='margin:5px;'>Approval 1</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button>";
             $ttl = $tanggal_start . " s/d " . $tanggal_end;
-            $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
+            $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$create.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
         }
         $dtisifix = rtrim($dtisi, ",");
         $data = str_replace("xxx", $dtisifix, $dtJSON);
@@ -156,13 +157,14 @@ class Home extends CI_Controller {
             $karyawan_id = $k->karyawan_id;
             $nama = $k->nama;
             $jenis_pengajuan = $k->jenis_pengajuan;
+            $create = $k->create;
             $tanggal_start = $k->tanggal_start;
             $tanggal_end = $k->tanggal_end;
             $keterangan = $k->keterangan;
             $status = $k->status;
             $action = "<button type='button' class='btn btn-warning' onclick='approval2($id)' style='margin:5px;'>Approval 2</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button>";
             $ttl = $tanggal_start . " s/d " . $tanggal_end;
-            $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
+            $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$create.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
         }
         $dtisifix = rtrim($dtisi, ",");
         $data = str_replace("xxx", $dtisifix, $dtJSON);
