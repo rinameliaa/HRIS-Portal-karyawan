@@ -33,54 +33,20 @@
         <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <div id="1">
-                    <table id="tblx" class="display table table-striped table-hover">
-                        <thead>
-                            <tr>
-                            <th style="text-align: center">Id Karyawan</th>
-                            <th style="text-align: center">Nama Karyawan</th>
-                            <th style="text-align: center">Jenis Pengajuan</th>
-                            <th style="text-align: center">Tanggal Pengajuan</th>
-                            <th style="text-align: center">Tanggal Mulai-Selesai</th>
-                            <th style="text-align: center">Keterangan</th>
-                            <th style="text-align: center">Status</th>
-                            <th style="text-align: center">Action</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div id="2">
-                    <table id="tblx1" class="display table table-striped table-hover">
-                        <thead>
-                            <tr>
-                            <th style="text-align: center">Id Karyawan</th>
-                            <th style="text-align: center">Nama Karyawan</th>
-                            <th style="text-align: center">Jenis Pengajuan</th>
-                            <th style="text-align: center">Tanggal Pengajuan</th>
-                            <th style="text-align: center">Tanggal Mulai-Selesai</th>
-                            <th style="text-align: center">Keterangan</th>
-                            <th style="text-align: center">Status</th>
-                            <th style="text-align: center">Action</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div id="3">
-                    <table id="tblx2" class="display table table-striped table-hover">
-                        <thead>
-                            <tr>
-                            <th style="text-align: center">Id Karyawan</th>
-                            <th style="text-align: center">Nama Karyawan</th>
-                            <th style="text-align: center">Jenis Pengajuan</th>
-                            <th style="text-align: center">Tanggal Pengajuan</th>
-                            <th style="text-align: center">Tanggal Mulai-Selesai</th>
-                            <th style="text-align: center">Keterangan</th>
-                            <th style="text-align: center">Status</th>
-                            <th style="text-align: center">Action</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
+                <table id="tblx" class="display table table-striped table-hover">
+                    <thead>
+                        <tr>
+                        <th style="text-align: center">Id Karyawan</th>
+                        <th style="text-align: center">Nama Karyawan</th>
+                        <th style="text-align: center">Jenis Pengajuan</th>
+                        <th style="text-align: center">Tanggal Pengajuan</th>
+                        <th style="text-align: center">Tanggal Mulai-Selesai</th>
+                        <th style="text-align: center">Keterangan</th>
+                        <th style="text-align: center">Status</th>
+                        <th style="text-align: center">Action</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
@@ -115,39 +81,30 @@
                         let semua = $('#tblx').DataTable({
                             data: combinedData,
                         });
-                        $('#1').show();
-                        $('#2').hide();
-                        $('#3').hide();
                     }
                 });
             }
         });
     }
     function approval1_tampil() {
-        if ($.fn.DataTable.isDataTable('#tblx1')) {
-            $('#tblx1').DataTable().destroy();
+        if ($.fn.DataTable.isDataTable('#tblx')) {
+            $('#tblx').DataTable().destroy();
         }
-        let approval1 = $('#tblx1').DataTable(
+        let approval1 = $('#tblx').DataTable(
             {
                 "ajax": "<?=base_url('Home/approval1_tampil');?>"
             }
         ); 
-        $('#1').hide();
-        $('#2').show();
-        $('#3').hide();
     }
     function approval2_tampil() {
-        if ($.fn.DataTable.isDataTable('#tblx2')) {
-            $('#tblx2').DataTable().destroy();
+        if ($.fn.DataTable.isDataTable('#tblx')) {
+            $('#tblx').DataTable().destroy();
         }
-        let approval2 = $('#tblx2').DataTable(
+        let approval2 = $('#tblx').DataTable(
             {
                 "ajax": "<?=base_url('Home/approval2_tampil');?>"
             }
         );
-        $('#1').hide();
-        $('#2').hide();
-        $('#3').show();
     }
     function approval1(id) {
         swal({

@@ -1,37 +1,37 @@
 <style>
-.status-masuk {
-    background-color: white;
-    color: black;
-}
-.status-libur {
-    background-color: red;
-    color: black;
-}
+    .status-masuk {
+        background-color: white;
+        color: black;
+    }
+    .status-libur {
+        background-color: red;
+        color: black;
+    }
 
-.status-absen {
-    background-color: yellow;
-    color: black;
-}
+    .status-absen {
+        background-color: yellow;
+        color: black;
+    }
 
-.status-sakit {
-    background-color: orange;
-    color: black;
-}
+    .status-sakit {
+        background-color: orange;
+        color: black;
+    }
 
-.status-izin {
-    background-color: navy;
-    color: black;
-}
+    .status-izin {
+        background-color: navy;
+        color: black;
+    }
 
-.status-cuti {
-    background-color: lightblue;
-    color: black;
-}
+    .status-cuti {
+        background-color: lightblue;
+        color: black;
+    }
 
-.status-lembur {
-    background-color: purple;
-    color: black;
-}
+    .status-lembur {
+        background-color: purple;
+        color: black;
+    }
 
 </style>
 <div class="panel-header bg-primary-gradient" style="margin-top: -30px">
@@ -47,15 +47,15 @@
 <div class="page-inner mt--5">
     <div class="row mt--2">
         <div class="col-md-2" >
-            <div class="card card-success">
-                <div class="card-body">
+            <div class="card card-success" onclick="hadir_tampil()">
+                <div class="card-body" >
                     <h4 class="text-center">Jumlah Hadir</h4>
                     <div class="text-center" id="jmlhadir">???</div>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
-            <div class="card card-warning">
+            <div class="card card-warning" onclick="sakit_tampil()">
                 <div class="card-body">
                     <h4 class="text-center">Jumlah Sakit</h4>
                     <div class="card-category text-center" id="jmlsakit">???</div>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="col-md-2">
-            <div class="card card-primary" >
+            <div class="card card-primary" onclick="izin_tampil()">
                 <div class="card-body">
                     <h4 class="text-center">Jumlah Izin</h4>
                     <div class="card-category text-center" id="jmlizin">???</div>
@@ -71,7 +71,7 @@
             </div>
         </div>
         <div class="col-md-2">
-            <div class="card card-info">
+            <div class="card card-info" onclick="cuti_tampil()">
                 <div class="card-body">
                     <h4 class="text-center">Jumlah Cuti</h4>
                     <div class="card-category text-center" id="jmlcuti">???</div>
@@ -79,7 +79,7 @@
             </div>
         </div>
         <div class="col-md-2">
-            <div class="card card-secondary">
+            <div class="card card-secondary" onclick="lembur_tampil()">
                 <div class="card-body">
                     <h4 class="text-center">Jumlah Lembur</h4>
                     <div class="card-category text-center" id="jmllembur">???</div>
@@ -87,7 +87,7 @@
             </div>
         </div>
         <div class="col-md-2">
-            <div class="card card-danger" >
+            <div class="card card-danger" onclick="absen_tampil()">
                 <div class="card-body">
                     <h4 class="text-center">Jumlah Alpha</h4>
                     <div class="card-category text-center" id="jmlabsen">???</div>
@@ -107,26 +107,18 @@
             <table id="tblx" class="display table table-hover" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                    <th style="width: 3">No</th>
-                    <th style="width: 10%">Tanggal</th>
-                    <th style="width: 5%">Hari</th>
-                    <th style="width: 10%">Jam Kerja</th>
-                    <th style="width: 10%">Jam Masuk</th>
-                    <th style="width: 10%">Jam Pulang</th>
-                    <!-- jika keterangan 
-                    libur merah
-                    absen kuning
-                    sakit  orange
-                    izin biru tua
-                    cuti biru muda
-                    lembur ungu
-                    disahi jumlah nya di card hadir,sakit,izin,cuti,lembur,libur,alpha = Absen -->
-                    <th style="width: 5%">Status</th>
-                    <th style="width: 5%">Terlambat (menit)</th>
-                    <th style="width: 5%">Pulang Cepat (menit)</th>
-                    <th style="width: 5%">Lembur (menit)</th>
-                    <th style="width: 5%">Total Jam Kerja (menit)</th>
-                    <th style="width: 15%">Keterangan</th>
+                    <th style="text-align: center;">No</th>
+                    <th style="text-align: center;">Tanggal</th>
+                    <th style="text-align: center;">Hari</th>
+                    <th style="text-align: center;">Jam Kerja</th>
+                    <th style="text-align: center;">Jam Masuk</th>
+                    <th style="text-align: center;">Jam Pulang</th>
+                    <th style="text-align: center;">Status</th>
+                    <th style="text-align: center;">Terlambat (menit)</th>
+                    <th style="text-align: center;">Pulang Cepat (menit)</th>
+                    <th style="text-align: center;">Lembur (menit)</th>
+                    <th style="text-align: center;">Total Jam Kerja (menit)</th>
+                    <th style="text-align: center;">Keterangan</th>
                     </tr>
                 </thead>
             </table>
@@ -138,6 +130,247 @@
 <script>  
     $("#mnkehadiran").addClass("active");
     tampil_presensi();
+    function izin_tampil() {
+        $("#loader").show();
+        $("#card").hide();
+        if ($.fn.DataTable.isDataTable('#tblx')) {
+            $('#tblx').DataTable().destroy();
+        }
+
+        $.ajax({
+            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            method: "GET",
+            success: function (data) {
+                let izinData = data.filter(item => item.status === "Izin");
+                let izin = $('#tblx').DataTable({
+                    data: izinData,
+                    columns: [
+                        { data: "no" },
+                        { data: "tanggal" },
+                        { data: "hari" },
+                        { data: "jam_kerja" },
+                        { data: "jam_masuk" },
+                        { data: "jam_pulang" },
+                        { data: "status" },
+                        { data: "terlambat" },
+                        { data: "pulang_cepat" },
+                        { data: "lembur" },
+                        { data: "total_jam_kerja" },
+                        { data: "keterangan" },
+                    ],
+                });
+                $('#tblx').show();
+            },
+            error: function () {
+                console.error("Gagal mengambil data dari API");
+            },
+            complete: function () {
+                $("#loader").hide();
+                $("#card").show();
+            }
+        });
+    }
+    function hadir_tampil() {
+        $("#loader").show();
+        $("#card").hide();
+        if ($.fn.DataTable.isDataTable('#tblx')) {
+            $('#tblx').DataTable().destroy();
+        }
+
+        $.ajax({
+            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            method: "GET",
+            success: function (data) {
+                let izinData = data.filter(item => item.status === "Hadir");
+                let izin = $('#tblx').DataTable({
+                    data: izinData,
+                    columns: [
+                        { data: "no" },
+                        { data: "tanggal" },
+                        { data: "hari" },
+                        { data: "jam_kerja" },
+                        { data: "jam_masuk" },
+                        { data: "jam_pulang" },
+                        { data: "status" },
+                        { data: "terlambat" },
+                        { data: "pulang_cepat" },
+                        { data: "lembur" },
+                        { data: "total_jam_kerja" },
+                        { data: "keterangan" },
+                    ],
+                });
+                $('#tblx').show();
+            },
+            error: function () {
+                console.error("Gagal mengambil data dari API");
+            },
+            complete: function () {
+                $("#loader").hide();
+                $("#card").show();
+            }
+        });
+    }
+    function sakit_tampil() {
+        $("#loader").show();
+        $("#card").hide();
+        if ($.fn.DataTable.isDataTable('#tblx')) {
+            $('#tblx').DataTable().destroy();
+        }
+
+        $.ajax({
+            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            method: "GET",
+            success: function (data) {
+                let izinData = data.filter(item => item.status === "Sakit");
+                let izin = $('#tblx').DataTable({
+                    data: izinData,
+                    columns: [
+                        { data: "no" },
+                        { data: "tanggal" },
+                        { data: "hari" },
+                        { data: "jam_kerja" },
+                        { data: "jam_masuk" },
+                        { data: "jam_pulang" },
+                        { data: "status" },
+                        { data: "terlambat" },
+                        { data: "pulang_cepat" },
+                        { data: "lembur" },
+                        { data: "total_jam_kerja" },
+                        { data: "keterangan" },
+                    ],
+                });
+                $('#tblx').show();
+            },
+            error: function () {
+                console.error("Gagal mengambil data dari API");
+            },
+            complete: function () {
+                $("#loader").hide();
+                $("#card").show();
+            }
+        });
+    }
+    function cuti_tampil() {
+        $("#loader").show();
+        $("#card").hide();
+        if ($.fn.DataTable.isDataTable('#tblx')) {
+            $('#tblx').DataTable().destroy();
+        }
+
+        $.ajax({
+            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            method: "GET",
+            success: function (data) {
+                let izinData = data.filter(item => item.status === "Cuti");
+                let izin = $('#tblx').DataTable({
+                    data: izinData,
+                    columns: [
+                        { data: "no" },
+                        { data: "tanggal" },
+                        { data: "hari" },
+                        { data: "jam_kerja" },
+                        { data: "jam_masuk" },
+                        { data: "jam_pulang" },
+                        { data: "status" },
+                        { data: "terlambat" },
+                        { data: "pulang_cepat" },
+                        { data: "lembur" },
+                        { data: "total_jam_kerja" },
+                        { data: "keterangan" },
+                    ],
+                });
+                $('#tblx').show();
+            },
+            error: function () {
+                console.error("Gagal mengambil data dari API");
+            },
+            complete: function () {
+                $("#loader").hide();
+                $("#card").show();
+            }
+        });
+    }
+    function lembur_tampil() {
+        $("#loader").show();
+        $("#card").hide();
+        if ($.fn.DataTable.isDataTable('#tblx')) {
+            $('#tblx').DataTable().destroy();
+        }
+
+        $.ajax({
+            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            method: "GET",
+            success: function (data) {
+                let izinData = data.filter(item => item.status === "Lembur");
+                let izin = $('#tblx').DataTable({
+                    data: izinData,
+                    columns: [
+                        { data: "no" },
+                        { data: "tanggal" },
+                        { data: "hari" },
+                        { data: "jam_kerja" },
+                        { data: "jam_masuk" },
+                        { data: "jam_pulang" },
+                        { data: "status" },
+                        { data: "terlambat" },
+                        { data: "pulang_cepat" },
+                        { data: "lembur" },
+                        { data: "total_jam_kerja" },
+                        { data: "keterangan" },
+                    ],
+                });
+                $('#tblx').show();
+            },
+            error: function () {
+                console.error("Gagal mengambil data dari API");
+            },
+            complete: function () {
+                $("#loader").hide();
+                $("#card").show();
+            }
+        });
+    }
+    function absen_tampil() {
+        $("#loader").show();
+        $("#card").hide();
+        if ($.fn.DataTable.isDataTable('#tblx')) {
+            $('#tblx').DataTable().destroy();
+        }
+
+        $.ajax({
+            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            method: "GET",
+            success: function (data) {
+                let izinData = data.filter(item => item.status === "Absen");
+                let izin = $('#tblx').DataTable({
+                    data: izinData,
+                    columns: [
+                        { data: "no" },
+                        { data: "tanggal" },
+                        { data: "hari" },
+                        { data: "jam_kerja" },
+                        { data: "jam_masuk" },
+                        { data: "jam_pulang" },
+                        { data: "status" },
+                        { data: "terlambat" },
+                        { data: "pulang_cepat" },
+                        { data: "lembur" },
+                        { data: "total_jam_kerja" },
+                        { data: "keterangan" },
+                    ],
+                });
+                $('#tblx').show();
+            },
+            error: function () {
+                console.error("Gagal mengambil data dari API");
+            },
+            complete: function () {
+                $("#loader").hide();
+                $("#card").show();
+            }
+        });
+    }
+
     function tampil_presensi(){
         $("#loader").show();
         $("#card").hide();

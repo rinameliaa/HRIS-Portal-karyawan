@@ -21,4 +21,3 @@ class Login extends CI_Controller {
         echo "Data disimpan dalam sesi";
     }
 }
-

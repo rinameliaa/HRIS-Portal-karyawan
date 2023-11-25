@@ -1,10 +1,10 @@
-<div class="panel-header bg-primary-gradient" style="margin-top: -30px">
+<!-- <div class="panel-header bg-primary-gradient" style="margin-top: -30px">
     <div class="page-inner py-5">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
             <div>
-            <h3 class="font-weight-bold text-white">SELAMAT DATANG, <?= $nama; ?> (<?= $karyawan_id; ?>)</h3>
+                <h3 class="font-weight-bold text-white">SELAMAT DATANG, <?= $nama; ?> (<?= $karyawan_id; ?>)</h3>
                 <h4 class="font-weight-bold text-white">Bulan <?= date('F Y'); ?></h4>
-                <div class="row">
+                <div class="row mt--7">
                     <div class="col-md-9">
                         <select class="form-control ftambah" id="cbotanggal">
                         <option value="">Pilih tanggal</option> 
@@ -23,13 +23,38 @@
                     <div class="col-md-3">
                         <button type="button" class="btn btn-success" id="cari" onclick="tampil_harian()">Cari</button> 
                     </div>
+                <div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="panel-header bg-primary-gradient" style="margin-top: -30px">
+    <div class="page-inner py-5">
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+            <div>
+            <h3 class="font-weight-bold text-white">SELAMAT DATANG, <?= $nama; ?> (<?= $karyawan_id; ?>)</h3>
+            <h4 class="font-weight-bold text-white">Bulan <?= date('F Y'); ?></h4>
+                <select class="form-control ftambah" id="cbotanggal">
+                <option value="">Pilih tanggal</option> 
+                    <?php
+                    $today = date('Y-m-d');
+                    $first_day = date('Y-m-1', strtotime($today));
+                    $mid_month1 = date('Y-m-15', strtotime($today));
+                    $mid_month2 = date('Y-m-16', strtotime($today));
+                    $last_day = date('Y-m-t', strtotime($today));
+                
+                    echo "<option value='$first_day|$mid_month1'>$first_day s/d $mid_month1</option>";
+                    echo "<option value='$mid_month2|$last_day'>$mid_month2 s/d $last_day</option>";
+                    ?>
+                </select> 
+                <button type="button" class="btn btn-success" id="cari" onclick="tampil_harian()" style="margin: 5px">Cari</button>
             </div>
         </div>
     </div>
 </div>
 <div class="row mt--4" style="margin: 10px">
     <div class="col-md-12">
-        <div id="loader" style="display: flex; align-items: center; justify-content: center; height: 50vh;margin: 150px">
+        <div id="loader" style="display: flex; align-items: center; justify-content: center; height: 70vh;">
             <div class="loader loader-lg"></div>
         </div>
         <div class="card" id="card_harian">
@@ -43,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="card" id="card_borongan">
+        <div class="card" id="card_borongan">
             <div class="card-head" style="display: flex; justify-content: flex-end;">
                 <button type="button" class="btn btn-primary" style="margin: 15px; margin-bottom: -5px;" onclick="generatePDF2()"><i class="fas fa-file-pdf" style="margin-right: 5px;"></i>Cetak PDF</button>
             </div>
@@ -138,14 +163,13 @@
                     </table>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 <script>  
     $("#mnpenggajian").addClass("active");
     $("#card_harian").hide();
     $("#card_borongan").hide();
-    $("#loader").hide();
     
     jenis_gaji();
     function jenis_gaji(){
