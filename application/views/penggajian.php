@@ -1,33 +1,3 @@
-<!-- <div class="panel-header bg-primary-gradient" style="margin-top: -30px">
-    <div class="page-inner py-5">
-        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
-            <div>
-                <h3 class="font-weight-bold text-white">SELAMAT DATANG, <?= $nama; ?> (<?= $karyawan_id; ?>)</h3>
-                <h4 class="font-weight-bold text-white">Bulan <?= date('F Y'); ?></h4>
-                <div class="row mt--7">
-                    <div class="col-md-9">
-                        <select class="form-control ftambah" id="cbotanggal">
-                        <option value="">Pilih tanggal</option> 
-                            <?php
-                            $today = date('Y-m-d');
-                            $first_day = date('Y-m-1', strtotime($today));
-                            $mid_month1 = date('Y-m-15', strtotime($today));
-                            $mid_month2 = date('Y-m-16', strtotime($today));
-                            $last_day = date('Y-m-t', strtotime($today));
-                        
-                            echo "<option value='$first_day|$mid_month1'>$first_day s/d $mid_month1</option>";
-                            echo "<option value='$mid_month2|$last_day'>$mid_month2 s/d $last_day</option>";
-                            ?>
-                        </select> 
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-success" id="cari" onclick="tampil_harian()">Cari</button> 
-                    </div>
-                <div>
-            </div>
-        </div>
-    </div>
-</div> -->
 <div class="panel-header bg-primary-gradient" style="margin-top: -30px">
     <div class="page-inner py-5">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
@@ -48,6 +18,7 @@
                     ?>
                 </select> 
                 <button type="button" class="btn btn-success" id="cari" onclick="tampil_harian()" style="margin: 5px">Cari</button>
+                <button type="button" class="btn btn-success" id="cari" onclick="sendEmail()" style="margin: 5px">Kirim Email</button>
             </div>
         </div>
     </div>
@@ -172,6 +143,22 @@
     $("#card_borongan").hide();
     
     jenis_gaji();
+
+    function sendEmail() {
+        $.ajax({
+            url: "<?=base_url('Home/sendEmail');?>",
+            type: "POST",
+            success: function(response) {
+                swal({ title: "Berhasil", text: "Berhasil Kirim Email", icon: "success" });
+                console.log(response);
+            },
+            error: function(error) {
+                swal({ title: "Gagal", text: "Gagal Kirim Email", icon: "error" });
+                console.error(error);
+            }
+        });
+    }
+
     function jenis_gaji(){
         var jenis_gaji = '<?= $jenis_gaji; ?>';
         if (jenis_gaji === "Borongan") {
