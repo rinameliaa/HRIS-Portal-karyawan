@@ -242,16 +242,17 @@ class Home extends CI_Controller {
             $tanggal_start = $k->tanggal_start;
             $tanggal_end = $k->tanggal_end;
             $keterangan = $k->keterangan;
-            $approval1_date = empty($k->approval1_date) ? (empty($k->approval_cancel_date) ? '-' : $k->approval_cancel_date) : $k->approval1_date;
-            $approval2_date = empty($k->approval2_date) ? (empty($k->approval_cancel_date) ? '-' : $k->approval_cancel_date) : $k->approval2_date;
+            $approval1_date = empty($k->approval1_date) ? '-' : $k->approval1_date;
+            $approval2_date = empty($k->approval2_date) ? '-' : $k->approval2_date;
+            $approval_cancel_date = empty($k->approval_cancel_date) ? '-' : $k->approval_cancel_date;
             $status = $k->status;
             $ket_cancel = $k->ket_cancel;
             if (empty($ket_cancel)) {
                 $ket_cancel = '-';
             }
-            $action = "<button type='button' class='btn btn-danger' onclick='hapus($id)' style='margin:5px;'>Hapus</button>";
+            $action = empty($k->approval2_date) ?  "<button type='button' class='btn btn-danger' onclick='hapus($id)' style='margin:5px;'>Hapus</button>" : "<button type='button' class='btn btn-success' style='margin:5px;'>No Action</button>";          
             $ttl = $tanggal_start . " s/d " . $tanggal_end;
-            $dtisi .= '["' . $karyawan_id . '","' . $nama . '","' . $jenis_pengajuan . '","' . $create . '","' . $ttl . '","' . $keterangan . '","' . $approval1_date . '","' . $approval2_date . '","' . $status . '","' . $ket_cancel . '","' . $action . '"],';
+            $dtisi .= '["' . $karyawan_id . '","' . $nama . '","' . $jenis_pengajuan . '","' . $create . '","' . $ttl . '","' . $keterangan . '","' . $approval1_date . '","' . $approval2_date . '","' . $approval_cancel_date . '","' . $status . '","' . $ket_cancel . '","' . $action . '"],';
         }
         $dtisifix = rtrim($dtisi, ",");
         $data = str_replace("xxx", $dtisifix, $dtJSON);

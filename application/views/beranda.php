@@ -1,3 +1,22 @@
+<style>
+     .belum {
+        color: black; 
+        animation: myAnim 10s ease 0s infinite normal forwards;
+    }
+    
+    @keyframes myAnim {
+        0%,
+        50%,
+        100% {
+            background-color: yellow;
+        }
+
+        25%,
+        75% {
+            background-color: Gold;
+        }
+    }
+</style>
 <div class="panel-header bg-primary-gradient" style="margin-top: -25px">
     <div class="page-inner py-5">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
@@ -49,7 +68,7 @@
         <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-            <table id="tblx" class="display table table-striped table-hover">
+            <table id="tblx" class="display table table-hover">
                 <thead>
                     <tr>
                     <th style="text-align: center">Id Karyawan</th>
@@ -58,8 +77,9 @@
                     <th style="text-align: center">Tanggal Pengajuan</th>
                     <th style="text-align: center">Tanggal Mulai-Selesai</th>
                     <th style="text-align: center">Keterangan</th>
-                    <th style="text-align: center">Approval 1</th>
-                    <th style="text-align: center">Approval 2</th>
+                    <th style="text-align: center">Approval 1 Date</th>
+                    <th style="text-align: center">Approval 2 Date</th>
+                    <th style="text-align: center">Cancel Date</th>
                     <th style="text-align: center">Status</th>
                     <th style="text-align: center">Keterangan Cancel</th>
                     <th style="text-align: center">Action</th>
@@ -73,11 +93,19 @@
 
 <script>  
     $("#mnhome").addClass("active");
-    let tblx = $('#tblx').DataTable(
-        {
-            "ajax": "<?=base_url('Home/pengajuan_tampil');?>"
+    let tblx = $('#tblx').DataTable({
+        "ajax": "<?=base_url('Home/pengajuan_tampil');?>",
+        "initComplete": function(settings, json) {
+            this.api().rows().every(function () {
+                let rowData = this.data();
+                if (rowData[9] == 'Proses') {
+                    $(this.node()).addClass("belum");
+                }
+            });
         }
-    );
+    });
+
+
     $.ajax({
         url: "<?=base_url('Home/jumlahIzin');?>",
         method: "GET",

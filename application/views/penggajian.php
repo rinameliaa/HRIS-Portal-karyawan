@@ -1,3 +1,4 @@
+
 <div class="panel-header bg-primary-gradient" style="margin-top: -30px">
     <div class="page-inner py-5">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
@@ -18,7 +19,7 @@
                     ?>
                 </select> 
                 <button type="button" class="btn btn-success" id="cari" onclick="tampil_harian()" style="margin: 5px">Cari</button>
-                <button type="button" class="btn btn-success" id="cari" onclick="sendEmail()" style="margin: 5px">Kirim Email</button>
+                <!-- <button type="button" class="btn btn-success" id="cari" onclick="sendEmail()" style="margin: 5px">Kirim Email</button> -->
             </div>
         </div>
     </div>
