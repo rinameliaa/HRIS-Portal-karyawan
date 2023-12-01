@@ -302,8 +302,8 @@ class Home extends CI_Controller {
             'charset'   => 'utf-8',
             'protocol'  => 'smtp',
             'smtp_host' => 'smtp.gmail.com',
-            'smtp_user' => 'akuibirdnest123@gmail.com',
-            'smtp_pass' => 'niwq sajw nrkb uexx',
+            'smtp_user' => 'a***',
+            'smtp_pass' => '***',
             'smtp_crypto' => 'tls',
             'smtp_port' => 587, // Gunakan port 587 untuk TLS
             'crlf'      => "\r\n",
