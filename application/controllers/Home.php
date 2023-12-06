@@ -172,8 +172,15 @@ class Home extends CI_Controller {
     }
     public function pengajuan_approval1(){
         $id = $this->input->post('id');
-        $hasil = $this->Mizin->update_approval1($id);
-    
+        // $hasil = $this->Mizin->update_approval1($id);
+        if ($pengajuan->karyawan_id_approval2 == null) {
+            $hasil = $this->Mizin->update_approval1($id);
+            $hasil = $this->Mizin->update_approval2($id);
+            $post = $this->postPengajuanKaryawanKeHR($id);
+        }else{
+            $hasil = $this->Mizin->update_approval1($id);
+        }
+        
         if ($hasil == "1") { 
             $this->sendEmail();   
             echo base64_encode("1|Tambah Approval Date Berhasil,");
@@ -341,8 +348,8 @@ class Home extends CI_Controller {
         $url = '';
         $data = [
             'employee_id' => $pengajuan->karyawan_id,
-            'from_date' => $pengajuan->karyawan_id,
-            'to_date' => $pengajuan->karyawan_id,
+            'from_date' => $pengajuan->tanggal_start,
+            'to_date' => $pengajuan->tanggal_end,
             'sick_type_id' => $pengajuan->jenis_sakit_id,
             'leave_type_id' => $pengajuan->jenis_cuti_id,
             'izin_type_id' => $pengajuan->jenis_izin_id,

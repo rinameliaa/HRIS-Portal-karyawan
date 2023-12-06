@@ -3,8 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mizin extends CI_Model {
     public function getDataById($id) {
-        $sql = "SELECT * FROM pengajuan_karyawan WHERE id = $id";
-        $data = $this->db->query($sql);
+        $sql = "SELECT * FROM pengajuan_karyawan WHERE id = ?";
+        $data = $this->db->query($sql, array($id));
+        // $data = $this->db->query($sql);
         if ($data) {
             return $data->row();
         } else {
