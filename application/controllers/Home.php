@@ -174,18 +174,21 @@ class Home extends CI_Controller {
         $id = $this->input->post('id');
         $hasil = $this->Mizin->update_approval1($id);
     
-        if ($hasil == "1") {    
+        if ($hasil == "1") { 
+            $this->sendEmail();   
             echo base64_encode("1|Tambah Approval Date Berhasil,");
         } else {
             echo base64_encode("0|Tambah Approval Date Gagal, Silahkan Cek Datanya");
         }
     }
+    
     public function pengajuan_approval2(){
         $id = $this->input->post('id');
         $hasil = $this->Mizin->update_approval2($id);
         $post = $this->postPengajuanKaryawanKeHR($id);
     
         if ($hasil == "1") {    
+            $this->sendEmail(); 
             echo base64_encode("1|Tambah Approval Date Berhasil,");
         } else {
             echo base64_encode("0|Tambah Approval Date Gagal, Silahkan Cek Datanya");
@@ -301,11 +304,10 @@ class Home extends CI_Controller {
             'mailtype'  => 'html',
             'charset'   => 'utf-8',
             'protocol'  => 'smtp',
-            'smtp_host' => 'smtp.gmail.com',
-            'smtp_user' => 'a***',
-            'smtp_pass' => '***',
-            'smtp_crypto' => 'tls',
-            'smtp_port' => 587, // Gunakan port 587 untuk TLS
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_user' => '*',
+            'smtp_pass' => '*',
+            'smtp_port' => 465,
             'crlf'      => "\r\n",
             'newline'   => "\r\n",
         ];
@@ -322,7 +324,7 @@ class Home extends CI_Controller {
         // $this->email->attach('https://images.pexels.com/photos/3052361/pexels-photo-3052361.jpeg');
 
         // Subject email
-        $this->email->subject('Kirim Email dengan SMTP Gmail CodeIgniter');
+        $this->email->subject('Pemberitahuan Permintaan Approval');
 
         $this->email->message("Ini adalah contoh email yang dikirim menggunakan SMTP Gmail pada CodeIgniter.");
 

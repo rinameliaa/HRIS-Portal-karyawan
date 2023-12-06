@@ -19,7 +19,7 @@
                     ?>
                 </select> 
                 <button type="button" class="btn btn-success" id="cari" onclick="tampil_harian()" style="margin: 5px">Cari</button>
-                <!-- <button type="button" class="btn btn-success" id="cari" onclick="sendEmail()" style="margin: 5px">Kirim Email</button> -->
+                <button type="button" class="btn btn-success" id="cari" onclick="sendEmail()" style="margin: 5px">Kirim Email</button>
             </div>
         </div>
     </div>
