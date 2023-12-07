@@ -51,16 +51,16 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="approvedModal" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal fade" id="approvedModal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary" onclick="approved1($id)">Approved 1</button>
+				<button type="button" class="btn btn-primary" onclick="approved1($id , $id_approval2)">Approved 1</button>
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <script>  
     $("#mnapprov").addClass("active");
@@ -106,7 +106,7 @@
             }
         );
     }
-    function approval1(id) {
+    function approval1(id, id_approval2) {
         swal({
             title: "Konfirmasi",
             text: "Apakah Anda yakin ingin menyetujui pengajuan?",
@@ -127,8 +127,9 @@
                 $.ajax({
                     url: "<?= base_url(); ?>" + "Home/pengajuan_approval1",
                     method: 'POST',
-                    data: { id: id },
+                    data: { id: id , id_approval2: id_approval2},
                     success: function (result) {
+                        // console.log(id_approval2);
                         swal({
                             title: "Berhasil",
                             text: "Berhasil Approved",
@@ -140,9 +141,7 @@
                                 },
                             }
                         }).then(() => {
-                            tblx.ajax.reload();
-                            tblx1.ajax.reload();
-                            tblx2.ajax.reload();
+                            location.reload(true);
                         });
                     },
                     error: function () {
@@ -192,9 +191,7 @@
                                 },
                             }
                         }).then(() => {
-                            tblx.ajax.reload();
-                            tblx1.ajax.reload();
-                            tblx2.ajax.reload();
+                            location.reload(true);
                         });
                     },
                     error: function () {
@@ -224,14 +221,12 @@
                     url: "<?= base_url(); ?>" + "Home/pengajuan_cancel",
                     method: 'POST',
                     data: { id: id, ket_cancel: ket_cancel },
-                    success: function (result) {
+                    success: function (success) {
                         swal({title: "Berhasil", text: "Berhasil Cancel",icon: "success", 
                             buttons: {confirm: {text: 'OK', className: 'btn btn-success'},
                             }
                         }).then(() => {
-                            tblx.ajax.reload();
-                            tblx1.ajax.reload();
-                            tblx2.ajax.reload();
+                            location.reload(true);
                         });
                     },
                     error: function () {

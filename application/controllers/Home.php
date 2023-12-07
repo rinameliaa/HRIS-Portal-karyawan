@@ -131,6 +131,7 @@ class Home extends CI_Controller {
         $dt = $this->Mizin->tampilapproval1($z);
         foreach ($dt as $k){
             $id = $k->id;
+            $id_approval2 = $k->karyawan_id_approval2;
             $karyawan_id = $k->karyawan_id;
             $nama = $k->nama;
             $jenis_pengajuan = $k->jenis_pengajuan;
@@ -139,7 +140,7 @@ class Home extends CI_Controller {
             $create = $k->create;
             $keterangan = $k->keterangan;
             $status = $k->status;
-            $action = "<button type='button' class='btn btn-warning' onclick='approval1($id)' style='margin:5px;'>Approval 1</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button>";
+            $action = "<div class='text-center'> <button type='button' class='btn btn-warning' onclick='approval1($id, $id_approval2)' style='margin:5px;'>Approval 1</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button> </div>";
             $ttl = $tanggal_start . " s/d " . $tanggal_end;
             $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$create.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
         }
@@ -162,7 +163,7 @@ class Home extends CI_Controller {
             $tanggal_end = $k->tanggal_end;
             $keterangan = $k->keterangan;
             $status = $k->status;
-            $action = "<button type='button' class='btn btn-warning' onclick='approval2($id)' style='margin:5px;'>Approval 2</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button>";
+            $action = "<div class='text-center'> <button type='button' class='btn btn-warning' onclick='approval2($id)' style='margin:5px;'>Approval 2</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button> </div>";
             $ttl = $tanggal_start . " s/d " . $tanggal_end;
             $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$create.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
         }
@@ -170,30 +171,40 @@ class Home extends CI_Controller {
         $data = str_replace("xxx", $dtisifix, $dtJSON);
         echo $data;
     }
-    public function pengajuan_approval1(){
+    public function pengajuan_approval1() {
+        $id_approval2 = $this->input->post('id_approval2');
         $id = $this->input->post('id');
-        // $hasil = $this->Mizin->update_approval1($id);
-        if ($pengajuan->karyawan_id_approval2 == null) {
+        $hasil = '';
+    
+        if ($id_approval2 == null) {
             $hasil = $this->Mizin->update_approval1($id);
             $hasil = $this->Mizin->update_approval2($id);
             $post = $this->postPengajuanKaryawanKeHR($id);
-        }else{
+        } else {
+            $url_atasan_langsung = 'http://103.215.177.169/hris/API/Employee/getEmployee?id=' . $id_approval2;
+            $data_atasan_langsung = file_get_contents($url_atasan_langsung);
+    
+            if ($data_atasan_langsung !== false && ($data_atasan_langsung = json_decode($data_atasan_langsung)) && isset($data_atasan_langsung->email)) {
+                $send_email = $this->sendEmail($data_atasan_langsung->email);
+                echo base64_encode($send_email ? "1|Berhasil Approval Pertama," : "0|Approval Pertama Gagal, Gagal Mengirim Email");
+            } else {
+                echo base64_encode("0|Data Atasan Langsung Tidak Valid atau Gagal Mengambil Data");
+            }
+    
             $hasil = $this->Mizin->update_approval1($id);
         }
-        
-        if ($hasil == "1") { 
-            $this->sendEmail();   
+    
+        if ($hasil == "1") {
             echo base64_encode("1|Tambah Approval Date Berhasil,");
         } else {
             echo base64_encode("0|Tambah Approval Date Gagal, Silahkan Cek Datanya");
         }
     }
-    
     public function pengajuan_approval2(){
         $id = $this->input->post('id');
         $hasil = $this->Mizin->update_approval2($id);
         $post = $this->postPengajuanKaryawanKeHR($id);
-    
+     
         if ($hasil == "1") {    
             $this->sendEmail(); 
             echo base64_encode("1|Tambah Approval Date Berhasil,");
@@ -294,14 +305,29 @@ class Home extends CI_Controller {
         $create = date('Y-m-d H:i:s');
         $hasil = $this->Mizin->tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date,$approval_cancel_date, $status, $ket_cancel, $create);
     
-        if ($hasil == "1") {    
-            echo base64_encode("1|Tambah Permohonan Berhasil,");
+        $url_atasan_langsung = 'http://103.215.177.169/hris/API/Employee/getEmployee?id=' . $karyawan_id_approval1;
+        $data_atasan_langsung = file_get_contents($url_atasan_langsung);
+
+        if ($data_atasan_langsung !== false) {
+            $data_atasan_langsung = json_decode($data_atasan_langsung);
+
+            if ($data_atasan_langsung && isset($data_atasan_langsung->email)) {
+                $email_atasan_langsung = $data_atasan_langsung->email;
+                $send_email = $this->sendEmail($email_atasan_langsung);
+
+                if ($send_email) {
+                    echo base64_encode("1|Tambah Permohonan Berhasil,");
+                } else {
+                    echo base64_encode("0|Tambah Permohonan Gagal, Gagal Mengirim Email");
+                }
+            } else {
+                echo base64_encode("0|Tambah Permohonan Gagal, Data Atasan Langsung Tidak Valid");
+            }
         } else {
-            echo base64_encode("0|Tambah Permohonan Gagal, Silahkan Cek Datanya");
+            echo base64_encode("0|Tambah Permohonan Gagal, Gagal Mengambil Data Atasan Langsung");
         }
     }
-
-    public function sendEmail()
+    public function sendEmail($email)
     {
         // Load library email dan konfigurasinya
         $this->load->library('email');
@@ -318,14 +344,14 @@ class Home extends CI_Controller {
             'crlf'      => "\r\n",
             'newline'   => "\r\n",
         ];
-
+ 
         $this->email->initialize($config);
 
         // Email dan nama pengirim
-        $this->email->from('akuibirdnest123@gmail.com', 'Akui Bird Nest');
+        $this->email->from('it_spv@akuibirdnest.com','Akui Bird Nest Indonesia');
 
         // Email penerima
-        $this->email->to('rinaameliaa16@gmail.com');
+        $this->email->to($email);
 
         // Lampiran email, isi dengan url/path file
         // $this->email->attach('https://images.pexels.com/photos/3052361/pexels-photo-3052361.jpeg');
@@ -335,14 +361,8 @@ class Home extends CI_Controller {
 
         $this->email->message("Ini adalah contoh email yang dikirim menggunakan SMTP Gmail pada CodeIgniter.");
 
-        if ($this->email->send()) {
-            echo 'Sukses! email berhasil dikirim.';
-        } else {
-            echo 'Error! email tidak dapat dikirim. ' . $this->email->print_debugger();
-        }
+        return $this->email->send();
     }
-
-
     function postPengajuanKaryawanKeHR($id_pengajuan){
         $pengajuan = $this->Mizin->getDataById($id_pengajuan);
         $url = '';
