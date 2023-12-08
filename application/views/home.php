@@ -179,7 +179,7 @@
         }).then((xx) => {
             if(xx){
                 $.ajax({
-                    url: "<?= base_url(); ?>" + "Logout",
+                    url: "<?= base_url('Logout'); ?>",
                     method: "POST",
                     cache: "false",
                     success: function(y){

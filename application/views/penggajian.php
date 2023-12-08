@@ -19,7 +19,7 @@
                     ?>
                 </select> 
                 <button type="button" class="btn btn-success" id="cari" onclick="tampil_harian()" style="margin: 5px">Cari</button>
-                <button type="button" class="btn btn-success" id="cari" onclick="sendEmail()" style="margin: 5px">Kirim Email</button>
+                <!-- <button type="button" class="btn btn-success" id="cari" onclick="sendEmail()" style="margin: 5px">Kirim Email</button> -->
             </div>
         </div>
     </div>
@@ -145,20 +145,20 @@
     
     jenis_gaji();
 
-    function sendEmail() {
-        $.ajax({
-            url: "<?=base_url('Home/sendEmail');?>",
-            type: "POST",
-            success: function(response) {
-                swal({ title: "Berhasil", text: "Berhasil Kirim Email", icon: "success" });
-                console.log(response);
-            },
-            error: function(error) {
-                swal({ title: "Gagal", text: "Gagal Kirim Email", icon: "error" });
-                console.error(error);
-            }
-        });
-    }
+    // function sendEmail() {
+    //     $.ajax({
+    //         url: "<?=base_url('Home/sendEmail');?>",
+    //         type: "POST",
+    //         success: function(response) {
+    //             swal({ title: "Berhasil", text: "Berhasil Kirim Email", icon: "success" });
+    //             console.log(response);
+    //         },
+    //         error: function(error) {
+    //             swal({ title: "Gagal", text: "Gagal Kirim Email", icon: "error" });
+    //             console.error(error);
+    //         }
+    //     });
+    // }
 
     function jenis_gaji(){
         var jenis_gaji = '<?= $jenis_gaji; ?>';
@@ -204,71 +204,77 @@
         $("#card_harian").hide();
         $("#tbl-harian").empty();
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/payslip_harian?employee_id=<?= $karyawan_id ?>&start_date=2023-10-01&end_date=2023-10-15",
-            method: "GET",
+            url: "<?= base_url('Home/listGaji'); ?>",
+            method: "POST",
+            data: {
+                start: start,
+                end: end,
+            },
+            cache: false,
+            dataType: "json",
             success: function (data) {
-                if (data.length > 0) {
-                    var item = data[0]; 
-
-                    var newRow = $("<tr>");
-                    newRow.append(
-                        "<th style='border:none; text-align: left;'>" +
-                            "<p>Nama</p>" +
-                            "<p>Divisi</p>" +
-                            "<p>Periode</p>" +
-                            "<p>No. Rekening</p>" +
-                            "<p>No.Urut</p>" +
-                        "</th>" +
-                        "<th style='border:none; text-align: left;'>" +
-                            "<p>: " + item.fullname + "</p>" +
-                            "<p>: SPV</p>" +
-                            "<p>: " + start + " s/d " + end + "</p>" +
-                            "<p>: " + item.rekening + "</p>" +
-                            "<p>: 3 </p>" +
-                        "</th>"
-                    );
-                    $("#tbl-harian").empty().append(newRow);
-                    $("#tbl-harian").append(
-                        "<tr>" +
-                        "<td colspan='2'><b>Gaji Pokok</b></td>" +
-                        "<td>" + item.gaji_pokok + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<td colspan='2'><b>Kehadiran</b></td>" +
-                        "<td>" + item.kehadiran + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<td colspan='2'><b>Lembur</b></td>" +
-                        "<td>" + item.lembur + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<td rowspan='2'><b>Revisi</b></td>" +
-                        "<td><b>Tambahan</b></td>" +
-                        "<td>" + item.tambahan + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<td><b>Potongan</b></td>" +
-                        "<td>" + item.potongan + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<td colspan='2'><b>BPJS Kes</b></td>" +
-                        "<td>" + item.bpjs_kes + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<td colspan='2'><b>BPJS TK</b></td>" +
-                        "<td>" + item.bpjs_tk + "</td>" +
-                        "</tr>" +
-                        "<tr>" +
-                        "<td colspan='2' style='text-align: right;'><b>Jumlah Yang  diterima</b></td>" +
-                        "<td>" + item.total_gaji + "</td>" +
-                        "</tr>"
-                    );
-                    $("#loader").hide();
-                    $("#card_harian").show();
-                } else {
-                    swal({ title: "Gagal", text: "Data tidak ditemukan", icon: "error" });
-                    $("#loader").hide();
-                }
+                console.log(data);
+                // if (data.length > 0) {
+                //     var item = data[0]; 
+                //     var newRow = $("<tr>");
+                //     newRow.append(
+                //         "<th style='border:none; text-align: left;'>" +
+                //             "<p>Nama</p>" +
+                //             "<p>Divisi</p>" +
+                //             "<p>Periode</p>" +
+                //             "<p>No. Rekening</p>" +
+                //             "<p>No.Urut</p>" +
+                //         "</th>" +
+                //         "<th style='border:none; text-align: left;'>" +
+                //             "<p>: " + item.fullname + "</p>" +
+                //             "<p>: SPV</p>" +
+                //             "<p>: " + start + " s/d " + end + "</p>" +
+                //             "<p>: " + item.rekening + "</p>" +
+                //             "<p>: 3 </p>" +
+                //         "</th>"
+                //     );
+                //     $("#tbl-harian").empty().append(newRow);
+                //     $("#tbl-harian").append(
+                //         "<tr>" +
+                //         "<td colspan='2'><b>Gaji Pokok</b></td>" +
+                //         "<td>" + item.gaji_pokok + "</td>" +
+                //         "</tr>" +
+                //         "<tr>" +
+                //         "<td colspan='2'><b>Kehadiran</b></td>" +
+                //         "<td>" + item.kehadiran + "</td>" +
+                //         "</tr>" +
+                //         "<tr>" +
+                //         "<td colspan='2'><b>Lembur</b></td>" +
+                //         "<td>" + item.lembur + "</td>" +
+                //         "</tr>" +
+                //         "<tr>" +
+                //         "<td rowspan='2'><b>Revisi</b></td>" +
+                //         "<td><b>Tambahan</b></td>" +
+                //         "<td>" + item.tambahan + "</td>" +
+                //         "</tr>" +
+                //         "<tr>" +
+                //         "<td><b>Potongan</b></td>" +
+                //         "<td>" + item.potongan + "</td>" +
+                //         "</tr>" +
+                //         "<tr>" +
+                //         "<td colspan='2'><b>BPJS Kes</b></td>" +
+                //         "<td>" + item.bpjs_kes + "</td>" +
+                //         "</tr>" +
+                //         "<tr>" +
+                //         "<td colspan='2'><b>BPJS TK</b></td>" +
+                //         "<td>" + item.bpjs_tk + "</td>" +
+                //         "</tr>" +
+                //         "<tr>" +
+                //         "<td colspan='2' style='text-align: right;'><b>Jumlah Yang  diterima</b></td>" +
+                //         "<td>" + item.total_gaji + "</td>" +
+                //         "</tr>"
+                //     );
+                //     $("#loader").hide();
+                //     $("#card_harian").show();
+                // } else {
+                //     swal({ title: "Gagal", text: "Data tidak ditemukan", icon: "error" });
+                //     $("#loader").hide();
+                // }
             },
             error: function (error) {
                 console.log("Error fetching data: " + JSON.stringify(error));
@@ -277,7 +283,7 @@
         });
     }
 
-    // url: "http://103.215.177.169/hris/API/Employee/payslip_harian?employee_id=<?= $karyawan_id ?>&start_date=" + start + "&end_date=" + end ,
+    
 </script>
 
     

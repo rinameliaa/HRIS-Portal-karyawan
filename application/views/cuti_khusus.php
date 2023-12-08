@@ -76,10 +76,10 @@
 
             if (mulai) {
                 $.ajax({
-                    url: "http://103.215.177.169/hris/API/Pengajuan/tipe_cuti",
+                    url: "<?= base_url('Home/listCuti'); ?>",
                     method: "GET",
                     dataType: "json",
-                    success: function (data) {
+                    success: function (data) { 
                         var jumlah_hari = 0; 
                         for (var i = 0; i < data.length; i++) {
                             if (data[i].id === izin) {
@@ -110,7 +110,7 @@
 
     function cutioption() {
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Pengajuan/tipe_cuti",
+            url: "<?= base_url('Home/listCuti'); ?>",
             method: "GET",
             dataType: "json",
             success: function (data) {
@@ -119,7 +119,7 @@
                 if (Array.isArray(data)) {
                     data.forEach(function(v) {
                         if (v.tipe !== "Cuti Tahunan") {
-                            cboizin.append(`<option value="${v.id}">${v.tipe} (${v.jumlah_hari} Hari )</option>`);
+                            cboizin.append(`<option value="${v.id}">${v.tipe}</option>`);
                         }
                     });
                 }
@@ -130,7 +130,6 @@
         });
     }
 
-
     function reset() {
         $("#txtmulai").val("");
         $("#txtselesai").val("");
@@ -139,41 +138,41 @@
     }
 
     function tambah(){
-    $("#btn_tambah").attr("disabled", true);
-    $("#btn_reset").attr("disabled", true);
-    let jenis_pengajuan = $("#cbojenis").val(); 
-    let tanggal_start = $("#txtmulai").val();
-    let tanggal_end = $("#txtselesai").val();
-    let jenis_cuti_id = $("#cbocuti").val();
-    let keterangan = $("#txtket").val();  
-    let status = "Proses";
-    
-    if( tanggal_start == "" || tanggal_end == "" || jenis_cuti_id == "" || keterangan == ""){
-        swal({title:"Gagal", text:"Ada Isian Yang Kosong", icon: "error"});
-        $("#btn_tambah").attr("disabled", false);
-        $("#btn_reset").attr("disabled", false);
-        return;
-    }
-    
-    $.ajax({
-        url: "<?= base_url(); ?>" + "Home/pengajuan_tambah", 
-        method: "POST",
-        data: {jenis_pengajuan: jenis_pengajuan, tanggal_start: tanggal_start, tanggal_end: tanggal_end, jenis_cuti_id: jenis_cuti_id, keterangan: keterangan, status: status},
-        cache: false,
-        success: function(x){
-            let hasil = atob(x);
-            let param = hasil.split("|");
-            if(param[0] == "1"){
-                swal({title:"Berhasil", text: param[1], icon: "success"});
-                $(".ftambah").val("");
-            }else{
-                swal({title:"Gagal", text: param[1], icon: "error"});
-            }
-        },
-        error: function(){
-            swal({title:"Gagal", text:"Tidak Terhubung dengan Server", icon: "error"});
+        $("#btn_tambah").attr("disabled", true);
+        $("#btn_reset").attr("disabled", true);
+        let jenis_pengajuan = $("#cbojenis").val(); 
+        let tanggal_start = $("#txtmulai").val();
+        let tanggal_end = $("#txtselesai").val();
+        let jenis_cuti_id = $("#cbocuti").val();
+        let keterangan = $("#txtket").val();  
+        let status = "Proses";
+        
+        if( tanggal_start == "" || tanggal_end == "" || jenis_cuti_id == "" || keterangan == ""){
+            swal({title:"Gagal", text:"Ada Isian Yang Kosong", icon: "error"});
+            $("#btn_tambah").attr("disabled", false);
+            $("#btn_reset").attr("disabled", false);
+            return;
         }
-    })
-}
+        
+        $.ajax({
+            url: "<?= base_url('Home/pengajuan_tambah'); ?>", 
+            method: "POST",
+            data: {jenis_pengajuan: jenis_pengajuan, tanggal_start: tanggal_start, tanggal_end: tanggal_end, jenis_cuti_id: jenis_cuti_id, keterangan: keterangan, status: status},
+            cache: false,
+            success: function(x){
+                let hasil = atob(x);
+                let param = hasil.split("|");
+                if(param[0] == "1"){
+                    swal({title:"Berhasil", text: param[1], icon: "success"});
+                    $(".ftambah").val("");
+                }else{
+                    swal({title:"Gagal", text: param[1], icon: "error"});
+                }
+            },
+            error: function(){
+                swal({title:"Gagal", text:"Tidak Terhubung dengan Server", icon: "error"});
+            }
+        })
+    }
 
 </script>

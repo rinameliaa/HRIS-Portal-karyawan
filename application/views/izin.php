@@ -65,7 +65,7 @@
 
     function izinoption() {
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Pengajuan/tipe_izin",
+            url: "<?= base_url('Home/listIzin'); ?>",
             method: "GET",
             dataType: "json",
             success: function (data) {
@@ -91,47 +91,47 @@
     }
 
     function tambah(){
-    $("#btn_tambah").attr("disabled", true);
-    $("#btn_reset").attr("disabled", true);
-    let jenis_pengajuan = $("#cbojenis").val(); 
-    let tanggal_start = $("#txtmulai").val();
-    let tanggal_end = $("#txtselesai").val();
-    let jenis_izin_id = $("#cboizin").val();
-    let keterangan = $("#txtket").val();  
-    let status = "Proses";
-    
-    if( tanggal_start == "" || tanggal_end == "" || jenis_izin_id == "" || keterangan == "" ){
-        swal({title:"Gagal", text:"Ada Isian Yang Kosong", icon: "error"});
-        $("#btn_tambah").attr("disabled", false);
-        $("#btn_reset").attr("disabled", false);
-        return;
-    }
-    let startDate = new Date(tanggal_start);
-    let endDate = new Date(tanggal_end);
+        $("#btn_tambah").attr("disabled", true);
+        $("#btn_reset").attr("disabled", true);
+        let jenis_pengajuan = $("#cbojenis").val(); 
+        let tanggal_start = $("#txtmulai").val();
+        let tanggal_end = $("#txtselesai").val();
+        let jenis_izin_id = $("#cboizin").val();
+        let keterangan = $("#txtket").val();  
+        let status = "Proses";
         
-    if (startDate > endDate) {
-        swal({ title: "Gagal", text: "Tanggal mulai tidak boleh lebih besar dari tanggal selesai", icon: "error" });
-        return;
-    }  
-    $.ajax({
-        url: "<?= base_url(); ?>" + "Home/pengajuan_tambah", 
-        method: "POST",
-        data: {jenis_pengajuan: jenis_pengajuan, tanggal_start: tanggal_start, tanggal_end: tanggal_end, jenis_izin_id: jenis_izin_id, keterangan: keterangan, status: status},
-        cache: false,
-        success: function(x){
-            let hasil = atob(x);
-            let param = hasil.split("|");
-            if(param[0] == "1"){
-                swal({title:"Berhasil", text: param[1], icon: "success"});
-                $(".ftambah").val("");
-            }else{
-                swal({title:"Gagal", text: param[1], icon: "error"});
-            }
-        },
-        error: function(){
-            swal({title:"Gagal", text:"Tidak Terhubung dengan Server", icon: "error"});
+        if( tanggal_start == "" || tanggal_end == "" || jenis_izin_id == "" || keterangan == "" ){
+            swal({title:"Gagal", text:"Ada Isian Yang Kosong", icon: "error"});
+            $("#btn_tambah").attr("disabled", false);
+            $("#btn_reset").attr("disabled", false);
+            return;
         }
-    })
-}
+        let startDate = new Date(tanggal_start);
+        let endDate = new Date(tanggal_end);
+            
+        if (startDate > endDate) {
+            swal({ title: "Gagal", text: "Tanggal mulai tidak boleh lebih besar dari tanggal selesai", icon: "error" });
+            return;
+        }  
+        $.ajax({
+            url: "<?= base_url('Home/pengajuan_tambah'); ?>", 
+            method: "POST",
+            data: {jenis_pengajuan: jenis_pengajuan, tanggal_start: tanggal_start, tanggal_end: tanggal_end, jenis_izin_id: jenis_izin_id, keterangan: keterangan, status: status},
+            cache: false,
+            success: function(x){
+                let hasil = atob(x);
+                let param = hasil.split("|");
+                if(param[0] == "1"){
+                    swal({title:"Berhasil", text: param[1], icon: "success"});
+                    $(".ftambah").val("");
+                }else{
+                    swal({title:"Gagal", text: param[1], icon: "error"});
+                }
+            },
+            error: function(){
+                swal({title:"Gagal", text:"Tidak Terhubung dengan Server", icon: "error"});
+            }
+        })
+    }
 
 </script>

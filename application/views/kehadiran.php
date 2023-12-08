@@ -130,6 +130,7 @@
 <script>  
     $("#mnkehadiran").addClass("active");
     tampil_presensi();
+
     function izin_tampil() {
         $("#loader").show();
         $("#card").hide();
@@ -138,8 +139,9 @@
         }
 
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            url: "<?=base_url('Home/listKehadiran');?>",
             method: "GET",
+            dataType: "json",
             success: function (data) {
                 let izinData = data.filter(item => item.status === "Izin");
                 let izin = $('#tblx').DataTable({
@@ -178,8 +180,9 @@
         }
 
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            url: "<?=base_url('Home/listKehadiran');?>",
             method: "GET",
+            dataType: "json",
             success: function (data) {
                 let izinData = data.filter(item => item.status === "Hadir");
                 let izin = $('#tblx').DataTable({
@@ -218,8 +221,9 @@
         }
 
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            url: "<?=base_url('Home/listKehadiran');?>",
             method: "GET",
+            dataType: "json",
             success: function (data) {
                 let izinData = data.filter(item => item.status === "Sakit");
                 let izin = $('#tblx').DataTable({
@@ -258,8 +262,9 @@
         }
 
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            url: "<?=base_url('Home/listKehadiran');?>",
             method: "GET",
+            dataType: "json",
             success: function (data) {
                 let izinData = data.filter(item => item.status === "Cuti");
                 let izin = $('#tblx').DataTable({
@@ -298,8 +303,9 @@
         }
 
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            url: "<?=base_url('Home/listKehadiran');?>",
             method: "GET",
+            dataType: "json",
             success: function (data) {
                 let izinData = data.filter(item => item.status === "Lembur");
                 let izin = $('#tblx').DataTable({
@@ -338,8 +344,9 @@
         }
 
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=<?= $karyawan_id; ?>",
+            url: "<?=base_url('Home/listKehadiran');?>",
             method: "GET",
+            dataType: "json",
             success: function (data) {
                 let izinData = data.filter(item => item.status === "Absen");
                 let izin = $('#tblx').DataTable({
@@ -371,42 +378,46 @@
         });
     }
 
-    function tampil_presensi(){
+    function tampil_presensi() {
         $("#loader").show();
         $("#card").hide();
+
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/getAttendance?id=" + '<?= $karyawan_id; ?>', 
+            url: "<?=base_url('Home/listKehadiran');?>",
             method: "GET",
+            dataType: "json",
             success: function (data) {
-                // "Hadir" 
-                var hadirData = data.filter(item => item.status == "Hadir");
+                // "Hadir"
+                console.log("Data berhasil diambil:", data);
+                var hadirData = data.filter(item => item.status === "Hadir");
                 var jumlahHadir = hadirData.length;
                 $('#jmlhadir').text(jumlahHadir);
-                // "Sakit" 
+
+                // "Sakit"
                 var sakitData = data.filter(item => item.status === "Sakit");
                 var jumlahSakit = sakitData.length;
                 $('#jmlsakit').text(jumlahSakit);
 
-                // "Izin" 
+                // "Izin"
                 var izinData = data.filter(item => item.status === "Izin");
                 var jumlahIzin = izinData.length;
                 $('#jmlizin').text(jumlahIzin);
 
-                // "Cuti" 
+                // "Cuti"
                 var cutiData = data.filter(item => item.status === "Cuti");
                 var jumlahCuti = cutiData.length;
                 $('#jmlcuti').text(jumlahCuti);
 
-                // "Lembur" 
+                // "Lembur"
                 var lemburData = data.filter(item => item.status === "Lembur");
                 var jumlahLembur = lemburData.length;
                 $('#jmllembur').text(jumlahLembur);
 
-                // "Absen" 
+                // "Absen"
                 var absenData = data.filter(item => item.status === "Absen");
                 var jumlahAbsen = absenData.length;
                 $('#jmlabsen').text(jumlahAbsen);
-            
+
                 let dataTable = $("#tblx").DataTable({
                     data: data,
                     columns: [
@@ -442,6 +453,7 @@
                         }
                     },
                 });
+
                 $("#loader").hide();
                 $("#card").show();
             },
@@ -450,7 +462,7 @@
                 $("#loader").hide();
                 $("#card").show();
             }
-        }); 
+        });
     }
 
 </script>

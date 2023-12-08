@@ -81,7 +81,7 @@
 
             if (mulai) {
                 $.ajax({
-                    url: "http://103.215.177.169/hris/API/Pengajuan/tipe_cuti",
+                    url: "<?= base_url('Home/listCuti'); ?>",
                     method: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -113,7 +113,7 @@
 
     function cutioption() {
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Pengajuan/tipe_cuti",
+            url: "<?= base_url('Home/listCuti'); ?>",
             method: "GET",
             dataType: "json",
             success: function (data) {
@@ -134,9 +134,8 @@
     }
 
     function sisa_cuti(){
-        let id = '<?=$karyawan_id;?>';
         $.ajax({
-            url: "http://103.215.177.169/hris/API/Employee/checkSisaCutiTahunan?id=" + id,
+            url: "<?= base_url('Home/listSisaCuti'); ?>",
             method: "GET",
             success: function (data) {
                 let cbosisa = $("#cbosisa").val(data);
@@ -196,7 +195,7 @@
                 return;
             } else {
                 $.ajax({
-                    url: "<?= base_url(); ?>" + "Home/pengajuan_tambah", 
+                    url: "<?= base_url('Home/pengajuan_tambah'); ?>",
                     method: "POST",
                     data: {jenis_pengajuan: jenis_pengajuan, tanggal_start: tanggal_start, tanggal_end: tanggal_end, jenis_cuti_id: jenis_cuti_id, keterangan: keterangan, status: status},
                     cache: false,

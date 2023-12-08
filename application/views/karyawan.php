@@ -268,7 +268,7 @@
             return;
         }
         $.ajax({
-            url: "<?= base_url(); ?>" + "Home/karyawan_tambah",
+            url: "<?= base_url('Home/karyawan_tambah'); ?>",
             method: "POST",
             data: {nik: nik, nama: nama, tempat: tempat, tanggal: tanggal, pendidikan: pendidikan, departemen: departemen, level: level, status: status, username: username, password: password1},
             cache: "false",

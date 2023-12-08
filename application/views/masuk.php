@@ -89,41 +89,34 @@
 	<script src="<?= base_url(); ?>assets/js/setting-demo.js"></script>
 	<script src="<?= base_url(); ?>assets/js/demo.js"></script>
     <script>
-        function login() {
+       function login() {
             let username = $("#txtus").val();
             let pass = $("#txtpassword").val();
+
             if (username == "" || pass == "") {
                 swal({ title: "Gagal", text: "Isian Anda Masih Kosong", icon: "error" });
                 return;
             }
+
             $.ajax({
-                url: "http://103.215.177.169/hris/API/Employee/CheckEmployeeExist?id=" + username + '&password='+pass,
+                url: "<?=base_url('Login/listData');?>",
                 method: "GET",
+                dataType: "json",
+                data: {
+                    username: username,
+                    pass: pass,
+                },
                 cache: false,
                 success: function (data) {
-                    // if (data && data.length > 0 && data[0].employee_id === username && pass === "admin123") {
-                    if (data && data.length > 0 && data[0].employee_id === username) {
-                        let userData = JSON.stringify(data[0]);
-                        $.ajax({
-                            url: "<?= base_url(); ?>" + "Login/saveUserData",
-                            method: "POST",
-                            data: { username: username, userData: userData },
-                            success: function (response) {
-                                window.location = "<?= base_url(); ?>" + "Home/index";
-                            },
-                            error: function () {
-                                swal({ title: "Gagal", text: "Tidak dapat menyimpan data", icon: "error" });
-                            }
-                        });
-                    } else {
-                        swal({ title: "Gagal", text: "Login Gagal", icon: "error" });
-                    }
+                    swal({ title: "Berhasil", text: "Berhasil Login", icon: "success" });
+                    window.location = "<?= base_url('Home/index'); ?>";
                 },
-                error: function () {
+                error: function (error) {
                     swal({ title: "Gagal", text: "Tidak Terhubung dengan Server", icon: "error" });
                 }
             });
         }
+
     </script>
 </body>
 </html>

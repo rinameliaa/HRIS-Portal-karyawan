@@ -153,7 +153,7 @@
 
     function hapus(id){
         $.ajax({
-            url: "<?= base_url(); ?>" + "Home/pengajuan_hapus",
+            url: "<?= base_url('Home/pengajuan_hapus'); ?>",
             method: 'POST',
             data: { id: id},
             success: function (result) {
