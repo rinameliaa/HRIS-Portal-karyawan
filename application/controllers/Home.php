@@ -15,36 +15,46 @@ class Home extends CI_Controller {
         $this->load->library('curl');
     
         // Cek apakah ada data pengguna dalam sesi
-        // if ($this->session->userdata("username")) {
-        //     $userData = $this->session->userdata("userData");
+        if ($this->session->userdata("username")) {
+            $userData = $this->session->userdata("userData");
     
-        //     // Cek apakah data pengguna berhasil di-decode dari JSON
-        //     if ($userData) {
-        //         $userData = json_decode($userData);
+            // Cek apakah data pengguna berhasil di-decode dari JSON
+            if ($userData) {
+                // $userData = json_decode($userData);
     
-        //         // Cek apakah data pengguna valid
-        //         if ($userData) {
-        //             $this->user_id = $userData->user_id;
-        //             $this->karyawan_id = $userData->employee_id;
-        //             $this->firstname = $userData->first_name;
-        //             $this->lastname = $userData->last_name;
-        //             $this->fullname = $userData->first_name . ' ' . $userData->last_name;
-        //             $this->jenis_gaji = $userData->jenis_gaji;
-        //             $this->approval = $userData->approval_access;
-        //             $this->atasan = $userData->atasan_langsung_id;
-        //             $this->senior = $userData->superior_atasan_langsung_id;
-        //         } else {
-        //             // Redirect jika data pengguna tidak valid
-        //             redirect(base_url('Login'));
-        //         }
-        //     } else {
-        //         // Redirect jika data pengguna tidak ada
-        //         redirect(base_url('Login'));
-        //     }
-        // } else {
-        //     // Redirect jika tidak ada data pengguna dalam sesi
-        //     redirect(base_url('Login'));
-        // }
+                // Cek apakah data pengguna valid
+                if (is_array($userData)) {
+                    $this->user_id = $userData['user_id'];
+                    $this->karyawan_id = $userData['employee_id'];
+                    $this->firstname = $userData['first_name'];
+                    $this->lastname = $userData['last_name'];
+                    $this->fullname = $userData['first_name'] . ' ' . $userData['last_name'];
+                    $this->jenis_gaji = $userData['jenis_gaji'];
+                    $this->approval = $userData['approval_access'];
+                    $this->atasan = $userData['atasan_langsung_id'];
+                    $this->senior = $userData['superior_atasan_langsung_id'];
+                } elseif (is_object($userData)) { 
+                    $this->user_id = $userData->user_id;
+                    $this->karyawan_id = $userData->employee_id;
+                    $this->firstname = $userData->first_name;
+                    $this->lastname = $userData->last_name;
+                    $this->fullname = $userData->first_name . ' ' . $userData->last_name;
+                    $this->jenis_gaji = $userData->jenis_gaji;
+                    $this->approval = $userData->approval_access;
+                    $this->atasan = $userData->atasan_langsung_id;
+                    $this->senior = $userData->superior_atasan_langsung_id;
+                } else {
+                    // Redirect jika data pengguna tidak valid
+                    redirect(base_url('Login'));
+                }
+            } else {
+                // Redirect jika data pengguna tidak ada
+                redirect(base_url('Login'));
+            }
+        } else {
+            // Redirect jika tidak ada data pengguna dalam sesi
+            redirect(base_url('Login'));
+        }
     }    
 
     public function index(){

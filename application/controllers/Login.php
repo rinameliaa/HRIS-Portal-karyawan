@@ -23,18 +23,24 @@ class Login extends CI_Controller {
         }
 
         $userdata = json_decode($ambil_data, true);
+        
         if ($this->saveUserData($username, $userdata)) {
-            echo json_encode(["status" => "success"]);
+            echo json_encode(["status" => "success", "message" => "Berhasil menyimpan data ke dalam sesi"]);
         } else {
             echo json_encode(["status" => "error", "message" => "Gagal menyimpan data ke dalam sesi"]);
         }
 
     }
 
-    public function saveUserData($username, $userData) {
+    public function saveUserData($username, $userData) {   
         $this->session->set_userdata("username", $username);
         $this->session->set_userdata("userData", $userData);
 
-        return $this->session->userdata("username") === $username && $this->session->userdata("userData") === $userData;
+        if ($this->session->userdata("username") === $username && $this->session->userdata("userData") === $userData) {
+            return true; 
+        } else {
+            log_message('error', 'Gagal menyimpan data dalam sesi.'); 
+            return false; 
+        }
     }
 }
