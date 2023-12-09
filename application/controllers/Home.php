@@ -15,14 +15,9 @@ class Home extends CI_Controller {
         parent::__construct();
         $this->load->library('curl');
     
-        // Cek apakah ada data pengguna dalam sesi
         if ($this->session->userdata("username")) {
             $userData = $this->session->userdata("userData");
-    
-            // Cek apakah data pengguna berhasil di-decode dari JSON
             if ($userData) {
-    
-                // Cek apakah data pengguna valid
                 if ($userData) {
                     $this->user_id = $userData[0]['user_id'];
                     $this->karyawan_id = $userData[0]['employee_id'];
@@ -34,15 +29,12 @@ class Home extends CI_Controller {
                     $this->atasan = $userData[0]['atasan_langsung_id'];
                     $this->senior = $userData[0]['superior_atasan_langsung_id'];
                 }  else {
-                    // Redirect jika data pengguna tidak valid
                     redirect(base_url('Login'));
                 }
             } else {
-                // Redirect jika data pengguna tidak ada
                 redirect(base_url('Login'));
             }
         } else {
-            // Redirect jika tidak ada data pengguna dalam sesi
             redirect(base_url('Login'));
         }
     }    
@@ -82,8 +74,8 @@ class Home extends CI_Controller {
 
     public function listGaji() {
         $id = $this->karyawan_id;
-        $start = trim(str_replace("'", "''", $this->start));
-        $end = trim(str_replace("'", "''", $this->end));
+        $start = trim(str_replace("'", "''", $this->input->get("start")));
+        $end = trim(str_replace("'", "''",  $this->input->get("end")));
         $ambil_data = file_get_contents('http://103.215.177.169/hris/API/Employee/payslip_harian?employee_id=' .$id . '&start_date=' . $start . '&end_date=' . $end );
         $data = json_decode($ambil_data, true);
         echo json_encode($data);
@@ -369,42 +361,40 @@ class Home extends CI_Controller {
             echo base64_encode("0|Tambah Permohonan Gagal, Gagal Mengambil Data Atasan Langsung");
         }
     }
-    // public function sendEmail($email)
-    // {
-    //     // Load library email dan konfigurasinya
-    //     $this->load->library('email');
+    public function sendEmail($email)
+    {
+        $this->load->library('email');
 
-    //     // Konfigurasi email
-    //     $config = [
-    //         'mailtype'  => 'html',
-    //         'charset'   => 'utf-8',
-    //         'protocol'  => 'smtp',
-    //         'smtp_host' => 'ssl://smtp.gmail.com',
-    //         'smtp_user' => '*',
-    //         'smtp_pass' => '*',
-    //         'smtp_port' => 465,
-    //         'crlf'      => "\r\n",
-    //         'newline'   => "\r\n",
-    //     ];
+        $config = [
+            'mailtype'  => 'html',
+            'charset'   => 'utf-8',
+            'protocol'  => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_user' => '*',
+            'smtp_pass' => '*',
+            'smtp_port' => 465,
+            'crlf'      => "\r\n",
+            'newline'   => "\r\n",
+        ];
  
-    //     $this->email->initialize($config);
+        $this->email->initialize($config);
 
-    //     // Email dan nama pengirim
-    //     $this->email->from('it_spv@akuibirdnest.com','Akui Bird Nest Indonesia');
+        // Email dan nama pengirim
+        $this->email->from('it_spv@akuibirdnest.com','Akui Bird Nest Indonesia');
 
-    //     // Email penerima
-    //     $this->email->to($email);
+        // Email penerima
+        $this->email->to($email);
 
-    //     // Lampiran email, isi dengan url/path file
-    //     // $this->email->attach('https://images.pexels.com/photos/3052361/pexels-photo-3052361.jpeg');
+        // Lampiran email, isi dengan url/path file
+        // $this->email->attach('https://images.pexels.com/photos/3052361/pexels-photo-3052361.jpeg');
 
-    //     // Subject email
-    //     $this->email->subject('Pemberitahuan Permintaan Approval');
+        // Subject email
+        $this->email->subject('Pemberitahuan Permintaan Approval');
 
-    //     $this->email->message("Ini adalah contoh email yang dikirim menggunakan SMTP Gmail pada CodeIgniter.");
+        $this->email->message("Ini adalah contoh email yang dikirim menggunakan SMTP Gmail pada CodeIgniter.");
 
-    //     return $this->email->send();
-    // }
+        return $this->email->send();
+    }
     function postPengajuanKaryawanKeHR($id_pengajuan){
         $pengajuan = $this->Mizin->getDataById($id_pengajuan);
         $url = '';
