@@ -105,6 +105,7 @@
         }
     });
 
+
     $.ajax({
         url: "<?=base_url('Home/jumlahIzin');?>",
         method: "GET",

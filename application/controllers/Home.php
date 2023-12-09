@@ -9,6 +9,7 @@ class Home extends CI_Controller {
     public $approval;
     public $atasan;
     public $senior;
+    public $user;
     
     public function __construct() {
         parent::__construct();
@@ -20,30 +21,19 @@ class Home extends CI_Controller {
     
             // Cek apakah data pengguna berhasil di-decode dari JSON
             if ($userData) {
-                // $userData = json_decode($userData);
     
                 // Cek apakah data pengguna valid
-                if (is_array($userData)) {
-                    $this->user_id = $userData['user_id'];
-                    $this->karyawan_id = $userData['employee_id'];
-                    $this->firstname = $userData['first_name'];
-                    $this->lastname = $userData['last_name'];
-                    $this->fullname = $userData['first_name'] . ' ' . $userData['last_name'];
-                    $this->jenis_gaji = $userData['jenis_gaji'];
-                    $this->approval = $userData['approval_access'];
-                    $this->atasan = $userData['atasan_langsung_id'];
-                    $this->senior = $userData['superior_atasan_langsung_id'];
-                } elseif (is_object($userData)) { 
-                    $this->user_id = $userData->user_id;
-                    $this->karyawan_id = $userData->employee_id;
-                    $this->firstname = $userData->first_name;
-                    $this->lastname = $userData->last_name;
-                    $this->fullname = $userData->first_name . ' ' . $userData->last_name;
-                    $this->jenis_gaji = $userData->jenis_gaji;
-                    $this->approval = $userData->approval_access;
-                    $this->atasan = $userData->atasan_langsung_id;
-                    $this->senior = $userData->superior_atasan_langsung_id;
-                } else {
+                if ($userData) {
+                    $this->user_id = $userData[0]['user_id'];
+                    $this->karyawan_id = $userData[0]['employee_id'];
+                    $this->firstname = $userData[0]['first_name'];
+                    $this->lastname = $userData[0]['last_name'];
+                    $this->fullname = $userData[0]['first_name'] . ' ' . $userData[0]['last_name'];
+                    $this->jenis_gaji = $userData[0]['jenis_gaji'];
+                    $this->approval = $userData[0]['approval_access'];
+                    $this->atasan = $userData[0]['atasan_langsung_id'];
+                    $this->senior = $userData[0]['superior_atasan_langsung_id'];
+                }  else {
                     // Redirect jika data pengguna tidak valid
                     redirect(base_url('Login'));
                 }
