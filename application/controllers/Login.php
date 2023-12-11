@@ -16,7 +16,7 @@ class Login extends CI_Controller {
     public function listData() {
         $username = trim(str_replace("'", "''",$this->input->get("username")));
         $pass = trim(str_replace("'", "''", $this->input->get("pass")));
-        $ambil_data = file_get_contents('http://103.215.177.169/hris/API/Employee/CheckEmployeeExist?id=' . $username . '&password=' . $pass);
+        $ambil_data = file_get_contents(linkapi.'Employee/CheckEmployeeExist?id=' . $username . '&password=' . $pass);
         if ($ambil_data === FALSE) {
             echo json_encode(["status" => "error", "message" => "Gagal mengambil data dari server"]);
             return;

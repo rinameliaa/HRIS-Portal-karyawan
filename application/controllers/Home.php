@@ -49,34 +49,32 @@ class Home extends CI_Controller {
 	} 
     
     public function listCuti() {
-        $ambil_data = file_get_contents('http://103.215.177.169/hris/API/Pengajuan/tipe_cuti');
+        $ambil_data = file_get_contents(linkapi.'Pengajuan/tipe_cuti');
         $data = json_decode($ambil_data, true);
         echo json_encode($data);
     }
     public function listSisaCuti() {
         $id = $this->karyawan_id;
-        $ambil_data = file_get_contents('http://103.215.177.169/hris/API/Employee/checkSisaCutiTahunan?id=' . $id);
+        $ambil_data = file_get_contents(linkapi.'Employee/checkSisaCutiTahunan?id=' . $id);
         $data = json_decode($ambil_data, true);
         echo json_encode($data);
     }
     public function listIzin() {
-        $ambil_data = file_get_contents('http://103.215.177.169/hris/API/Pengajuan/tipe_izin');
+        $ambil_data = file_get_contents(linkapi.'Pengajuan/tipe_izin');
         $data = json_decode($ambil_data, true);
         echo json_encode($data);
     }
     public function listKehadiran() {
         $id = $this->karyawan_id;
-        $url = 'http://103.215.177.169/hris/API/Employee/getAttendance?id='.$id;
-        $ambil_data = file_get_contents($url);
+        $ambil_data = file_get_contents(linkapi.'Employee/getAttendance?id='.$id);
         $data = json_decode($ambil_data, true);
         echo json_encode($data);
     }
-
     public function listGaji() {
         $id = $this->karyawan_id;
         $start = trim(str_replace("'", "''", $this->input->get("start")));
         $end = trim(str_replace("'", "''",  $this->input->get("end")));
-        $ambil_data = file_get_contents('http://103.215.177.169/hris/API/Employee/payslip_harian?employee_id=' .$id . '&start_date=' . $start . '&end_date=' . $end );
+        $ambil_data = file_get_contents(linkapi.'Employee/payslip_harian?employee_id=' .$id . '&start_date=' . $start . '&end_date=' . $end );
         $data = json_decode($ambil_data, true);
         echo json_encode($data);
     }

@@ -387,8 +387,8 @@
             method: "GET",
             dataType: "json",
             success: function (data) {
+                console.log(data);
                 // "Hadir"
-                console.log("Data berhasil diambil:", data);
                 var hadirData = data.filter(item => item.status === "Hadir");
                 var jumlahHadir = hadirData.length;
                 $('#jmlhadir').text(jumlahHadir);
