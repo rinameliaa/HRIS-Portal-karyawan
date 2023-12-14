@@ -22,12 +22,13 @@ class Mizin extends CI_Model {
         }
     }
 
-    public function tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $approval_cancel_date, $status, $ket_cancel, $create) {
+    public function tambah($id, $user_id, $karyawan_id, $nama, $jabatan, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date, $approval_cancel_date, $status, $ket_cancel, $create) {
         $data = array(
             'id' => $id,
             'user_id' => $user_id,
             'karyawan_id' => $karyawan_id,
             'nama' => $nama,
+            'jabatan' => $jabatan,
             'jenis_pengajuan' => $jenis_pengajuan,
             'tanggal_start' => $tanggal_start,
             'tanggal_end' => $tanggal_end,

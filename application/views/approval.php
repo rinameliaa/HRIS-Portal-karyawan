@@ -106,7 +106,7 @@
             }
         );
     }
-    function approval1(id, id_approval2) {
+    function approval1(id, nama, jab, approval2, jenis_a, jenis_b, jenis_c, start, end, create, keterangan) {
         swal({
             title: "Konfirmasi",
             text: "Apakah Anda yakin ingin menyetujui pengajuan?",
@@ -124,15 +124,32 @@
             }
         }).then((confirmed) => {
             if (confirmed) {
+                swal({
+                    title: 'Loading...',
+                    text: "Mohon Tunggu sedang Diproses....", 
+                    icon: "info" 
+                });
                 $.ajax({
-                    url: "<?= base_url(); ?>" + "Home/pengajuan_approval1",
+                    url: "<?= base_url('Home/pengajuan_approval1'); ?>",
                     method: 'POST',
-                    data: { id: id , id_approval2: id_approval2},
+                    data:{ 
+                        id: id , 
+                        nama: nama,
+                        approval2: approval2,
+                        jab: jab,
+                        jenis_a: jenis_a,
+                        jenis_b: jenis_b,
+                        jenis_c: jenis_c,
+                        start: start,
+                        end: end,
+                        create: create,
+                        keterangan: keterangan,
+                    },
                     success: function (result) {
-                        // console.log(id_approval2);
+                        swal.close();
                         swal({
                             title: "Berhasil",
-                            text: "Berhasil Approved",
+                            text: result,
                             icon: "success",
                             buttons: {
                                 confirm: {
@@ -145,6 +162,7 @@
                         });
                     },
                     error: function () {
+                        swal.close();
                         swal({
                             title: "Gagal",
                             text: "Gagal Approved",

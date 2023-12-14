@@ -10,6 +10,7 @@ class Home extends CI_Controller {
     public $atasan;
     public $senior;
     public $user;
+    public $jabatan;
     
     public function __construct() {
         parent::__construct();
@@ -28,6 +29,8 @@ class Home extends CI_Controller {
                     $this->approval = $userData[0]['approval_access'];
                     $this->atasan = $userData[0]['atasan_langsung_id'];
                     $this->senior = $userData[0]['superior_atasan_langsung_id'];
+                    $this->jabatan = $userData[0]['designation_name'];
+                    
                 }  else {
                     redirect(base_url('Login'));
                 }
@@ -50,6 +53,11 @@ class Home extends CI_Controller {
     
     public function listCuti() {
         $ambil_data = file_get_contents(linkapi.'Pengajuan/tipe_cuti');
+        $data = json_decode($ambil_data, true);
+        echo json_encode($data);
+    }
+    public function listSakit() {
+        $ambil_data = file_get_contents(linkapi.'Pengajuan/tipe_sakit');
         $data = json_decode($ambil_data, true);
         echo json_encode($data);
     }
@@ -166,13 +174,18 @@ class Home extends CI_Controller {
             $id_approval2 = $k->karyawan_id_approval2;
             $karyawan_id = $k->karyawan_id;
             $nama = $k->nama;
+            $jenis_a = $k->jenis_izin_id;
+            $jenis_b = $k->jenis_cuti_id;
+            $jenis_c = $k->jenis_sakit_id;
+            $jabatan = $k->jabatan;
             $jenis_pengajuan = $k->jenis_pengajuan;
             $tanggal_start = $k->tanggal_start;
             $tanggal_end = $k->tanggal_end;
             $create = $k->create;
+            $tanggal = date('Y-m-d', strtotime($create));
             $keterangan = $k->keterangan;
             $status = $k->status;
-            $action = "<div class='text-center'> <button type='button' class='btn btn-warning' onclick='approval1($id, $id_approval2)' style='margin:5px;'>Approval 1</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button> </div>";
+            $action = "<div class='text-center'> <button type='button' class='btn btn-warning' onclick='approval1($id, `$nama`, `$jabatan`, $id_approval2, $jenis_a, $jenis_b, $jenis_c, `$tanggal_start`, `$tanggal_end`, `$tanggal`, `$keterangan`)' style='margin:5px;'>Approval 1</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button> </div>";
             $ttl = $tanggal_start . " s/d " . $tanggal_end;
             $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$create.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
         }
@@ -204,41 +217,42 @@ class Home extends CI_Controller {
         echo $data;
     }
     public function pengajuan_approval1() {
-        $id_approval2 = $this->input->post('id_approval2');
+        $nama = $this->input->post('nama');
+        $jabatan = $this->input->post('jab');
+        $id_approval2 = $this->input->post('approval2');
+        $tanggal_start = $this->input->post('start');
+        $tanggal_end = $this->input->post('end');
+        $create = $this->input->post('create');
+        $jenis_izin_id = $this->input->post('jenis_a');
+        $jenis_cuti_id = $this->input->post('jenis_b');
+        $jenis_sakit_id = $this->input->post('jenis_c');
+        $keterangan = $this->input->post('keterangan');
         $id = $this->input->post('id');
         $hasil = '';
     
         if ($id_approval2 == null) {
             $hasil = $this->Mizin->update_approval1($id);
-            $hasil = $this->Mizin->update_approval2($id);
-            $post = $this->postPengajuanKaryawanKeHR($id);
+            // $hasil = $this->Mizin->update_approval2($id);
+            // $post = $this->postPengajuanKaryawanKeHR($id);
         } else {
-            $url_atasan_langsung = 'http://103.215.177.169/hris/API/Employee/getEmployee?id=' . $id_approval2;
-            $data_atasan_langsung = file_get_contents($url_atasan_langsung);
+            $hasil = $this->Mizin->update_approval1($id);
+            $data_atasan_langsung = file_get_contents(linkapi.'Employee/getEmployee?id=' . $id_approval2);
     
             if ($data_atasan_langsung !== false && ($data_atasan_langsung = json_decode($data_atasan_langsung)) && isset($data_atasan_langsung->email)) {
-                $send_email = $this->sendEmail($data_atasan_langsung->email);
-                echo base64_encode($send_email ? "1|Berhasil Approval Pertama," : "0|Approval Pertama Gagal, Gagal Mengirim Email");
+                $send_email = $this->sendEmail($data_atasan_langsung->email, $nama, $jabatan, $tanggal_start, $tanggal_end, $create, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan);
+                echo json_encode($send_email ? "Berhasil Approval Pertama," : "Approval Pertama Gagal, Gagal Mengirim Email");
             } else {
-                echo base64_encode("0|Data Atasan Langsung Tidak Valid atau Gagal Mengambil Data");
+                echo json_encode("Data Atasan Langsung Tidak Valid atau Gagal Mengambil Data");
             }
-    
-            $hasil = $this->Mizin->update_approval1($id);
-        }
-    
-        if ($hasil == "1") {
-            echo base64_encode("1|Tambah Approval Date Berhasil,");
-        } else {
-            echo base64_encode("0|Tambah Approval Date Gagal, Silahkan Cek Datanya");
         }
     }
     public function pengajuan_approval2(){
         $id = $this->input->post('id');
+
         $hasil = $this->Mizin->update_approval2($id);
-        $post = $this->postPengajuanKaryawanKeHR($id);
+        // $post = $this->postPengajuanKaryawanKeHR($id);
      
         if ($hasil == "1") {    
-            $this->sendEmail(); 
             echo base64_encode("1|Tambah Approval Date Berhasil,");
         } else {
             echo base64_encode("0|Tambah Approval Date Gagal, Silahkan Cek Datanya");
@@ -311,7 +325,9 @@ class Home extends CI_Controller {
         $data = str_replace("xxx", $dtisifix, $dtJSON);
         echo $data;
     }
+    
     public function pengajuan_tambah(){
+        $jabatan= $this->jabatan ;
         $id = strtotime(date("Y-m-d H:i:s"));
         $user_id = trim(str_replace("'", "''", $this->user_id));
         $karyawan_id = trim(str_replace("'", "''", $this->karyawan_id));
@@ -335,86 +351,133 @@ class Home extends CI_Controller {
         $ket_cancel = NULL;
         $status = trim(str_replace("'", "''", $this->input->post("status")));
         $create = date('Y-m-d H:i:s');
-        $hasil = $this->Mizin->tambah($id, $user_id, $karyawan_id, $nama, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date,$approval_cancel_date, $status, $ket_cancel, $create);
+        $hasil = $this->Mizin->tambah($id, $user_id, $karyawan_id, $nama, $jabatan, $jenis_pengajuan, $tanggal_start, $tanggal_end, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan, $karyawan_id_approval1, $karyawan_id_approval2, $approval1_date, $approval2_date,$approval_cancel_date, $status, $ket_cancel, $create);
     
-        $url_atasan_langsung = 'http://103.215.177.169/hris/API/Employee/getEmployee?id=' . $karyawan_id_approval1;
-        $data_atasan_langsung = file_get_contents($url_atasan_langsung);
+        $data_atasan_langsung = file_get_contents(linkapi.'Employee/getEmployee?id=' . $karyawan_id_approval1);
 
         if ($data_atasan_langsung !== false) {
             $data_atasan_langsung = json_decode($data_atasan_langsung);
 
             if ($data_atasan_langsung && isset($data_atasan_langsung->email)) {
                 $email_atasan_langsung = $data_atasan_langsung->email;
-                $send_email = $this->sendEmail($email_atasan_langsung);
+                $send_email = $this->sendEmail($email_atasan_langsung, $nama, $jabatan, $tanggal_start, $tanggal_end, $create, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan);
 
                 if ($send_email) {
-                    echo base64_encode("1|Tambah Permohonan Berhasil,");
+                    echo json_encode("Tambah Permohonan Berhasil,");
                 } else {
-                    echo base64_encode("0|Tambah Permohonan Gagal, Gagal Mengirim Email");
+                    echo json_encode("Tambah Permohonan Gagal, Gagal Mengirim Email");
                 }
             } else {
-                echo base64_encode("0|Tambah Permohonan Gagal, Data Atasan Langsung Tidak Valid");
+                echo json_encode("Tambah Permohonan Gagal, Data Atasan Langsung Tidak Valid");
             }
         } else {
-            echo base64_encode("0|Tambah Permohonan Gagal, Gagal Mengambil Data Atasan Langsung");
+            echo json_encode("Tambah Permohonan Gagal, Gagal Mengambil Data Atasan Langsung");
         }
     }
-    public function sendEmail($email)
+    public function sendEmail($email, $nama, $jabatan, $tanggal_start, $tanggal_end, $create, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan)
     {
         $this->load->library('email');
-
+    
         $config = [
             'mailtype'  => 'html',
             'charset'   => 'utf-8',
             'protocol'  => 'smtp',
             'smtp_host' => 'ssl://smtp.gmail.com',
-            'smtp_user' => '*',
-            'smtp_pass' => '*',
+            'smtp_user' => 'akuibirdnest123@gmail.com',
+            'smtp_pass' => 'fddm rlod xcxs mtux',
             'smtp_port' => 465,
             'crlf'      => "\r\n",
             'newline'   => "\r\n",
         ];
- 
+    
         $this->email->initialize($config);
-
+    
         // Email dan nama pengirim
-        $this->email->from('it_spv@akuibirdnest.com','Akui Bird Nest Indonesia');
-
+        $this->email->from('akuibirdnest123@gmail.com', 'Akui Bird Nest Indonesia');
+    
         // Email penerima
-        $this->email->to($email);
-
-        // Lampiran email, isi dengan url/path file
-        // $this->email->attach('https://images.pexels.com/photos/3052361/pexels-photo-3052361.jpeg');
-
+        $this->email->to('rinaameliaa16@gmail.com');  
+    
         // Subject email
         $this->email->subject('Pemberitahuan Permintaan Approval');
 
-        $this->email->message("Ini adalah contoh email yang dikirim menggunakan SMTP Gmail pada CodeIgniter.");
-
+        $data = "";
+        // Check if $jenis_izin_id is not empty
+        if ($jenis_izin_id != NULL && $jenis_izin_id != 0) {
+            $data = $this->getDataFromAPI($jenis_izin_id);
+        }
+        elseif ($jenis_izin_id != NULL && $jenis_cuti_id != 0) {
+            $data = $this->getDataFromAPI1($jenis_cuti_id);
+        }
+        elseif ($jenis_izin_id != NULL && $jenis_sakit_id != 0) {
+            $data = $this->getDataFromAPI2($jenis_sakit_id);
+        }     
+    
+        // Pesan email
+        $this->email->message(
+            "Salam sejahtera,<br>
+            Saudara menerima pemberitahuan ini karena ada permohonan izin/cuti baru yang diajukan. <br>
+            Berikut adalah detail permohonan:<br>
+    
+            Nama Karyawan: $nama <br>
+            Jabatan: $jabatan <br>
+            Tanggal Permohonan: $create <br>
+            Jenis Izin/Cuti: $data <br>
+            Rentang Waktu: $tanggal_start hingga $tanggal_end <br>
+            Alasan: $keterangan <br>
+            Mohon untuk segera meninjau permohonan ini dan memberikan persetujuan atau penolakan melalui <a href=\"http://hris_karyawan.test/\">sistem kami</a>. 
+            Jika ada pertanyaan atau informasi tambahan yang diperlukan, silakan hubungi langsung.
+    
+            Terima kasih atas perhatiannya."
+        );
+    
         return $this->email->send();
     }
-    function postPengajuanKaryawanKeHR($id_pengajuan){
-        $pengajuan = $this->Mizin->getDataById($id_pengajuan);
-        $url = '';
-        $data = [
-            'employee_id' => $pengajuan->karyawan_id,
-            'from_date' => $pengajuan->tanggal_start,
-            'to_date' => $pengajuan->tanggal_end,
-            'sick_type_id' => $pengajuan->jenis_sakit_id,
-            'leave_type_id' => $pengajuan->jenis_cuti_id,
-            'izin_type_id' => $pengajuan->jenis_izin_id,
-            'reason' => $pengajuan->keterangan,
-        ];
-        if ($pengajuan->jenis_pengajuan == 'Izin') {
-           $url = "http://103.215.177.169/hris/API/Pengajuan/savePengajuanIzin";
-        }else if ($pengajuan->jenis_pengajuan == 'Sakit') {
-            $url = "http://103.215.177.169/hris/API/Pengajuan/savePengajuanSakit";
-        }else{
-            $url = "http://103.215.177.169/hris/API/Pengajuan/savePengajuanCuti";
-
-        }
-        $insert =  $this->curl->simple_post($url, $data, array(CURLOPT_BUFFERSIZE => 10)); 
-
-        return $insert;
+    
+    private function getDataFromAPI($jenis_id)
+    {
+        $ambil_data = file_get_contents(linkapi.'Pengajuan/tipe_izin?id='.$jenis_id);
+        $xyz = json_decode($ambil_data, true);
+        $tipe = isset($xyz[0]['tipe']) ? $xyz[0]['tipe'] : null;
+        return json_encode($tipe);
     }
+    private function getDataFromAPI1($jenis_id)
+    {
+        $ambil_data = file_get_contents(linkapi.'Pengajuan/tipe_cuti?id='.$jenis_id);
+        $xyz = json_decode($ambil_data, true);
+        $tipe = isset($xyz[0]['tipe']) ? $xyz[0]['tipe'] : null;
+        return json_encode($tipe);
+    }
+    private function getDataFromAPI2($jenis_id)
+    {
+        $ambil_data = file_get_contents(linkapi.'Pengajuan/tipe_sakit?id='.$jenis_id);
+        $xyz = json_decode($ambil_data, true);
+        $tipe = isset($xyz[0]['tipe']) ? $xyz[0]['tipe'] : null;
+        return json_encode($tipe);
+    }
+    
+    // function postPengajuanKaryawanKeHR($id_pengajuan){
+    //     $pengajuan = $this->Mizin->getDataById($id_pengajuan);
+    //     $url = '';
+    //     $data = [
+    //         'employee_id' => $pengajuan->karyawan_id,
+    //         'from_date' => $pengajuan->tanggal_start,
+    //         'to_date' => $pengajuan->tanggal_end,
+    //         'sick_type_id' => $pengajuan->jenis_sakit_id,
+    //         'leave_type_id' => $pengajuan->jenis_cuti_id,
+    //         'izin_type_id' => $pengajuan->jenis_izin_id,
+    //         'reason' => $pengajuan->keterangan,
+    //     ];
+    //     if ($pengajuan->jenis_pengajuan == 'Izin') {
+    //        $url = "http://103.215.177.169/hris/API/Pengajuan/savePengajuanIzin";
+    //     }else if ($pengajuan->jenis_pengajuan == 'Sakit') {
+    //         $url = "http://103.215.177.169/hris/API/Pengajuan/savePengajuanSakit";
+    //     }else{
+    //         $url = "http://103.215.177.169/hris/API/Pengajuan/savePengajuanCuti";
+
+    //     }
+    //     $insert =  $this->curl->simple_post($url, $data, array(CURLOPT_BUFFERSIZE => 10)); 
+
+    //     return $insert;
+    // }
 }

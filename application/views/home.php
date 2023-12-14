@@ -6,6 +6,7 @@
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
 	<link rel="icon" href="<?= base_url(); ?>assets/img/icon.ico" type="image/x-icon"/>
 	<link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 	<script src="<?= base_url(); ?>assets/js/plugin/webfont/webfont.min.js"></script>
 	<script>
 		WebFont.load({
@@ -157,7 +158,6 @@
 	<script src="<?= base_url(); ?>assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 	<script src="<?= base_url(); ?>assets/js/plugin/chart-circle/circles.min.js"></script>
 	<script src="<?= base_url(); ?>assets/js/plugin/datatables/datatables.min.js"></script>
-	<!-- <script src="<?= base_url(); ?>assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script> -->
 	<script src="<?= base_url(); ?>assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
 	<script src="<?= base_url(); ?>assets/js/plugin/jqvmap/maps/jquery.vmap.world.js"></script>
 	<script src="<?= base_url(); ?>assets/js/plugin/sweetalert/sweetalert.min.js"></script>

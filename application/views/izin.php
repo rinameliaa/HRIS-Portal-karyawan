@@ -28,7 +28,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label>Keterangan</label>
-                    <textarea class="form-control ftambah" id="txtket"></textarea>
+                    <textarea class="form-control ftambah" id="txtket" onkeydown="if(event.key === 'Enter') event.preventDefault()"></textarea>
                 </div>
                 <div class="form-group col-md-6">
                     <label>Tanggal Mulai</label>
@@ -106,29 +106,28 @@
             $("#btn_reset").attr("disabled", false);
             return;
         }
-        let startDate = new Date(tanggal_start);
-        let endDate = new Date(tanggal_end);
             
-        if (startDate > endDate) {
+        if (tanggal_start > tanggal_end) {
             swal({ title: "Gagal", text: "Tanggal mulai tidak boleh lebih besar dari tanggal selesai", icon: "error" });
             return;
         }  
+        swal({
+            title: 'Loading...',
+            text: "Mohon Tunggu sedang Diproses....", 
+            icon: "info" 
+        });
         $.ajax({
             url: "<?= base_url('Home/pengajuan_tambah'); ?>", 
             method: "POST",
             data: {jenis_pengajuan: jenis_pengajuan, tanggal_start: tanggal_start, tanggal_end: tanggal_end, jenis_izin_id: jenis_izin_id, keterangan: keterangan, status: status},
             cache: false,
-            success: function(x){
-                let hasil = atob(x);
-                let param = hasil.split("|");
-                if(param[0] == "1"){
-                    swal({title:"Berhasil", text: param[1], icon: "success"});
-                    $(".ftambah").val("");
-                }else{
-                    swal({title:"Gagal", text: param[1], icon: "error"});
-                }
+            success: function(response){
+                swal.close();
+                swal({ title: "Berhasil", text: response, icon: "success" });
+                $(".ftambah").val("");
             },
             error: function(){
+                swal.close();
                 swal({title:"Gagal", text:"Tidak Terhubung dengan Server", icon: "error"});
             }
         })

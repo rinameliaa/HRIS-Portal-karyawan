@@ -9,7 +9,7 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+7:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -32,6 +32,7 @@ CREATE TABLE `pengajuan_karyawan` (
   `user_id` int NOT NULL,
   `karyawan_id` varchar(25) NOT NULL,
   `nama` varchar(100) NOT NULL,
+  `jabatan` varchar(100) NOT NULL,
   `jenis_pengajuan` varchar(25) NOT NULL,
   `tanggal_start` date NOT NULL,
   `tanggal_end` date NOT NULL,
@@ -52,10 +53,6 @@ CREATE TABLE `pengajuan_karyawan` (
 --
 -- Dumping data for table `pengajuan_karyawan`
 --
-
-INSERT INTO `pengajuan_karyawan` (`id`, `user_id`, `karyawan_id`, `nama`, `jenis_pengajuan`, `tanggal_start`, `tanggal_end`, `jenis_izin_id`, `jenis_cuti_id`, `jenis_sakit_id`, `keterangan`, `karyawan_id_approval1`, `karyawan_id_approval2`, `approval1_date`, `approval2_date`, `approval_cancel_date`, `status`, `ket_cancel`, `create`) VALUES
-(1700202876, 627, 'JBG-2021-824', 'RIRIS RAHMANIA', 'Izin', '2023-11-20', '2023-11-24', 9, 0, 0, 'liburan', '627', '631', '2023-11-15 16:29:20', '2023-11-15 16:37:03', NULL, 'Disetujui', NULL, '2023-11-17 13:34:36'),
-(1701391994, 627, 'JBG-2021-824', 'RIRIS RAHMANIA', 'Sakit', '2023-12-15', '2023-12-27', 0, 0, 15, 'sakit', '631', '631', NULL, NULL, NULL, 'Proses', NULL, '2023-12-01 07:53:14');
 
 --
 -- Indexes for dumped tables

@@ -95,6 +95,16 @@
     $("#mnhome").addClass("active");
     let tblx = $('#tblx').DataTable({
         "ajax": "<?=base_url('Home/pengajuan_tampil');?>",
+        // "bEscapeHTML": true,
+        "columnDefs": [
+            {
+                "render": function (data, type, row) {
+                    var modifiedData = data.replace(/\n/g, '<br>');
+                    return modifiedData;
+                },
+                "targets": 5,
+            }
+        ],
         "initComplete": function(settings, json) {
             this.api().rows().every(function () {
                 let rowData = this.data();
