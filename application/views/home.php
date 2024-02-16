@@ -20,10 +20,15 @@
 	<link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="<?= base_url(); ?>assets/css/atlantis.min.css">
 	<link rel="stylesheet" href="<?= base_url(); ?>assets/css/demo.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
-  <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+	<link rel="stylesheet" href="<?= base_url(); ?>assets/css/demo.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.0/css/fixedColumns.dataTables.min.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap4.min.js"></script>
+	<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/fixedcolumns/4.3.0/js/dataTables.fixedColumns.min.js"></script>
 
 </head>
 <body>
@@ -130,6 +135,14 @@
 								<p>Kehadiran Karyawan</p>
 							</a>
 						</li>
+						<?php if ($this->approval !== 0): ?>
+							<li class="nav-item" id="mnrekap">
+								<a href="<?=base_url('Home/rekap_kehadiran'); ?>">
+									<i class="fas fa-user-friends"></i>
+									<p>Rekap Kehadiran</p>
+								</a>
+							</li>
+						<?php endif; ?>
 						<li class="nav-item" id="mnpenggajian">
 							<a href="<?=base_url('Home/penggajian'); ?>">
 								<i class="fas fa-money-check-alt"></i>
@@ -149,6 +162,7 @@
 		</div>
   </div>
 	<script src="<?= base_url(); ?>assets/js/core/jquery.3.2.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 	<script src="<?= base_url(); ?>assets/js/core/popper.min.js"></script>
 	<script src="<?= base_url(); ?>assets/js/core/bootstrap.min.js"></script>
 	<script src="<?= base_url(); ?>assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
@@ -164,6 +178,7 @@
 	<script src="<?= base_url(); ?>assets/js/atlantis.min.js"></script>
 	<script src="<?= base_url(); ?>assets/js/setting-demo.js"></script>
 	<script src="<?= base_url(); ?>assets/js/demo.js"></script>
+	
 </body>
 <script>
 

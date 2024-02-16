@@ -9,7 +9,7 @@ class Home extends CI_Controller {
     public $approval;
     public $atasan;
     public $senior;
-    public $user;
+    public $user_id;
     public $jabatan;
     
     public function __construct() {
@@ -286,6 +286,64 @@ class Home extends CI_Controller {
         $this->load->view("kehadiran", $z, true);
         $this->load->view("home", $xyz);
     }
+    public function rekap_kehadiran(){
+        $xyz["konten"] = "rekap_kehadiran";
+        $z["nama"] = $this->fullname ;
+        $z["karyawan_id"] = $this->karyawan_id;
+        $user_id = $this->user_id;
+        $datax = file_get_contents(linkapi.'employee/getAttendanceBawahan?id=' . $user_id);
+        $data = json_decode($datax, true);
+
+        $z["data"] = json_encode($data);
+        $bulan = date("n"); 
+        $tahun = date("Y"); 
+        $jumlah_hari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun); 
+        $z["daysInMonth"] = $jumlah_hari;
+        $this->load->view("rekap_kehadiran", $z, true);
+        $this->load->view("home", $xyz);
+    }
+    public function rekap(){
+        $dtJSON = '{"data": [xxx]}'; 
+        $dtisi = "";
+        $user_id = $this->user_id;
+        $dtx = file_get_contents(linkapi.'employee/getAttendanceBawahan?id=' . $user_id);
+        $dty = json_decode($dtx, true);
+        $dt = json_encode($dty);
+        $id = 1;
+        $bulan = date("n"); 
+        $tahun = date("Y"); 
+        $jumlah_hari = cal_days_in_month(CAL_GREGORIAN, $bulan, $tahun); 
+        foreach ($dty as $k) {
+            $nama = $k['first_name'] . ' ' . $k['last_name'];
+            for ($i = 1; $i <= $jumlah_hari; $i++) {
+                if ($k['tanggal_'.$i] == '.') {
+                    $tanggal[$i] = 'H';
+                }  else {
+                    $tanggal[$i] = $k['tanggal_'.$i];
+                }
+            }            
+            $libur = ($k['libur'] == '') ? '0' : $k['libur'];
+            $libur_kantor = ($k['libur_kantor']== '') ? '0' : $k['libur_kantor'];
+            $aktif = ($k['aktif'] == '') ? '0' : $k['aktif'];
+            $sakit = ($k['sakit'] == '') ? '0' : $k['sakit'];
+            $izin = ($k['izin'] == '') ? '0' : $k['izin'];
+            $cuti = ($k['cuti'] == '') ? '0' : $k['cuti'];
+            $alpa = ($k['alpa'] == '') ? '0' : $k['alpa'];
+            $lembur = ($k['lembur'] == '') ? '0' : $k['lembur'];
+            $dinas = ($k['dinas'] == '') ? '0' : $k['dinas'];
+            $terlambat_menit = $k['terlambat_menit'];
+            $terlambat_jam = $k['terlambat_jam'];
+            $dtisi .= '["' . $id . '","' . $nama . '"';
+            for ($i = 1; $i <= $jumlah_hari; $i++) {
+                $dtisi .= ',"' . $tanggal[$i] . '"';
+            }
+            $dtisi .= ',"' . $libur . '","' . $libur_kantor . '","' . $aktif . '","' . $sakit . '","' . $izin . '","' . $cuti . '","' . $alpa . '","' . $lembur . '","' . $dinas . '","' . $terlambat_menit . '","' . $terlambat_jam . '"],';
+            $id++;
+        }
+        $dtisifix = rtrim($dtisi, ",");
+        $data = str_replace("xxx", $dtisifix, $dtJSON);
+        echo $data;
+    }
     public function Penggajian(){
         $xyz["konten"] = "penggajian";
         $z["nama"] = $this->fullname ;
@@ -294,7 +352,6 @@ class Home extends CI_Controller {
         $this->load->view("penggajian", $z, true);
         $this->load->view("home", $xyz);
     }
-
     public function pengajuan_tampil(){
         $dtJSON = '{"data": [xxx]}'; 
         $dtisi = "";
