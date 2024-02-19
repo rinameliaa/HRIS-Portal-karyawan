@@ -38,8 +38,14 @@
     <div class="page-inner py-5">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
             <div>
-            <h3 class="font-weight-bold text-white">SELAMAT DATANG, <?= $nama; ?> (<?= $karyawan_id; ?>)</h3>
-            <h4 class="font-weight-bold text-white">Bulan <?= date('F Y'); ?></h4>
+                <h3 class="font-weight-bold text-white">SELAMAT DATANG, <?= $nama; ?> (<?= $karyawan_id; ?>)</h3>
+                <h4 class="font-weight-bold text-white">Bulan <?= date('F Y'); ?></h4>
+                <div class="row">
+                    <div class="col-md-12 d-flex">
+                        <input type="month" id="cbobulan" class="form-control">
+                        <button type="button" class="btn btn-success" id="cari" onclick="tampil_rekap($('#cbobulan').val())" style="margin: 5px">Cari</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -104,7 +110,7 @@
         <div class="card" id="card">
         <div class="card-body">
             <div class="table-responsive">
-            <table id="tblx" class="display table table-hover" cellspacing="0" width="100%">
+            <table id="tblx" class="display table table-hover table-bordered table-head-bg-primary" cellspacing="1" width="100%">
                 <thead>
                     <tr>
                     <th style="text-align: center;">No</th>

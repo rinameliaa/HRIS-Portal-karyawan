@@ -27,12 +27,6 @@ class Login extends CI_Controller {
             echo json_encode(["status" => "error", "message" => "Username/password salah"]);
             return;
         }
-        if ($userdata[0]['tanggal_lahir'] != $pass) {
-            # code...
-            echo json_encode(["status" => "error", "message" => "Username/password salah"]);
-            return;
-        }
-        // var_dump($userdata);return;
     
         if ($this->saveUserData($username, $userdata)) {
             echo json_encode(["status" => "success", "message" => "Berhasil menyimpan data ke dalam sesi"]);
