@@ -72,12 +72,6 @@ class Home extends CI_Controller {
         $data = json_decode($ambil_data, true);
         echo json_encode($data);
     }
-    public function listKehadiran() {
-        $id = $this->karyawan_id;
-        $ambil_data = file_get_contents(linkapi.'Employee/getAttendance?id='.$id);
-        $data = json_decode($ambil_data, true);
-        echo json_encode($data);
-    }
     public function listGaji() {
         $id = $this->karyawan_id;
         $start = trim(str_replace("'", "''", $this->input->get("start")));
@@ -286,6 +280,34 @@ class Home extends CI_Controller {
         $this->load->view("kehadiran", $z, true);
         $this->load->view("home", $xyz);
     }
+
+    public function listKehadiran($bulan) {
+        $dtJSON = '{"data": [xxx]}'; 
+        $dtisi = "";
+        $id = $this->karyawan_id;
+        $dtx = file_get_contents(linkapi.'Employee/getAttendance?id='. $id . '&period=' . $bulan);
+        $dty = json_decode($dtx, true);
+        $id = 1;
+        foreach ($dty as $k) {           
+            $tanggal = $k['tanggal'];
+            $hari = $k['hari'];
+            $jam_kerja = $k['jam_kerja'];
+            $jam_masuk = $k['jam_masuk'];
+            $jam_pulang = $k['jam_pulang'];
+            $status = $k['status'];
+            $terlambat = $k['terlambat'];
+            $pulang_cepat = $k['pulang_cepat'];
+            $lembur = $k['lembur'];
+            $total_jam_kerja = $k['total_jam_kerja'];
+            $keterangan = $k['keterangan'];
+            $dtisi .= '["' . $id . '","' . $tanggal . '","' . $hari. '","' . $jam_kerja . '","' . $jam_masuk . '","' . $jam_pulang . '","' . $status . '","' . $terlambat . '","' . $pulang_cepat . '","' . $lembur . '","' . $total_jam_kerja . '","' . $keterangan . '"],';
+            $id++;
+        }
+        $dtisifix = rtrim($dtisi, ",");
+        $data = str_replace("xxx", $dtisifix, $dtJSON);
+        echo $data;
+    }
+
     public function rekap_kehadiran(){
         $xyz["konten"] = "rekap_kehadiran";
         $z["nama"] = $this->fullname ;
@@ -294,13 +316,12 @@ class Home extends CI_Controller {
         $this->load->view("home", $xyz);
     }
 
-    public function rekap($bulan = null){
+    public function rekap($bulan){
         $dtJSON = '{"data": [xxx]}'; 
         $dtisi = "";
         $user_id = $this->user_id;
         $dtx = file_get_contents(linkapi.'employee/getAttendanceBawahan?id=' . $user_id . '&period=' . $bulan);
         $dty = json_decode($dtx, true);
-        $dt = json_encode($dty);
         $id = 1;
         foreach ($dty as $k) {
             $nama = strtoupper($k['first_name'] . ' ' . $k['last_name']);

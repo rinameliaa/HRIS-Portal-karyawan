@@ -68,28 +68,34 @@
         $("#loader").show();
         $("#card").hide();
         
-        // Hancurkan dan buat ulang DataTable
         if ($.fn.DataTable.isDataTable('#tblx')) {
             $('#tblx').DataTable().destroy();
         }
 
-        $('#tblx').DataTable({
-            "ajax": "<?= base_url('Home/rekap/') ?>" + bulan,
-            "fixedColumns": {
-                "left": 2
+        var dataTable = new DataTable("#tblx",{
+            ajax: "<?= base_url('Home/rekap/') ?>" + bulan,
+            fixedColumns: {
+                leftColumns: 2
             },
-            "paging": false,
-            "scrollCollapse": true,
-            "scrollX": true,
-            "scrollY": 500,
-            "createdRow": function(row, data, dataIndex) {
+            fixedHeader: true,
+            destroy: true,
+            paging: false,
+            scrollCollapse: true,
+            scrollX: true,
+            scrollY: 500,
+            layout: {
+                        topStart: {
+                            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                        }
+                    },
+            createdRow: function(row, data, dataIndex) {
                 $('td', row).each(function(index) {
                     if (data[index] === 'A') {
                         $(this).css('color', 'red');
                     }
                 });
             },
-            "initComplete": function(settings, json) {
+            initComplete: function(settings, json) {
                 $("#loader").hide();
                 $("#card").show();
             }
