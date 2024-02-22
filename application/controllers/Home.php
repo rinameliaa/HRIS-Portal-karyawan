@@ -158,12 +158,16 @@ class Home extends CI_Controller {
         $jumlah_approval2 = $this->Mizin->jmlApproval2($z);
         echo $jumlah_approval2;
     }
-    public function approval1_tampil(){
-        $dtJSON = '{"data": [xxx]}'; 
-        $dtisi = "";
+    public function jumlahhistoryApproval(){
         $z = $this->user_id;
-        $dt = $this->Mizin->tampilapproval1($z);
-        foreach ($dt as $k){
+        $jumlah_history = $this->Mizin->jmlApprovalHistory($z);
+        echo $jumlah_history;
+    }
+    public function approval1_tampil() {
+        $dt = $this->Mizin->tampilapproval1($this->user_id);
+        $dtisi = [];
+        
+        foreach ($dt as $k) {
             $id = $k->id;
             $id_approval2 = $k->karyawan_id_approval2;
             $karyawan_id = $k->karyawan_id;
@@ -177,22 +181,33 @@ class Home extends CI_Controller {
             $tanggal_end = $k->tanggal_end;
             $create = $k->create;
             $tanggal = date('Y-m-d', strtotime($create));
-            $keterangan = $k->keterangan;
+            $keterangan = htmlspecialchars($k->keterangan);
             $status = $k->status;
-            $action = "<div class='text-center'> <button type='button' class='btn btn-warning' onclick='approval1($id, `$nama`, `$jabatan`, $id_approval2, $jenis_a, $jenis_b, $jenis_c, `$tanggal_start`, `$tanggal_end`, `$tanggal`, `$keterangan`)' style='margin:5px;'>Approval 1</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button> </div>";
-            $ttl = $tanggal_start . " s/d " . $tanggal_end;
-            $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$create.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
+            
+            $action = "<div class='text-center'><button type='button' class='btn btn-warning' onclick='approval1($id, `$nama`, `$jabatan`, $id_approval2, $jenis_a, $jenis_b, $jenis_c, `$tanggal_start`, `$tanggal_end`, `$tanggal`, `$keterangan`)' style='margin:5px;'>Approval 1</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button></div>";
+            
+            $ttl = "$tanggal_start s/d $tanggal_end";
+            
+            $dtisi[] = [
+                $karyawan_id,
+                $nama,
+                $jenis_pengajuan,
+                $create,
+                $ttl,
+                $keterangan,
+                $status,
+                $action
+            ];
         }
-        $dtisifix = rtrim($dtisi, ",");
-        $data = str_replace("xxx", $dtisifix, $dtJSON);
-        echo $data;
-    }
-    public function approval2_tampil(){
-        $dtJSON = '{"data": [xxx]}'; 
-        $dtisi = "";
-        $z = $this->user_id;
-        $dt = $this->Mizin->tampilapproval2($z);
-        foreach ($dt as $k){
+        
+        $dtJSON = json_encode(['data' => $dtisi]);
+        echo $dtJSON;
+    }    
+    public function approval2_tampil() {
+        $dt = $this->Mizin->tampilapproval2($this->user_id);
+        $dtisi = [];
+        
+        foreach ($dt as $k) {
             $id = $k->id;
             $karyawan_id = $k->karyawan_id;
             $nama = $k->nama;
@@ -200,15 +215,55 @@ class Home extends CI_Controller {
             $create = $k->create;
             $tanggal_start = $k->tanggal_start;
             $tanggal_end = $k->tanggal_end;
-            $keterangan = $k->keterangan;
+            $keterangan = htmlspecialchars($k->keterangan);
             $status = $k->status;
-            $action = "<div class='text-center'> <button type='button' class='btn btn-warning' onclick='approval2($id)' style='margin:5px;'>Approval 2</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button> </div>";
-            $ttl = $tanggal_start . " s/d " . $tanggal_end;
-            $dtisi .= '["'.$karyawan_id.'","'.$nama.'","'.$jenis_pengajuan.'","'.$create.'","'.$ttl.'","'.$keterangan.'","'.$status.'","'.$action.'"],';
+            $action = "<div class='text-center'><button type='button' class='btn btn-warning' onclick='approval2($id)' style='margin:5px;'>Approval 2</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button></div>";
+            $ttl = "$tanggal_start s/d $tanggal_end";
+            
+            $dtisi[] = [
+                $karyawan_id,
+                $nama,
+                $jenis_pengajuan,
+                $create,
+                $ttl,
+                $keterangan,
+                $status,
+                $action
+            ];
         }
-        $dtisifix = rtrim($dtisi, ",");
-        $data = str_replace("xxx", $dtisifix, $dtJSON);
-        echo $data;
+        $dtJSON = json_encode(['data' => $dtisi]);
+        echo $dtJSON;
+    }    
+    public function approval_selesai() {
+        $dt = $this->Mizin->tampilapproval_selesai($this->user_id);
+        $dtisi = [];
+        
+        foreach ($dt as $k) {
+            $id = $k->id;
+            $karyawan_id = $k->karyawan_id;
+            $nama = $k->nama;
+            $jenis_pengajuan = $k->jenis_pengajuan;
+            $create = $k->create;
+            $tanggal_start = $k->tanggal_start;
+            $tanggal_end = $k->tanggal_end;
+            $keterangan = htmlspecialchars($k->keterangan);
+            $status = $k->status;
+            $action = "<div class='text-center'><button type='button' class='btn btn-warning' onclick='approval2($id)' style='margin:5px;'>Approval 2</button><button type='button' class='btn btn-danger' onclick='cancel($id)' style='margin:5px;'>Cancel</button></div>";
+            $ttl = "$tanggal_start s/d $tanggal_end";
+            
+            $dtisi[] = [
+                $karyawan_id,
+                $nama,
+                $jenis_pengajuan,
+                $create,
+                $ttl,
+                $keterangan,
+                $status,
+                $action
+            ];
+        }
+        $dtJSON = json_encode(['data' => $dtisi]);
+        echo $dtJSON;
     }
     public function pengajuan_approval1() {
         $nama = $this->input->post('nama');
@@ -288,8 +343,8 @@ class Home extends CI_Controller {
         $dtx = file_get_contents(linkapi.'Employee/getAttendance?id='. $id . '&period=' . $bulan);
         $dty = json_decode($dtx, true);
         $id = 1;
-        foreach ($dty as $k) {           
-            $tanggal = $k['tanggal'];
+        foreach ($dty as $k) {       
+            $tanggal = date('d-m-Y', strtotime($k['tanggal']));            
             $hari = $k['hari'];
             $jam_kerja = $k['jam_kerja'];
             $jam_masuk = $k['jam_masuk'];
@@ -365,36 +420,45 @@ class Home extends CI_Controller {
         $this->load->view("penggajian", $z, true);
         $this->load->view("home", $xyz);
     }
-    public function pengajuan_tampil(){
-        $dtJSON = '{"data": [xxx]}'; 
-        $dtisi = "";
-        $z = $this->karyawan_id;
-        $dt = $this->Mizin->data($z);
+    public function pengajuan_tampil() {
+        $dt = $this->Mizin->data($this->karyawan_id);
+        $dtisi = [];
+        
         foreach ($dt as $k) {
             $id = $k->id;
             $karyawan_id = $k->karyawan_id;
             $nama = $k->nama;
             $jenis_pengajuan = $k->jenis_pengajuan;
-            $create = $k->create;
-            $tanggal_start = $k->tanggal_start;
-            $tanggal_end = $k->tanggal_end;
-            $keterangan = $k->keterangan;
+            $create = date('d-m-Y H:i:s', strtotime($k->create));
+            $tanggal_start = date('d-m-Y', strtotime($k->tanggal_start));
+            $tanggal_end = date('d-m-Y', strtotime($k->tanggal_end));            
+            $keterangan = htmlspecialchars($k->keterangan);
             $approval1_date = empty($k->approval1_date) ? '-' : $k->approval1_date;
             $approval2_date = empty($k->approval2_date) ? '-' : $k->approval2_date;
             $approval_cancel_date = empty($k->approval_cancel_date) ? '-' : $k->approval_cancel_date;
             $status = $k->status;
-            $ket_cancel = $k->ket_cancel;
-            if (empty($ket_cancel)) {
-                $ket_cancel = '-';
-            }
-            $action = empty($k->approval2_date) ?  "<button type='button' class='btn btn-danger' onclick='hapus($id)' style='margin:5px;'>Hapus</button>" : "<button type='button' class='btn btn-success' style='margin:5px;'>No Action</button>";          
-            $ttl = $tanggal_start . " s/d " . $tanggal_end;
-            $dtisi .= '["' . $karyawan_id . '","' . $nama . '","' . $jenis_pengajuan . '","' . $create . '","' . $ttl . '","' . $keterangan . '","' . $approval1_date . '","' . $approval2_date . '","' . $approval_cancel_date . '","' . $status . '","' . $ket_cancel . '","' . $action . '"],';
+            $ket_cancel = empty($k->ket_cancel) ? '-' : $k->ket_cancel;
+            $action = empty($k->approval2_date) ? "<button type='button' class='btn btn-danger' onclick='hapus($id)' style='margin:5px;'>Hapus</button>" : "<button type='button' class='btn btn-success' style='margin:5px;'>No Action</button>";          
+            $ttl = "$tanggal_start s/d $tanggal_end";
+            $dtisi[] = [
+                $karyawan_id,
+                $nama,
+                $jenis_pengajuan,
+                $create,
+                $ttl,
+                $keterangan,
+                $approval1_date,
+                $approval2_date,
+                $approval_cancel_date,
+                $status,
+                $ket_cancel,
+                $action
+            ];
         }
-        $dtisifix = rtrim($dtisi, ",");
-        $data = str_replace("xxx", $dtisifix, $dtJSON);
-        echo $data;
-    }
+        
+        $dtJSON = json_encode(['data' => $dtisi]);
+        echo $dtJSON;
+    }    
     
     public function pengajuan_tambah(){
         $jabatan= $this->jabatan ;
@@ -430,7 +494,7 @@ class Home extends CI_Controller {
 
             if ($data_atasan_langsung && isset($data_atasan_langsung->email)) {
                 $email_atasan_langsung = $data_atasan_langsung->email;
-                $send_email = $this->sendEmail($email_atasan_langsung, $nama, $jabatan, $tanggal_start, $tanggal_end, $create, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan);
+                // $send_email = $this->sendEmail($email_atasan_langsung, $nama, $jabatan, $tanggal_start, $tanggal_end, $create, $jenis_izin_id, $jenis_cuti_id, $jenis_sakit_id, $keterangan);
 
                 if ($send_email) {
                     echo json_encode("Tambah Permohonan Berhasil,");

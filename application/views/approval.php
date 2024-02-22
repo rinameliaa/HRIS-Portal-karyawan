@@ -10,7 +10,7 @@
 </div>
 <div class="page-inner mt--5">
     <div class="row mt--2">
-        <div class="col-md-6" >
+        <div class="col-md-4" >
             <div class="card card-success" onclick="approval1_tampil()">
                 <div class="card-body">
                     <h4 class="text-center">Jumlah Approval 1</h4>
@@ -18,11 +18,19 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card card-danger" onclick="approval2_tampil()">
                 <div class="card-body">
                     <h4 class="text-center">Jumlah Approval 2</h4>
                     <div class="card-category text-center" id="jmlapproval2">???</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-warning" onclick="approval_selesai()">
+                <div class="card-body">
+                    <h4 class="text-center">History Approval</h4>
+                    <div class="card-category text-center" id="jmlhistory">???</div>
                 </div>
             </div>
         </div>
@@ -33,7 +41,7 @@
         <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="tblx" class="display table table-striped table-hover">
+                <table id="tblx" class="display table table-hover table-bordered table-head-bg-primary">
                     <thead>
                         <tr>
                         <th style="text-align: center">Id Karyawan</th>
@@ -103,6 +111,16 @@
         let approval2 = $('#tblx').DataTable(
             {
                 "ajax": "<?=base_url('Home/approval2_tampil');?>"
+            }
+        );
+    }
+    function approval_selesai() {
+        if ($.fn.DataTable.isDataTable('#tblx')) {
+            $('#tblx').DataTable().destroy();
+        }
+        let approval2 = $('#tblx').DataTable(
+            {
+                "ajax": "<?=base_url('Home/approval_selesai');?>"
             }
         );
     }
@@ -273,6 +291,18 @@
         dataType: "json",
         success: function (data) {
             $('#jmlapproval2').text(data)
+        },
+        error: function () {
+            console.log('Ada masalah dalam permintaan GET');
+        }
+    });
+
+    $.ajax({
+        url: "<?=base_url('Home/jumlahhistoryApproval');?>",
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            $('#jmlhistory').text(data)
         },
         error: function () {
             console.log('Ada masalah dalam permintaan GET');

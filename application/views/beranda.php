@@ -68,14 +68,14 @@
         <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-            <table id="tblx" class="display table table-hover">
+            <table id="tblx" class="display table table-hover table-bordered table-head-bg-primary">
                 <thead>
                     <tr>
                     <th style="text-align: center">Id Karyawan</th>
                     <th style="text-align: center">Nama</th>
                     <th style="text-align: center">Jenis Pengajuan</th>
                     <th style="text-align: center">Tanggal Pengajuan</th>
-                    <th style="text-align: center">Tanggal Mulai-Selesai</th>
+                    <th style="text-align: center">Tanggal Mulai s/d Selesai</th>
                     <th style="text-align: center">Keterangan</th>
                     <th style="text-align: center">Approval 1 Date</th>
                     <th style="text-align: center">Approval 2 Date</th>
@@ -95,7 +95,6 @@
     $("#mnhome").addClass("active");
     let tblx = $('#tblx').DataTable({
         "ajax": "<?=base_url('Home/pengajuan_tampil');?>",
-        // "bEscapeHTML": true,
         "columnDefs": [
             {
                 "render": function (data, type, row) {

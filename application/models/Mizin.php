@@ -126,6 +126,16 @@ class Mizin extends CI_Model {
             return 0;
         }
     } 
+
+    public function jmlApprovalHistory($z) {
+        $sql = "SELECT COUNT(*) AS jumlah_approval_selesai FROM pengajuan_karyawan WHERE (karyawan_id_approval2 = ? AND approval2_date IS NOT NULL) OR (karyawan_id_approval1 = ? AND approval1_date IS NOT NULL)";
+        $data = $this->db->query($sql, array($z,$z));
+        if ($data) {
+            return $data->row()->jumlah_approval_selesai;
+        } else {
+            return 0;
+        }
+    }
     
     public function tampilapproval1($z){
         $sql = "SELECT * FROM pengajuan_karyawan WHERE karyawan_id_approval1 = ? AND approval1_date IS NULL AND status != 'Cancel'";
@@ -140,6 +150,16 @@ class Mizin extends CI_Model {
     public function tampilapproval2($z){
         $sql = "SELECT * FROM pengajuan_karyawan WHERE karyawan_id_approval2 = ? AND approval2_date IS NULL AND approval1_date IS NOT NULL";
         $data = $this->db->query($sql, array($z));
+        if ($data) {
+            return $data->result();
+        } else {
+            return 0;
+        }
+    }
+
+    public function tampilapproval_selesai($z){
+        $sql = "SELECT * FROM pengajuan_karyawan WHERE (karyawan_id_approval2 = ? AND approval2_date IS NOT NULL) OR (karyawan_id_approval1 = ? AND approval1_date IS NOT NULL)";
+        $data = $this->db->query($sql, array($z,$z));
         if ($data) {
             return $data->result();
         } else {
