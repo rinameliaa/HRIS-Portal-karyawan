@@ -337,12 +337,11 @@ class Home extends CI_Controller {
     }
 
     public function listKehadiran($bulan) {
-        $dtJSON = '{"data": [xxx]}'; 
-        $dtisi = "";
         $id = $this->karyawan_id;
         $dtx = file_get_contents(linkapi.'Employee/getAttendance?id='. $id . '&period=' . $bulan);
         $dty = json_decode($dtx, true);
         $id = 1;
+        $dtisi = [];
         foreach ($dty as $k) {       
             $tanggal = date('d-m-Y', strtotime($k['tanggal']));            
             $hari = $k['hari'];
@@ -355,12 +354,24 @@ class Home extends CI_Controller {
             $lembur = $k['lembur'];
             $total_jam_kerja = $k['total_jam_kerja'];
             $keterangan = $k['keterangan'];
-            $dtisi .= '["' . $id . '","' . $tanggal . '","' . $hari. '","' . $jam_kerja . '","' . $jam_masuk . '","' . $jam_pulang . '","' . $status . '","' . $terlambat . '","' . $pulang_cepat . '","' . $lembur . '","' . $total_jam_kerja . '","' . $keterangan . '"],';
+            $dtisi[] = [
+                $id,
+                $tanggal,
+                $hari,
+                $jam_kerja,
+                $jam_masuk,
+                $jam_pulang,
+                $status,
+                $terlambat,
+                $pulang_cepat,
+                $lembur,
+                $total_jam_kerja,
+                $keterangan,
+            ];
             $id++;
         }
-        $dtisifix = rtrim($dtisi, ",");
-        $data = str_replace("xxx", $dtisifix, $dtJSON);
-        echo $data;
+        $dtJSON = json_encode(['data' => $dtisi]);
+        echo $dtJSON;
     }
 
     public function rekap_kehadiran(){

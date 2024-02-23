@@ -40,7 +40,6 @@
 	<script src="https://cdn.datatables.net/fixedheader/4.0.0/js/dataTables.fixedHeader.js"></script>
 	<script src="https://cdn.datatables.net/fixedheader/4.0.0/js/fixedHeader.dataTables.js"></script>
 
-
 </head>
 <body>
 	<div class="wrapper">

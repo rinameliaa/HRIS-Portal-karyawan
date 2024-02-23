@@ -101,12 +101,10 @@
 <script>  
     $("#mnkehadiran").addClass("active");
     
-    $(document).ready(function() {
-        let currentDate = new Date();
-        let month = currentDate.getMonth() + 1;
-        let bulan = currentDate.getFullYear() + '-' + (month < 10 ? '0' : '') + month;
-        tampil_presensi(bulan);
-    });
+    let currentDate = new Date();
+    let month = currentDate.getMonth() + 1;
+    let bulan = currentDate.getFullYear() + '-' + (month < 10 ? '0' : '') + month;
+    tampil_presensi(bulan);
 
     function tampil_presensi(bulan) {
         $("#loader").show();
@@ -114,7 +112,6 @@
 
         $.ajax({
             url: "<?=base_url('Home/listKehadiran/');?>" + bulan,
-            method: "GET",
             dataType: "json",
             success: function(data) {
                 $('#jmlhadir').text(countStatus(data.data, 'Hadir'));
@@ -143,16 +140,14 @@
                     statusAbsen(data.data, 'Absen');
                 });
 
-                if ($.fn.DataTable.isDataTable('#tblx')) {
-                    $('#tblx').DataTable().destroy();
-                }
-
-                let dataTable = new DataTable("#tblx", {
+                new DataTable("#tblx", {
                     data: data.data,
-                    paging: false,
                     destroy: true,
-                    fixedHeader: true,
-                    fixedColumns: true,
+                    // fixedHeader: true,
+                    fixedColumns: {
+                        start: 1
+                    },
+                    paging: false,
                     scrollCollapse: true,
                     scrollX: true,
                     scrollY: 500,
@@ -228,16 +223,15 @@
     }
 
     function statusAbsen(data, status){
-        if ($.fn.DataTable.isDataTable('#tblx')) {
-            $('#tblx').DataTable().destroy();
-        }
         let filteredData = data.filter(item => item[6] === status);
         let dataTable = new DataTable("#tblx", {
             data: filteredData,
             destroy: true,
             paging: false,
             fixedHeader: true,
-            fixedColumns: true,
+            fixedColumns: {
+                    start: 1
+                },
             scrollCollapse: true,
             scrollX: true,
             scrollY: 500,
