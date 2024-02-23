@@ -17,14 +17,10 @@
 </div>
 <div class="row mt--4" style="margin: 10px">
     <div class="col-md-12">
-        <div id="loader" style="display: flex; align-items: center; justify-content: center; height: 70vh;">
-            <div class="loader loader-lg"></div>
-        </div>
-        <!-- filter bulan sama tahun -->
         <div class="card" id="card">
         <div class="card-body">
-            <div class="table-responsive">
-            <table id="tblx" class="display table table-hover table-bordered table-head-bg-primary" cellspacing="1" width="100%">
+            <div class="">
+            <table id="tblx" class="display table table-bordered table-head-bg-primary row-border order-column nowrap" width="100%">
                 <thead>
                     <tr>
                         <th style="text-align: center" rowspan="2">No</th>
@@ -54,50 +50,101 @@
         </div>
     </div>
 </div>
-
-<script>  
-    $("#mnrekap").addClass("active");
+<script>
     $(document).ready(function() {
+        $("#mnrekap").addClass("active");
+        
         let currentDate = new Date();
         let month = currentDate.getMonth() + 1;
         let bulan = currentDate.getFullYear() + '-' + (month < 10 ? '0' : '') + month;
-        tampil_rekap(bulan);
-    });
-
-    function tampil_rekap(bulan) {
-        $("#loader").show();
-        $("#card").hide();
         
-        if ($.fn.DataTable.isDataTable('#tblx')) {
-            $('#tblx').DataTable().destroy();
-        }
+        swal({
+            title: 'Loading data...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
 
-        var dataTable = new DataTable("#tblx",{
-            ajax: "<?= base_url('Home/rekap/') ?>" + bulan,
-            fixedColumns: {
-                leftColumns: 2
-            },
-            fixedHeader: true,
-            destroy: true,
-            paging: false,
-            scrollCollapse: true,
-            scrollX: true,
-            scrollY: 500,
-            layout: {
+        $.ajax({
+            url: "<?=base_url('Home/rekap/');?>" + bulan,
+            dataType: "json",
+            success: function(data) {
+                swal.close();
+                new DataTable("#tblx", {
+                    destroy: true,
+                    data: data.data,
+                    fixedColumns: {
+                        leftColumns: 2,
+                    },
+                    fixedHeader: true,
+                    paging: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    layout: {
                         topStart: {
                             buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
                         }
                     },
-            createdRow: function(row, data, dataIndex) {
-                $('td', row).each(function(index) {
-                    if (data[index] === 'A') {
-                        $(this).css('color', 'red');
+                    createdRow: function(row, data, dataIndex) {
+                        $('td', row).each(function(index) {
+                            if (data[index] === 'A') {
+                                $(this).css('color', 'red');
+                            }
+                        });
                     }
                 });
             },
-            initComplete: function(settings, json) {
-                $("#loader").hide();
-                $("#card").show();
+            error: function() {
+                swal.close();
+                console.error('Failed to load data');
+            }
+        });
+    });
+
+    function tampil_rekap(bulan) {
+        swal({
+            title: 'Loading data...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        $.ajax({
+            url: "<?=base_url('Home/rekap/');?>" + bulan,
+            dataType: "json",
+            success: function(data) {
+                swal.close();
+                new DataTable("#tblx", {
+                    destroy: true,
+                    data: data.data,
+                    fixedColumns: {
+                        leftColumns: 2,
+                    },
+                    fixedHeader: true,
+                    paging: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    layout: {
+                        topStart: {
+                            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                        }
+                    },
+                    createdRow: function(row, data, dataIndex) {
+                        $('td', row).each(function(index) {
+                            if (data[index] === 'A') {
+                                $(this).css('color', 'red');
+                            }
+                        });
+                    }
+                });
+            },
+            error: function() {
+                swal.close();
+                console.error('Failed to load data');
             }
         });
     }

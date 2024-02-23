@@ -69,13 +69,10 @@
 </div>
 <div class="row mt--4" style="margin: 10px">
     <div class="col-md-12">
-        <div id="loader" style="display: flex; align-items: center; justify-content: center; height: 70vh;">
-            <div class="loader loader-lg"></div>
-        </div>
         <div class="card" id="card">
         <div class="card-body">
             <div class="table-responsive">
-            <table id="tblx" class="display table table-hover table-bordered table-head-bg-primary" cellspacing="1" width="100%">
+            <table id="tblx" class="display table table-hover table-bordered table-head-bg-primary nowrap" cellspacing="1" width="100%">
                 <thead>
                     <tr>
                     <th style="text-align: center;">No</th>
@@ -107,48 +104,43 @@
     tampil_presensi(bulan);
 
     function tampil_presensi(bulan) {
-        $("#loader").show();
-        $("#card").hide();
-
         $.ajax({
             url: "<?=base_url('Home/listKehadiran/');?>" + bulan,
             dataType: "json",
             success: function(data) {
-                $('#jmlhadir').text(countStatus(data.data, 'Hadir'));
-                $('#jmlsakit').text(countStatus(data.data, 'Sakit'));
-                $('#jmlizin').text(countStatus(data.data, 'Izin'));
-                $('#jmlcuti').text(countStatus(data.data, 'Cuti'));
-                $('#jmllembur').text(countStatus(data.data, 'Lembur'));
-                $('#jmlabsen').text(countStatus(data.data, 'Absen'));
+                $('#jmlhadir').text(countStatus(data, 'Hadir'));
+                $('#jmlsakit').text(countStatus(data, 'Sakit'));
+                $('#jmlizin').text(countStatus(data, 'Izin'));
+                $('#jmlcuti').text(countStatus(data, 'Cuti'));
+                $('#jmllembur').text(countStatus(data, 'Lembur'));
+                $('#jmlabsen').text(countStatus(data, 'Absen'));
 
                 $('#hadirTampil').on('click', function() {
-                    statusAbsen(data.data, 'Hadir');
+                    statusAbsen(data, 'Hadir');
                 });
                 $('#hadirSakit').on('click', function() {
-                    statusAbsen(data.data, 'Sakit');
+                    statusAbsen(data, 'Sakit');
                 });
                 $('#hadirIzin').on('click', function() {
-                    statusAbsen(data.data, 'Izin');
+                    statusAbsen(data, 'Izin');
                 });
                 $('#hadirCuti').on('click', function() {
-                    statusAbsen(data.data, 'Cuti');
+                    statusAbsen(data, 'Cuti');
                 });
                 $('#hadirLembur').on('click', function() {
-                    statusAbsen(data.data, 'Lembur');
+                    statusAbsen(data, 'Lembur');
                 });
                 $('#hadirAlpha').on('click', function() {
-                    statusAbsen(data.data, 'Absen');
+                    statusAbsen(data, 'Absen');
                 });
-
                 new DataTable("#tblx", {
-                    data: data.data,
                     destroy: true,
-                    // fixedHeader: true,
+                    data: data,
                     fixedColumns: {
-                        start: 1
+                        leftColumns: 2,
                     },
-                    paging: false,
-                    scrollCollapse: true,
+                    fixedHeader: true,
+                    paging: true,
                     scrollX: true,
                     scrollY: 500,
                     layout: {
@@ -203,14 +195,9 @@
                         });
                     },
                 });
-
-                $("#loader").hide();
-                $("#card").show();
             },
             error: function() {
                 console.error("Gagal mengambil data dari API");
-                $("#loader").hide();
-                $("#card").show();
             }
         });
     }

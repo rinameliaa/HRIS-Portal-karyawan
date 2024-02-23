@@ -370,7 +370,7 @@ class Home extends CI_Controller {
             ];
             $id++;
         }
-        $dtJSON = json_encode(['data' => $dtisi]);
+        $dtJSON = json_encode($dtisi);
         echo $dtJSON;
     }
 
