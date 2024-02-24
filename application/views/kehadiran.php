@@ -96,18 +96,24 @@
 </div>
 
 <script>  
-    $("#mnkehadiran").addClass("active");
-    
-    let currentDate = new Date();
-    let month = currentDate.getMonth() + 1;
-    let bulan = currentDate.getFullYear() + '-' + (month < 10 ? '0' : '') + month;
-    tampil_presensi(bulan);
-
-    function tampil_presensi(bulan) {
+    $(document).ready(function() {
+        $("#mnkehadiran").addClass("active");
+        let currentDate = new Date();
+        let month = currentDate.getMonth() + 1;
+        let bulan = currentDate.getFullYear() + '-' + (month < 10 ? '0' : '') + month;
+        swal({
+            title: 'Loading data...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
         $.ajax({
             url: "<?=base_url('Home/listKehadiran/');?>" + bulan,
             dataType: "json",
             success: function(data) {
+                swal.close();
                 $('#jmlhadir').text(countStatus(data, 'Hadir'));
                 $('#jmlsakit').text(countStatus(data, 'Sakit'));
                 $('#jmlizin').text(countStatus(data, 'Izin'));
@@ -197,6 +203,117 @@
                 });
             },
             error: function() {
+                swal.close();
+                console.error("Gagal mengambil data dari API");
+            }
+        });
+    });
+
+
+    function tampil_presensi(bulan) {
+        swal({
+            title: 'Loading data...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        $.ajax({
+            url: "<?=base_url('Home/listKehadiran/');?>" + bulan,
+            dataType: "json",
+            success: function(data) {
+                swal.close();
+                $('#jmlhadir').text(countStatus(data, 'Hadir'));
+                $('#jmlsakit').text(countStatus(data, 'Sakit'));
+                $('#jmlizin').text(countStatus(data, 'Izin'));
+                $('#jmlcuti').text(countStatus(data, 'Cuti'));
+                $('#jmllembur').text(countStatus(data, 'Lembur'));
+                $('#jmlabsen').text(countStatus(data, 'Absen'));
+
+                $('#hadirTampil').on('click', function() {
+                    statusAbsen(data, 'Hadir');
+                });
+                $('#hadirSakit').on('click', function() {
+                    statusAbsen(data, 'Sakit');
+                });
+                $('#hadirIzin').on('click', function() {
+                    statusAbsen(data, 'Izin');
+                });
+                $('#hadirCuti').on('click', function() {
+                    statusAbsen(data, 'Cuti');
+                });
+                $('#hadirLembur').on('click', function() {
+                    statusAbsen(data, 'Lembur');
+                });
+                $('#hadirAlpha').on('click', function() {
+                    statusAbsen(data, 'Absen');
+                });
+                new DataTable("#tblx", {
+                    destroy: true,
+                    data: data,
+                    fixedColumns: {
+                        leftColumns: 2,
+                    },
+                    fixedHeader: true,
+                    paging: true,
+                    scrollX: true,
+                    scrollY: 500,
+                    layout: {
+                        topStart: {
+                            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+                        }
+                    },
+                    createdRow: function(row, data, dataIndex) {
+                        let status = data[6];
+                        $('td', row).each(function(index) {
+                            if (status === 'Hadir') {
+                                $(this).css({
+                                    'background-color': 'white',
+                                    'color': 'black'
+                                });
+                            } else if (status === 'Libur') {
+                                $(this).css({
+                                    'background-color': 'red',
+                                    'color': 'black'
+                                });
+                            } else if (status === 'Absen') {
+                                $(this).css({
+                                    'background-color': 'yellow',
+                                    'color': 'black'
+                                });
+                            } else if (status === 'Sakit') {
+                                $(this).css({
+                                    'background-color': 'orange',
+                                    'color': 'black'
+                                });
+                            } else if (status === 'Izin') {
+                                $(this).css({
+                                    'background-color': 'navy',
+                                    'color': 'black'
+                                });
+                            } else if (status === 'Cuti') {
+                                $(this).css({
+                                    'background-color': 'lightblue',
+                                    'color': 'black'
+                                });
+                            } else if (status === 'Lembur') {
+                                $(this).css({
+                                    'background-color': 'purple',
+                                    'color': 'black'
+                                });
+                            } else {
+                                $(this).css({
+                                    'background-color': 'white',
+                                    'color': 'black'
+                                });
+                            }
+                        });
+                    },
+                });
+            },
+            error: function() {
+                swal.close();
                 console.error("Gagal mengambil data dari API");
             }
         });
